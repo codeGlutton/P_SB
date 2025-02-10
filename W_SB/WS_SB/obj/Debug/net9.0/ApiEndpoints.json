@@ -1,0 +1,50 @@
+[
+  {
+    "ContainingType": "WS_SB.Controllers.AccountController",
+    "Method": "HandleReqCheckExistsAccount",
+    "RelativePath": "Account/ReqCheckExistsAccount",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pkt",
+        "Type": "Google.Protobuf.HttpProtocol.REQ_CHECK_EXISTS_ACCOUNT",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WS_SB.Controllers.AccountController",
+    "Method": "HandleReqCreateAccount",
+    "RelativePath": "Account/ReqCreateAccount",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pkt",
+        "Type": "Google.Protobuf.HttpProtocol.REQ_CREATE_ACCOUNT",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WS_SB.Controllers.AccountController",
+    "Method": "HandleReqLoginAccount",
+    "RelativePath": "Account/ReqLoginAccount",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pkt",
+        "Type": "Google.Protobuf.HttpProtocol.REQ_LOGIN_ACCOUNT",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

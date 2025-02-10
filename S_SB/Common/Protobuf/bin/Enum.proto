@@ -1,0 +1,140 @@
+﻿syntax = "proto3";
+package Protocol;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Google.Protobuf.Enum";
+
+enum ObjectType
+{
+	OBJECT_TYPE_NONE = 0;
+	OBJECT_TYPE_ENV = 1;
+	OBJECT_TYPE_BALL = 2;
+	OBJECT_TYPE_ATHLETE = 3;
+	OBJECT_TYPE_PLAYER = 4;
+}
+
+enum RoomType
+{
+	ROOM_TYPE_NONE = 0;
+	ROOM_TYPE_LOBBY = 1;
+	ROOM_TYPE_MEETING = 2;
+	ROOM_TYPE_TEAMMATCH = 3;
+}
+
+enum AthleteRace
+{
+	ATHLETE_RACE_NONE = 0;
+	ATHLETE_RACE_HUMAN = 1;
+	ATHLETE_RACE_SLIME = 2;
+	ATHLETE_RACE_GEARON = 3;
+	ATHLETE_RACE_ROO = 4;
+}
+
+// 선수 메인 포지션 정보
+enum AthletePosition
+{
+	ATHLETE_POSITION_NONE = 0;
+	ATHLETE_POSITION_FORWARD = 1;
+	ATHLETE_POSITION_GUARD = 2;
+	ATHLETE_POSITION_CENTER = 3;
+}
+
+// 선수의 성장에 영향을 주는 속성
+enum AthleteTag
+{
+	ATHLETE_TAG_NONE = 0;
+}
+
+/////////////////
+// 실시간 상태 //
+/////////////////
+
+enum EmotionState
+{
+	EMOTION_STATE_NONE = 0;
+	EMOTION_STATE_NORMAL = 1;
+	EMOTION_STATE_CONFIDENT = 2;
+	EMOTION_STATE_ANGRY = 3;
+	EMOTION_STATE_INSECURE = 4;
+	EMOTION_STATE_RUSHED = 5;
+	EMOTION_STATE_HURT = 6;
+}
+
+enum InjuryType
+{
+	INJURY_TYPE_NONE = 0;
+	INJURY_TYPE_SPRAIN = 1;
+	INJURY_TYPE_TEAR = 2;
+	INJURY_TYPE_FRACTURE = 3;
+}
+
+enum Bodypart
+{
+	BODYPART_NONE = 0;
+
+	// 영구적 스피드 혹은 점프력 저하 가능성
+
+	BODYPART_ANKLE = 1;
+	BODYPART_LEG = 2;
+	BODYPART_KNEE = 3;
+
+	// 영구적 리바운드 저하 가능성
+
+	BODYPART_BACK = 4;
+
+	// 영구적 능력 저하 가능성 없음
+
+	BODYPART_HAND = 5;
+}
+
+enum MoveState
+{
+	// 공용 State
+
+	MOVE_STATE_NONE = 0;
+	MOVE_STATE_IDLE = 1;
+	MOVE_STATE_WALK = 2;
+
+	// 액터 State
+
+	MOVE_STATE_PHYSICS = 3;
+
+	// 유저 State
+
+	MOVE_STATE_FOLLOW_PATH = 4;
+
+	// 선수 State
+
+	MOVE_STATE_RUN = 5;
+	MOVE_STATE_JUMP = 6;
+	MOVE_STATE_STEAL = 7;
+	MOVE_STATE_HIT = 8;
+	MOVE_STATE_HURT = 9;
+}
+
+enum TeamState
+{
+	TEAM_STATE_NONE = 0;
+	TEAM_STATE_OFFENSE = 1;
+	TEAM_STATE_DEFENSE = 2;
+	TEAM_STATE_LOOSE_BALL = 3;
+	TEAM_STATE_BREAK = 4;
+	TEAM_STATE_END = 5;
+}
+
+enum TacticsType
+{
+	TACTICS_TYPE_NONE = 0;
+
+	// TODO : 추가
+}
+
+enum TeamMatchType
+{
+	TEAM_MATCH_TYPE_NONE = 0;
+	TEAM_MATCH_TYPE_SEASON = 1;
+	TEAM_MATCH_TYPE_FREE = 2;
+	TEAM_MATCH_TYPE_PLAYOFF = 3;
+	TEAM_MATCH_TYPE_FINAL = 4;
+}

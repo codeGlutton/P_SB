@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameDB>
+	<Table name="User" desc="유저 테이블">
+		<Column name="id" type="int" notnull="true" identity ="1,1"/>
+		<Column name="createDate" type="datetime" notnull="false"/>
+		<Index type="clustered">
+			<PrimaryKey/>
+			<Column name="id"/>
+		</Index>
+	</Table>
+
+	<Table name="Player" desc="캐릭터 테이블">
+		<Column name="id" type="int" notnull="true" identity ="1,1"/>
+		<Column name="userId" type="int" notnull="true"/>
+		<Column name="name" type="nvarchar(50)" notnull="true"/>
+		<Column name="createDate" type="datetime" notnull="false"/>
+		<Index type="clustered">
+			<PrimaryKey/>
+			<Column name="id"/>
+		</Index>
+		<Index type="nonclustered">
+			<Column name="userId"/>
+		</Index>
+	</Table>
+
+	<Procedure name="spInsertPlayer">
+		<Param name="@userId" type="int"/>
+		<Param name="@name" type="nvarchar(50)"/>
+		<Param name="@createDate" type="datetime"/>
+		<Body>
+			<![CDATA[
+			INSERT INTO [dbo].[Player]([name], [userId], [createDate]) VALUES(@name, @userId, @createDate)
+			]]>
+		</Body>
+	</Procedure>
+
+	<Procedure name="spGetPlayers">
+		<Param name="@userId" type="int"/>
+		<Body>
+			<![CDATA[
+			SELECT id, userId, name, createDate FROM [dbo].[Player] WHERE userId = (@userId)
+			]]>
+		</Body>
+	</Procedure>
+</GameDB>

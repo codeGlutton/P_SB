@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\WS_SB.props" />
+</Project>

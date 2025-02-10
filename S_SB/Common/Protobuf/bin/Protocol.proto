@@ -1,0 +1,158 @@
+﻿syntax = "proto3";
+package Protocol;
+
+import "google/protobuf/timestamp.proto";
+import "Enum.proto";
+import "Struct.proto";
+
+option csharp_namespace = "Google.Protobuf.Protocol";
+
+/////////////
+// 핑 정보 //
+/////////////
+
+message C_PING
+{
+
+}
+
+message S_PING
+{
+	float rtt = 1;
+}
+
+//////////
+// 접속 //
+//////////
+
+message C_LOGIN
+{
+
+}
+
+message S_LOGIN
+{
+	bool success = 1;
+	// 클라이언트 소유 캐릭터들
+	repeated PlayerSelectInfo players = 2;
+} 
+
+// 캐릭터 선택 후 입장
+message C_ENTER_GAME
+{
+	uint64 player_index = 1;
+}
+
+// 방 이동 요청 및 서버에서 적용
+message C_CHANGE_MAP
+{
+	uint64 map_id = 1;
+}
+
+// 방 이동 결과 전송 및 클라에서 적용
+message S_CHANGE_MAP
+{
+	bool success = 1;
+	uint64 map_id = 2;
+	ObjectInfo object_info = 3;
+}
+
+message C_LEAVE_GAME
+{
+
+}
+
+message S_LEAVE_GAME
+{
+	uint64 object_id = 1;
+}
+
+message S_SPAWN
+{
+	repeated ObjectInfo object_infos = 1;
+}
+
+message S_DESPAWN
+{
+	repeated uint64 object_id = 1;
+}
+
+////////////
+// 매칭룸 //
+////////////
+
+// 매칭 룸 선택 창 주기적 업데이트
+message S_UPDATE_ROOM
+{
+	repeated RoomSelectInfo room_select_infos = 1;
+}
+
+//////////////
+// 팀경기장 //
+//////////////
+
+// 팀 매치 선택 창 정보 요청
+message C_SHOW_TEAM_MATCH
+{
+
+}
+
+// 팀 매치 선택 창 정보 반환
+message S_SHOW_TEAM_MATCH
+{
+	repeated TeamMatchSelectInfo team_match_select_infos = 1;
+}
+
+// 팀 매치 룸 정보 입장 시, 초기 정보 전송
+message S_INIT_TEAM_MATCH
+{
+	TeamMatchInfo team_match_info = 1;
+}
+
+message S_UPDATE_TEAM_MATCH
+{
+	TeamMatchDetailInfo team_match_detail_info = 1;
+	repeated AthleteUpdateInfo home_athlete_update_infos = 2;
+	repeated AthleteUpdateInfo other_athlete_update_infos = 3;
+}
+
+////////////
+// 움직임 //
+////////////
+
+message C_MOVE
+{
+	PosInfo pos_info = 1;
+	MoveState move_state = 2;
+	DestInfo dest_info = 3;
+}
+
+message S_MOVE
+{
+	uint64 object_id = 1;
+	PosInfo pos_info = 2;
+	MoveState move_state = 3;
+	DestInfo dest_info = 4;
+}
+
+//////////
+// 소통 //
+//////////
+
+message C_CHAT
+{
+	string msg = 1;
+}
+
+message S_CHAT
+{
+	uint64 object_id = 1;
+	string msg = 2;
+}
+
+/////////////////
+// 리그 데이터 //
+/////////////////
+
+//TODO: CREATE_ATHLETES { repeat AthleteInitInfo athlete_Initial_infos = 1; }
+//TODO: UPDATE_ATHLETES { repeat AthleteAnnualUpdateInfo athlete_infos = 1; }

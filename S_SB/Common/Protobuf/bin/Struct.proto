@@ -1,0 +1,196 @@
+﻿syntax = "proto3";
+package Protocol;
+
+import "google/protobuf/timestamp.proto";
+import "Enum.proto";
+
+option csharp_namespace = "Google.Protobuf.Struct";
+
+////////////////////
+// 접속 연관 정보 //
+////////////////////
+
+message ServerSelectInfo
+{
+	string name = 1;
+	string ip = 2;
+	uint32 clowded_level = 3;
+}
+
+// 플레이어블 캐릭터 초기 선택에 필요한 정보
+message PlayerSelectInfo
+{
+	uint64 object_id = 1;
+	string name = 2;
+}
+
+/////////////
+// 방 정보 //
+/////////////
+
+message RoomSelectInfo
+{
+	uint32 id = 1;
+	string name = 2;
+	uint32 count = 3;
+}
+
+///////////////
+// 스텟 정보 //
+///////////////
+
+message AthletePublicInfo
+{
+	// 시즌 단위 업데이트
+
+	uint64 physical_info = 1;
+
+	// 경기 단위 업데이트
+
+	uint32 cur_injury_info = 2;
+
+	// 쿼터 단위 업데이트
+
+	EmotionState emotion_state = 3;
+}
+
+message AthletePrivateInfo
+{
+	// 한달 단위 업데이트
+
+	uint32 weight = 1;
+	uint64 mastery = 2;
+	uint64 tags = 3;
+}
+
+// 선수 초기 정보
+// 초기 생성 시에 한번만 사용
+message AthleteInitInfo
+{
+	uint32 athlete_id = 1;
+	uint32 age = 2;
+	AthletePublicInfo athlete_public_info = 3;
+	AthletePrivateInfo athlete_private_info = 4;
+}
+
+// 일반적인 선수 업데이트
+message AthleteAnnualUpdateInfo
+{
+	uint32 athlete_id = 1;
+	AthletePublicInfo athlete_public_info = 2;
+	AthletePrivateInfo athlete_private_info = 3;
+}
+
+/////////////
+// 팀 정보 //
+/////////////
+
+// 팀 매치 룸 이동 시, 선택창에서 요구하는 정보
+message TeamMatchSelectInfo
+{
+	uint32 team_match_id = 1;
+	uint64 home_player_id = 2;
+	uint64 other_player_id = 3;
+}
+
+// 팀 매치 시, 일회성 전송될 매치 정보
+message TeamMatchInitInfo
+{
+	TeamMatchType team_match_type = 1;
+	uint32 cur_quarter = 2;
+
+	uint64 home_player_id = 3;
+	uint64 other_player_id = 4;
+
+	uint32 home_costume_setting = 5;
+	uint32 other_costume_setting = 6;
+}
+
+// 팀 매치 시, 주기적으로 업데이트될 매치 정보
+message TeamMatchDetailInfo
+{
+	uint32 home_tactics = 1;
+	uint32 other_tactics = 2;
+
+	/* 타임 아웃, 선수 교체를 포함한 카운트 */
+
+	uint32 home_break_counts = 3;
+	uint32 other_break_counts = 4;
+}
+
+// 팀 매치 시, 모든 매치 정보
+message TeamMatchInfo
+{
+	TeamMatchInitInfo init_info = 1;
+	TeamMatchDetailInfo detail_info = 2;
+}
+
+/////////////////
+// 액터의 정보 //
+/////////////////
+
+message PosInfo
+{
+	float x = 1;
+	float y = 2;
+	float z = 3;
+	float pitch = 4;
+	float yaw = 5;
+	float roll = 6;
+}
+
+// 오브젝트의 기본 정보
+message ObjectBaseInfo
+{
+	uint64 object_id = 1;
+	ObjectType object_type = 2; 
+}
+
+// 선수의 데이터 연산 결과 값 정보
+message AthleteComputedInfo
+{
+	uint32 athlete_id = 1;
+	bool is_bench = 2;
+	// TODO: 연산값 정보
+}
+
+// 유저의 추가 정보
+message PlayerDetailInfo
+{
+	string name = 1;
+	uint32 costume_setting = 2;
+}
+
+message ObjectInfo
+{
+	ObjectBaseInfo object_base_info = 1;
+	PosInfo pos_info = 2;
+	MoveState move_state = 3;
+	AthleteComputedInfo athlete_computed_info = 4;
+	PlayerDetailInfo player_detail_info = 5;
+}
+
+// 팀 매치 브레이크 타임 시, 선수 액터 업데이트 정보
+message AthleteUpdateInfo
+{
+	uint64 object_id = 1;
+	AthleteComputedInfo athlete_computed_info = 2;
+}
+
+/////////////////
+// 움직임 정보 //
+/////////////////
+
+message DestInfo
+{
+	float x = 1;
+	float y = 2;
+}
+
+message MovementRecord
+{
+	uint64 time_stamp = 1;
+	PosInfo pos_info = 2;
+	MoveState move_state = 3;
+	DestInfo dest_info = 4;
+}
