@@ -13,6 +13,10 @@ ConsoleLog::~ConsoleLog()
 
 void ConsoleLog::WriteStdOut(Color color, const WCHAR* format, ...)
 {
+#ifdef TURN_OFF_LOG
+	return;
+#endif // TURN_OFF_LOG
+
 	if (format == nullptr)
 		return;
 
@@ -23,6 +27,7 @@ void ConsoleLog::WriteStdOut(Color color, const WCHAR* format, ...)
 	::vwprintf(format, ap);
 	va_end(ap);
 
+	wprintf(L"\n");
 	fflush(stdout);
 
 	SetColor(true, Color::WHITE);
@@ -30,6 +35,10 @@ void ConsoleLog::WriteStdOut(Color color, const WCHAR* format, ...)
 
 void ConsoleLog::WriteStdErr(Color color, const WCHAR* format, ...)
 {
+#ifdef TURN_OFF_LOG
+	return;
+#endif // TURN_OFF_LOG
+
 	WCHAR buffer[BUFFER_SIZE];
 
 	if (format == nullptr)
@@ -43,6 +52,7 @@ void ConsoleLog::WriteStdErr(Color color, const WCHAR* format, ...)
 	va_end(ap);
 
 	::fwprintf_s(stderr, buffer);
+	wprintf(L"\n");
 	fflush(stderr);
 
 	SetColor(true, Color::WHITE);

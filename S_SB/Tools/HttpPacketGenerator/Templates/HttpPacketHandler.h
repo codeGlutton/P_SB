@@ -18,14 +18,14 @@ public:
 	static bool									SendPkt(Protocol::{{pkt.name}} Pkt) { return SendPkt(TEXT("/{{pkt.PascalName}}"), Pkt, &ServerHttpPacketHandler::Recv{{pkt.PascalName}}); }
 {%- endfor %}
 
+	static class USBWebNetworkManager* const	GetWebNetworkManager();
+
 private:
 	template<typename PktType>
 	static bool									ParseBodyToPkt(FHttpResponsePtr& Response, OUT PktType& OutPkt);
 	static bool									DebugHttpFailPkt(FHttpRequestPtr& Request, FHttpResponsePtr& Response);
-
-	static class USBWebNetworkManager* const	GetWebNetworkManager();
 {% for pkt in parser.send_pkt %}
-	static void									Recv{{pkt.PascalName}}(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+	static void									Recv{{pkt.PascalName}}(FHttpRequestPtr Request, FHttpResponsePtr Response, bool WasSuccessful);
 {%- endfor %}
 
 private:

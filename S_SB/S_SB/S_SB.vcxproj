@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Athlete.h" />
     <ClInclude Include="AthleteInstance.h" />
+    <ClInclude Include="ByteConverters.h" />
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DataUtils.h" />
@@ -286,6 +287,5 @@ CALL $(SolutionDir)Common\DataTable\GenTables.bat</Command>
     <UpToDateCheckInput Include="DataTable\AthleteTable.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

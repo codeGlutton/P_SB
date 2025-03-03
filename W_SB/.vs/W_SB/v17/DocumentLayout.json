@@ -3,8 +3,32 @@
   "WorkspaceRootPath": "C:\\vsProjs\\P_SB\\W_SB\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|c:\\vsprojs\\p_sb\\w_sb\\ws_sb\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|solutionrelative:ws_sb\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|c:\\vsprojs\\p_sb\\w_sb\\ws_sb\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|solutionrelative:ws_sb\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|c:\\vsprojs\\p_sb\\w_sb\\ws_sb\\services\\jwttokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|solutionrelative:ws_sb\\services\\jwttokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|c:\\vsprojs\\p_sb\\w_sb\\ws_sb\\db\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|solutionrelative:ws_sb\\db\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|c:\\vsprojs\\p_sb\\w_sb\\ws_sb\\services\\googleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|solutionrelative:ws_sb\\services\\googleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|c:\\vsprojs\\p_sb\\w_sb\\ws_sb\\services\\hosttimerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|solutionrelative:ws_sb\\services\\hosttimerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|c:\\vsprojs\\p_sb\\w_sb\\ws_sb\\services\\localaccountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|solutionrelative:ws_sb\\services\\localaccountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{298046C0-3F8A-4138-BA94-09E70DDD2BD8}|WS_SB\\WS_SB.csproj|c:\\vsprojs\\p_sb\\w_sb\\ws_sb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -17,39 +41,112 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 22,
-          "SelectedChildIndex": 1,
+          "DockedWidth": 23,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Program.cs",
-              "RelativeDocumentMoniker": "WS_SB\\Program.cs",
-              "ToolTip": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Program.cs",
-              "RelativeToolTip": "WS_SB\\Program.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "HostTimerService.cs",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Services\\HostTimerService.cs",
+              "RelativeDocumentMoniker": "WS_SB\\Services\\HostTimerService.cs",
+              "ToolTip": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Services\\HostTimerService.cs",
+              "RelativeToolTip": "WS_SB\\Services\\HostTimerService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-10T08:19:37.744Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-01T13:05:18.844Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
+              "Title": "LocalAccountService.cs",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Services\\LocalAccountService.cs",
+              "RelativeDocumentMoniker": "WS_SB\\Services\\LocalAccountService.cs",
+              "ToolTip": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Services\\LocalAccountService.cs",
+              "RelativeToolTip": "WS_SB\\Services\\LocalAccountService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-25T12:01:41.965Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GoogleService.cs",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Services\\GoogleService.cs",
+              "RelativeDocumentMoniker": "WS_SB\\Services\\GoogleService.cs",
+              "ToolTip": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Services\\GoogleService.cs",
+              "RelativeToolTip": "WS_SB\\Services\\GoogleService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-25T07:43:25.784Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "AccountController.cs",
               "DocumentMoniker": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "WS_SB\\Controllers\\AccountController.cs",
               "ToolTip": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Controllers\\AccountController.cs",
               "RelativeToolTip": "WS_SB\\Controllers\\AccountController.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABsAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAcwGIAAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-01T10:15:53.607Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApplicationDBContext.cs",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\DB\\ApplicationDBContext.cs",
+              "RelativeDocumentMoniker": "WS_SB\\DB\\ApplicationDBContext.cs",
+              "ToolTip": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\DB\\ApplicationDBContext.cs",
+              "RelativeToolTip": "WS_SB\\DB\\ApplicationDBContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-26T03:49:32.149Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "JwtTokenService.cs",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Services\\JwtTokenService.cs",
+              "RelativeDocumentMoniker": "WS_SB\\Services\\JwtTokenService.cs",
+              "ToolTip": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Services\\JwtTokenService.cs",
+              "RelativeToolTip": "WS_SB\\Services\\JwtTokenService.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAADwvxgAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-25T07:44:26.403Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Program.cs",
+              "RelativeDocumentMoniker": "WS_SB\\Program.cs",
+              "ToolTip": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Program.cs",
+              "RelativeToolTip": "WS_SB\\Program.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAACUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-10T08:19:37.744Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AccountService.cs",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Services\\AccountService.cs",
+              "RelativeDocumentMoniker": "WS_SB\\Services\\AccountService.cs",
+              "ToolTip": "C:\\vsProjs\\P_SB\\W_SB\\WS_SB\\Services\\AccountService.cs",
+              "RelativeToolTip": "WS_SB\\Services\\AccountService.cs",
+              "ViewState": "AgIAAGMBAAAAAAAAAAAgwHsBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-25T07:42:19.135Z",
               "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedWidth": 22,
+          "DockedWidth": 21,
           "SelectedChildIndex": -1,
           "Children": [
             {

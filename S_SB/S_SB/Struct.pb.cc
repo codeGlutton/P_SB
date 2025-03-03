@@ -24,8 +24,10 @@ namespace Protocol {
 PROTOBUF_CONSTEXPR ServerSelectInfo::ServerSelectInfo(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.ip_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.clowded_level_)*/0u
+  , /*decltype(_impl_.ip_address_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.port_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.id_)*/0u
+  , /*decltype(_impl_.density_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct ServerSelectInfoDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ServerSelectInfoDefaultTypeInternal()
@@ -40,6 +42,7 @@ PROTOBUF_CONSTEXPR PlayerSelectInfo::PlayerSelectInfo(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.object_id_)*/uint64_t{0u}
+  , /*decltype(_impl_.costume_setting_)*/0u
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct PlayerSelectInfoDefaultTypeInternal {
   PROTOBUF_CONSTEXPR PlayerSelectInfoDefaultTypeInternal()
@@ -322,9 +325,11 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::ServerSelectInfo, _impl_.id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::ServerSelectInfo, _impl_.name_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::ServerSelectInfo, _impl_.ip_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::ServerSelectInfo, _impl_.clowded_level_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::ServerSelectInfo, _impl_.ip_address_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::ServerSelectInfo, _impl_.port_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::ServerSelectInfo, _impl_.density_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::PlayerSelectInfo, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -333,6 +338,7 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::PlayerSelectInfo, _impl_.object_id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::PlayerSelectInfo, _impl_.name_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::PlayerSelectInfo, _impl_.costume_setting_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::RoomSelectInfo, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -494,24 +500,24 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::ServerSelectInfo)},
-  { 9, -1, -1, sizeof(::Protocol::PlayerSelectInfo)},
-  { 17, -1, -1, sizeof(::Protocol::RoomSelectInfo)},
-  { 26, -1, -1, sizeof(::Protocol::AthletePublicInfo)},
-  { 35, -1, -1, sizeof(::Protocol::AthletePrivateInfo)},
-  { 44, -1, -1, sizeof(::Protocol::AthleteInitInfo)},
-  { 54, -1, -1, sizeof(::Protocol::AthleteAnnualUpdateInfo)},
-  { 63, -1, -1, sizeof(::Protocol::TeamMatchSelectInfo)},
-  { 72, -1, -1, sizeof(::Protocol::TeamMatchInitInfo)},
-  { 84, -1, -1, sizeof(::Protocol::TeamMatchDetailInfo)},
-  { 94, -1, -1, sizeof(::Protocol::TeamMatchInfo)},
-  { 102, -1, -1, sizeof(::Protocol::PosInfo)},
-  { 114, -1, -1, sizeof(::Protocol::ObjectBaseInfo)},
-  { 122, -1, -1, sizeof(::Protocol::AthleteComputedInfo)},
-  { 130, -1, -1, sizeof(::Protocol::PlayerDetailInfo)},
-  { 138, -1, -1, sizeof(::Protocol::ObjectInfo)},
-  { 149, -1, -1, sizeof(::Protocol::AthleteUpdateInfo)},
-  { 157, -1, -1, sizeof(::Protocol::DestInfo)},
-  { 165, -1, -1, sizeof(::Protocol::MovementRecord)},
+  { 11, -1, -1, sizeof(::Protocol::PlayerSelectInfo)},
+  { 20, -1, -1, sizeof(::Protocol::RoomSelectInfo)},
+  { 29, -1, -1, sizeof(::Protocol::AthletePublicInfo)},
+  { 38, -1, -1, sizeof(::Protocol::AthletePrivateInfo)},
+  { 47, -1, -1, sizeof(::Protocol::AthleteInitInfo)},
+  { 57, -1, -1, sizeof(::Protocol::AthleteAnnualUpdateInfo)},
+  { 66, -1, -1, sizeof(::Protocol::TeamMatchSelectInfo)},
+  { 75, -1, -1, sizeof(::Protocol::TeamMatchInitInfo)},
+  { 87, -1, -1, sizeof(::Protocol::TeamMatchDetailInfo)},
+  { 97, -1, -1, sizeof(::Protocol::TeamMatchInfo)},
+  { 105, -1, -1, sizeof(::Protocol::PosInfo)},
+  { 117, -1, -1, sizeof(::Protocol::ObjectBaseInfo)},
+  { 125, -1, -1, sizeof(::Protocol::AthleteComputedInfo)},
+  { 133, -1, -1, sizeof(::Protocol::PlayerDetailInfo)},
+  { 141, -1, -1, sizeof(::Protocol::ObjectInfo)},
+  { 152, -1, -1, sizeof(::Protocol::AthleteUpdateInfo)},
+  { 160, -1, -1, sizeof(::Protocol::DestInfo)},
+  { 168, -1, -1, sizeof(::Protocol::MovementRecord)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -538,60 +544,61 @@ static const ::_pb::Message* const file_default_instances[] = {
 
 const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\014Struct.proto\022\010Protocol\032\037google/protobu"
-  "f/timestamp.proto\032\nEnum.proto\"C\n\020ServerS"
-  "electInfo\022\014\n\004name\030\001 \001(\t\022\n\n\002ip\030\002 \001(\t\022\025\n\rc"
-  "lowded_level\030\003 \001(\r\"3\n\020PlayerSelectInfo\022\021"
-  "\n\tobject_id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\"9\n\016RoomS"
-  "electInfo\022\n\n\002id\030\001 \001(\r\022\014\n\004name\030\002 \001(\t\022\r\n\005c"
-  "ount\030\003 \001(\r\"r\n\021AthletePublicInfo\022\025\n\rphysi"
-  "cal_info\030\001 \001(\004\022\027\n\017cur_injury_info\030\002 \001(\r\022"
-  "-\n\remotion_state\030\003 \001(\0162\026.Protocol.Emotio"
-  "nState\"C\n\022AthletePrivateInfo\022\016\n\006weight\030\001"
-  " \001(\r\022\017\n\007mastery\030\002 \001(\004\022\014\n\004tags\030\003 \001(\004\"\250\001\n\017"
-  "AthleteInitInfo\022\022\n\nathlete_id\030\001 \001(\r\022\013\n\003a"
-  "ge\030\002 \001(\r\0228\n\023athlete_public_info\030\003 \001(\0132\033."
-  "Protocol.AthletePublicInfo\022:\n\024athlete_pr"
-  "ivate_info\030\004 \001(\0132\034.Protocol.AthletePriva"
-  "teInfo\"\243\001\n\027AthleteAnnualUpdateInfo\022\022\n\nat"
-  "hlete_id\030\001 \001(\r\0228\n\023athlete_public_info\030\002 "
-  "\001(\0132\033.Protocol.AthletePublicInfo\022:\n\024athl"
-  "ete_private_info\030\003 \001(\0132\034.Protocol.Athlet"
-  "ePrivateInfo\"]\n\023TeamMatchSelectInfo\022\025\n\rt"
-  "eam_match_id\030\001 \001(\r\022\026\n\016home_player_id\030\002 \001"
-  "(\004\022\027\n\017other_player_id\030\003 \001(\004\"\310\001\n\021TeamMatc"
-  "hInitInfo\0220\n\017team_match_type\030\001 \001(\0162\027.Pro"
-  "tocol.TeamMatchType\022\023\n\013cur_quarter\030\002 \001(\r"
-  "\022\026\n\016home_player_id\030\003 \001(\004\022\027\n\017other_player"
-  "_id\030\004 \001(\004\022\034\n\024home_costume_setting\030\005 \001(\r\022"
-  "\035\n\025other_costume_setting\030\006 \001(\r\"y\n\023TeamMa"
-  "tchDetailInfo\022\024\n\014home_tactics\030\001 \001(\r\022\025\n\ro"
-  "ther_tactics\030\002 \001(\r\022\031\n\021home_break_counts\030"
-  "\003 \001(\r\022\032\n\022other_break_counts\030\004 \001(\r\"s\n\rTea"
-  "mMatchInfo\022.\n\tinit_info\030\001 \001(\0132\033.Protocol"
-  ".TeamMatchInitInfo\0222\n\013detail_info\030\002 \001(\0132"
-  "\035.Protocol.TeamMatchDetailInfo\"T\n\007PosInf"
-  "o\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\022\r\n\005pi"
-  "tch\030\004 \001(\002\022\013\n\003yaw\030\005 \001(\002\022\014\n\004roll\030\006 \001(\002\"N\n\016"
-  "ObjectBaseInfo\022\021\n\tobject_id\030\001 \001(\004\022)\n\013obj"
-  "ect_type\030\002 \001(\0162\024.Protocol.ObjectType\";\n\023"
-  "AthleteComputedInfo\022\022\n\nathlete_id\030\001 \001(\r\022"
-  "\020\n\010is_bench\030\002 \001(\010\"9\n\020PlayerDetailInfo\022\014\n"
-  "\004name\030\001 \001(\t\022\027\n\017costume_setting\030\002 \001(\r\"\204\002\n"
-  "\nObjectInfo\0222\n\020object_base_info\030\001 \001(\0132\030."
-  "Protocol.ObjectBaseInfo\022#\n\010pos_info\030\002 \001("
-  "\0132\021.Protocol.PosInfo\022\'\n\nmove_state\030\003 \001(\016"
-  "2\023.Protocol.MoveState\022<\n\025athlete_compute"
-  "d_info\030\004 \001(\0132\035.Protocol.AthleteComputedI"
-  "nfo\0226\n\022player_detail_info\030\005 \001(\0132\032.Protoc"
-  "ol.PlayerDetailInfo\"d\n\021AthleteUpdateInfo"
-  "\022\021\n\tobject_id\030\001 \001(\004\022<\n\025athlete_computed_"
-  "info\030\002 \001(\0132\035.Protocol.AthleteComputedInf"
-  "o\" \n\010DestInfo\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\"\231\001\n\016"
-  "MovementRecord\022\022\n\ntime_stamp\030\001 \001(\004\022#\n\010po"
-  "s_info\030\002 \001(\0132\021.Protocol.PosInfo\022\'\n\nmove_"
-  "state\030\003 \001(\0162\023.Protocol.MoveState\022%\n\tdest"
-  "_info\030\004 \001(\0132\022.Protocol.DestInfoB\031\252\002\026Goog"
-  "le.Protobuf.Structb\006proto3"
+  "f/timestamp.proto\032\nEnum.proto\"_\n\020ServerS"
+  "electInfo\022\n\n\002id\030\001 \001(\r\022\014\n\004name\030\002 \001(\t\022\022\n\ni"
+  "p_address\030\003 \001(\t\022\014\n\004port\030\004 \001(\t\022\017\n\007density"
+  "\030\005 \001(\002\"L\n\020PlayerSelectInfo\022\021\n\tobject_id\030"
+  "\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\027\n\017costume_setting\030\003"
+  " \001(\r\"9\n\016RoomSelectInfo\022\n\n\002id\030\001 \001(\r\022\014\n\004na"
+  "me\030\002 \001(\t\022\r\n\005count\030\003 \001(\r\"r\n\021AthletePublic"
+  "Info\022\025\n\rphysical_info\030\001 \001(\004\022\027\n\017cur_injur"
+  "y_info\030\002 \001(\r\022-\n\remotion_state\030\003 \001(\0162\026.Pr"
+  "otocol.EmotionState\"C\n\022AthletePrivateInf"
+  "o\022\016\n\006weight\030\001 \001(\r\022\017\n\007mastery\030\002 \001(\004\022\014\n\004ta"
+  "gs\030\003 \001(\004\"\250\001\n\017AthleteInitInfo\022\022\n\nathlete_"
+  "id\030\001 \001(\r\022\013\n\003age\030\002 \001(\r\0228\n\023athlete_public_"
+  "info\030\003 \001(\0132\033.Protocol.AthletePublicInfo\022"
+  ":\n\024athlete_private_info\030\004 \001(\0132\034.Protocol"
+  ".AthletePrivateInfo\"\243\001\n\027AthleteAnnualUpd"
+  "ateInfo\022\022\n\nathlete_id\030\001 \001(\r\0228\n\023athlete_p"
+  "ublic_info\030\002 \001(\0132\033.Protocol.AthletePubli"
+  "cInfo\022:\n\024athlete_private_info\030\003 \001(\0132\034.Pr"
+  "otocol.AthletePrivateInfo\"]\n\023TeamMatchSe"
+  "lectInfo\022\025\n\rteam_match_id\030\001 \001(\r\022\026\n\016home_"
+  "player_id\030\002 \001(\004\022\027\n\017other_player_id\030\003 \001(\004"
+  "\"\310\001\n\021TeamMatchInitInfo\0220\n\017team_match_typ"
+  "e\030\001 \001(\0162\027.Protocol.TeamMatchType\022\023\n\013cur_"
+  "quarter\030\002 \001(\r\022\026\n\016home_player_id\030\003 \001(\004\022\027\n"
+  "\017other_player_id\030\004 \001(\004\022\034\n\024home_costume_s"
+  "etting\030\005 \001(\r\022\035\n\025other_costume_setting\030\006 "
+  "\001(\r\"y\n\023TeamMatchDetailInfo\022\024\n\014home_tacti"
+  "cs\030\001 \001(\r\022\025\n\rother_tactics\030\002 \001(\r\022\031\n\021home_"
+  "break_counts\030\003 \001(\r\022\032\n\022other_break_counts"
+  "\030\004 \001(\r\"s\n\rTeamMatchInfo\022.\n\tinit_info\030\001 \001"
+  "(\0132\033.Protocol.TeamMatchInitInfo\0222\n\013detai"
+  "l_info\030\002 \001(\0132\035.Protocol.TeamMatchDetailI"
+  "nfo\"T\n\007PosInfo\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001"
+  "z\030\003 \001(\002\022\r\n\005pitch\030\004 \001(\002\022\013\n\003yaw\030\005 \001(\002\022\014\n\004r"
+  "oll\030\006 \001(\002\"N\n\016ObjectBaseInfo\022\021\n\tobject_id"
+  "\030\001 \001(\004\022)\n\013object_type\030\002 \001(\0162\024.Protocol.O"
+  "bjectType\";\n\023AthleteComputedInfo\022\022\n\nathl"
+  "ete_id\030\001 \001(\r\022\020\n\010is_bench\030\002 \001(\010\"9\n\020Player"
+  "DetailInfo\022\014\n\004name\030\001 \001(\t\022\027\n\017costume_sett"
+  "ing\030\002 \001(\r\"\204\002\n\nObjectInfo\0222\n\020object_base_"
+  "info\030\001 \001(\0132\030.Protocol.ObjectBaseInfo\022#\n\010"
+  "pos_info\030\002 \001(\0132\021.Protocol.PosInfo\022\'\n\nmov"
+  "e_state\030\003 \001(\0162\023.Protocol.MoveState\022<\n\025at"
+  "hlete_computed_info\030\004 \001(\0132\035.Protocol.Ath"
+  "leteComputedInfo\0226\n\022player_detail_info\030\005"
+  " \001(\0132\032.Protocol.PlayerDetailInfo\"d\n\021Athl"
+  "eteUpdateInfo\022\021\n\tobject_id\030\001 \001(\004\022<\n\025athl"
+  "ete_computed_info\030\002 \001(\0132\035.Protocol.Athle"
+  "teComputedInfo\" \n\010DestInfo\022\t\n\001x\030\001 \001(\002\022\t\n"
+  "\001y\030\002 \001(\002\"\231\001\n\016MovementRecord\022\022\n\ntime_stam"
+  "p\030\001 \001(\004\022#\n\010pos_info\030\002 \001(\0132\021.Protocol.Pos"
+  "Info\022\'\n\nmove_state\030\003 \001(\0162\023.Protocol.Move"
+  "State\022%\n\tdest_info\030\004 \001(\0132\022.Protocol.Dest"
+  "InfoB\031\252\002\026Google.Protobuf.Structb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -599,7 +606,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps
 };
 static ::_pbi::once_flag descriptor_table_Struct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto = {
-    false, false, 2186, descriptor_table_protodef_Struct_2eproto,
+    false, false, 2239, descriptor_table_protodef_Struct_2eproto,
     "Struct.proto",
     &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 2, 19,
     schemas, file_default_instances, TableStruct_Struct_2eproto::offsets,
@@ -631,8 +638,10 @@ ServerSelectInfo::ServerSelectInfo(const ServerSelectInfo& from)
   ServerSelectInfo* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.name_){}
-    , decltype(_impl_.ip_){}
-    , decltype(_impl_.clowded_level_){}
+    , decltype(_impl_.ip_address_){}
+    , decltype(_impl_.port_){}
+    , decltype(_impl_.id_){}
+    , decltype(_impl_.density_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -644,15 +653,25 @@ ServerSelectInfo::ServerSelectInfo(const ServerSelectInfo& from)
     _this->_impl_.name_.Set(from._internal_name(), 
       _this->GetArenaForAllocation());
   }
-  _impl_.ip_.InitDefault();
+  _impl_.ip_address_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.ip_.Set("", GetArenaForAllocation());
+    _impl_.ip_address_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_ip().empty()) {
-    _this->_impl_.ip_.Set(from._internal_ip(), 
+  if (!from._internal_ip_address().empty()) {
+    _this->_impl_.ip_address_.Set(from._internal_ip_address(), 
       _this->GetArenaForAllocation());
   }
-  _this->_impl_.clowded_level_ = from._impl_.clowded_level_;
+  _impl_.port_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.port_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_port().empty()) {
+    _this->_impl_.port_.Set(from._internal_port(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.id_, &from._impl_.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.density_) -
+    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.density_));
   // @@protoc_insertion_point(copy_constructor:Protocol.ServerSelectInfo)
 }
 
@@ -662,17 +681,23 @@ inline void ServerSelectInfo::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.name_){}
-    , decltype(_impl_.ip_){}
-    , decltype(_impl_.clowded_level_){0u}
+    , decltype(_impl_.ip_address_){}
+    , decltype(_impl_.port_){}
+    , decltype(_impl_.id_){0u}
+    , decltype(_impl_.density_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.name_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.name_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.ip_.InitDefault();
+  _impl_.ip_address_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.ip_.Set("", GetArenaForAllocation());
+    _impl_.ip_address_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.port_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.port_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -688,7 +713,8 @@ ServerSelectInfo::~ServerSelectInfo() {
 inline void ServerSelectInfo::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.name_.Destroy();
-  _impl_.ip_.Destroy();
+  _impl_.ip_address_.Destroy();
+  _impl_.port_.Destroy();
 }
 
 void ServerSelectInfo::SetCachedSize(int size) const {
@@ -702,8 +728,11 @@ void ServerSelectInfo::Clear() {
   (void) cached_has_bits;
 
   _impl_.name_.ClearToEmpty();
-  _impl_.ip_.ClearToEmpty();
-  _impl_.clowded_level_ = 0u;
+  _impl_.ip_address_.ClearToEmpty();
+  _impl_.port_.ClearToEmpty();
+  ::memset(&_impl_.id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.density_) -
+      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.density_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -713,9 +742,17 @@ const char* ServerSelectInfo::_InternalParse(const char* ptr, ::_pbi::ParseConte
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string name = 1;
+      // uint32 id = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           auto str = _internal_mutable_name();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -723,21 +760,31 @@ const char* ServerSelectInfo::_InternalParse(const char* ptr, ::_pbi::ParseConte
         } else
           goto handle_unusual;
         continue;
-      // string ip = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_ip();
+      // string ip_address = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_ip_address();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "Protocol.ServerSelectInfo.ip"));
+          CHK_(::_pbi::VerifyUTF8(str, "Protocol.ServerSelectInfo.ip_address"));
         } else
           goto handle_unusual;
         continue;
-      // uint32 clowded_level = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          _impl_.clowded_level_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+      // string port = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          auto str = _internal_mutable_port();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "Protocol.ServerSelectInfo.port"));
+        } else
+          goto handle_unusual;
+        continue;
+      // float density = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 45)) {
+          _impl_.density_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
@@ -770,30 +817,50 @@ uint8_t* ServerSelectInfo::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string name = 1;
+  // uint32 id = 1;
+  if (this->_internal_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_id(), target);
+  }
+
+  // string name = 2;
   if (!this->_internal_name().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "Protocol.ServerSelectInfo.name");
     target = stream->WriteStringMaybeAliased(
-        1, this->_internal_name(), target);
+        2, this->_internal_name(), target);
   }
 
-  // string ip = 2;
-  if (!this->_internal_ip().empty()) {
+  // string ip_address = 3;
+  if (!this->_internal_ip_address().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_ip().data(), static_cast<int>(this->_internal_ip().length()),
+      this->_internal_ip_address().data(), static_cast<int>(this->_internal_ip_address().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "Protocol.ServerSelectInfo.ip");
+      "Protocol.ServerSelectInfo.ip_address");
     target = stream->WriteStringMaybeAliased(
-        2, this->_internal_ip(), target);
+        3, this->_internal_ip_address(), target);
   }
 
-  // uint32 clowded_level = 3;
-  if (this->_internal_clowded_level() != 0) {
+  // string port = 4;
+  if (!this->_internal_port().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_port().data(), static_cast<int>(this->_internal_port().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "Protocol.ServerSelectInfo.port");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_port(), target);
+  }
+
+  // float density = 5;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_density = this->_internal_density();
+  uint32_t raw_density;
+  memcpy(&raw_density, &tmp_density, sizeof(tmp_density));
+  if (raw_density != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(3, this->_internal_clowded_level(), target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(5, this->_internal_density(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -812,23 +879,39 @@ size_t ServerSelectInfo::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string name = 1;
+  // string name = 2;
   if (!this->_internal_name().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_name());
   }
 
-  // string ip = 2;
-  if (!this->_internal_ip().empty()) {
+  // string ip_address = 3;
+  if (!this->_internal_ip_address().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_ip());
+        this->_internal_ip_address());
   }
 
-  // uint32 clowded_level = 3;
-  if (this->_internal_clowded_level() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_clowded_level());
+  // string port = 4;
+  if (!this->_internal_port().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_port());
+  }
+
+  // uint32 id = 1;
+  if (this->_internal_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_id());
+  }
+
+  // float density = 5;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_density = this->_internal_density();
+  uint32_t raw_density;
+  memcpy(&raw_density, &tmp_density, sizeof(tmp_density));
+  if (raw_density != 0) {
+    total_size += 1 + 4;
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -852,11 +935,21 @@ void ServerSelectInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const
   if (!from._internal_name().empty()) {
     _this->_internal_set_name(from._internal_name());
   }
-  if (!from._internal_ip().empty()) {
-    _this->_internal_set_ip(from._internal_ip());
+  if (!from._internal_ip_address().empty()) {
+    _this->_internal_set_ip_address(from._internal_ip_address());
   }
-  if (from._internal_clowded_level() != 0) {
-    _this->_internal_set_clowded_level(from._internal_clowded_level());
+  if (!from._internal_port().empty()) {
+    _this->_internal_set_port(from._internal_port());
+  }
+  if (from._internal_id() != 0) {
+    _this->_internal_set_id(from._internal_id());
+  }
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_density = from._internal_density();
+  uint32_t raw_density;
+  memcpy(&raw_density, &tmp_density, sizeof(tmp_density));
+  if (raw_density != 0) {
+    _this->_internal_set_density(from._internal_density());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -882,10 +975,19 @@ void ServerSelectInfo::InternalSwap(ServerSelectInfo* other) {
       &other->_impl_.name_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.ip_, lhs_arena,
-      &other->_impl_.ip_, rhs_arena
+      &_impl_.ip_address_, lhs_arena,
+      &other->_impl_.ip_address_, rhs_arena
   );
-  swap(_impl_.clowded_level_, other->_impl_.clowded_level_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.port_, lhs_arena,
+      &other->_impl_.port_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(ServerSelectInfo, _impl_.density_)
+      + sizeof(ServerSelectInfo::_impl_.density_)
+      - PROTOBUF_FIELD_OFFSET(ServerSelectInfo, _impl_.id_)>(
+          reinterpret_cast<char*>(&_impl_.id_),
+          reinterpret_cast<char*>(&other->_impl_.id_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ServerSelectInfo::GetMetadata() const {
@@ -912,6 +1014,7 @@ PlayerSelectInfo::PlayerSelectInfo(const PlayerSelectInfo& from)
   new (&_impl_) Impl_{
       decltype(_impl_.name_){}
     , decltype(_impl_.object_id_){}
+    , decltype(_impl_.costume_setting_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -923,7 +1026,9 @@ PlayerSelectInfo::PlayerSelectInfo(const PlayerSelectInfo& from)
     _this->_impl_.name_.Set(from._internal_name(), 
       _this->GetArenaForAllocation());
   }
-  _this->_impl_.object_id_ = from._impl_.object_id_;
+  ::memcpy(&_impl_.object_id_, &from._impl_.object_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.costume_setting_) -
+    reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.costume_setting_));
   // @@protoc_insertion_point(copy_constructor:Protocol.PlayerSelectInfo)
 }
 
@@ -934,6 +1039,7 @@ inline void PlayerSelectInfo::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_.name_){}
     , decltype(_impl_.object_id_){uint64_t{0u}}
+    , decltype(_impl_.costume_setting_){0u}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.name_.InitDefault();
@@ -967,7 +1073,9 @@ void PlayerSelectInfo::Clear() {
   (void) cached_has_bits;
 
   _impl_.name_.ClearToEmpty();
-  _impl_.object_id_ = uint64_t{0u};
+  ::memset(&_impl_.object_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.costume_setting_) -
+      reinterpret_cast<char*>(&_impl_.object_id_)) + sizeof(_impl_.costume_setting_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -992,6 +1100,14 @@ const char* PlayerSelectInfo::_InternalParse(const char* ptr, ::_pbi::ParseConte
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "Protocol.PlayerSelectInfo.name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // uint32 costume_setting = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.costume_setting_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -1040,6 +1156,12 @@ uint8_t* PlayerSelectInfo::_InternalSerialize(
         2, this->_internal_name(), target);
   }
 
+  // uint32 costume_setting = 3;
+  if (this->_internal_costume_setting() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(3, this->_internal_costume_setting(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1068,6 +1190,11 @@ size_t PlayerSelectInfo::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_object_id());
   }
 
+  // uint32 costume_setting = 3;
+  if (this->_internal_costume_setting() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_costume_setting());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -1092,6 +1219,9 @@ void PlayerSelectInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const
   if (from._internal_object_id() != 0) {
     _this->_internal_set_object_id(from._internal_object_id());
   }
+  if (from._internal_costume_setting() != 0) {
+    _this->_internal_set_costume_setting(from._internal_costume_setting());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -1115,7 +1245,12 @@ void PlayerSelectInfo::InternalSwap(PlayerSelectInfo* other) {
       &_impl_.name_, lhs_arena,
       &other->_impl_.name_, rhs_arena
   );
-  swap(_impl_.object_id_, other->_impl_.object_id_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(PlayerSelectInfo, _impl_.costume_setting_)
+      + sizeof(PlayerSelectInfo::_impl_.costume_setting_)
+      - PROTOBUF_FIELD_OFFSET(PlayerSelectInfo, _impl_.object_id_)>(
+          reinterpret_cast<char*>(&_impl_.object_id_),
+          reinterpret_cast<char*>(&other->_impl_.object_id_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata PlayerSelectInfo::GetMetadata() const {

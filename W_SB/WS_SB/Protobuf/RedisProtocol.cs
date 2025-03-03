@@ -26,32 +26,36 @@ namespace Google.Protobuf.RedisProtocol {
           string.Concat(
             "ChNSZWRpc1Byb3RvY29sLnByb3RvEghQcm90b2NvbBofZ29vZ2xlL3Byb3Rv",
             "YnVmL3RpbWVzdGFtcC5wcm90bxoKRW51bS5wcm90bxoMU3RydWN0LnByb3Rv",
-            "IjoKDFJfVE9LRU5fREFUQRIVCg1hY2NvdW50X2RiX2lkGAEgASgFEhMKC3Rv",
-            "a2VuX3ZhbHVlGAIgASgFIlAKDVJfU0VSVkVSX0RBVEESDAoEbmFtZRgBIAEo",
-            "CRISCgppcF9hZGRyZXNzGAIgASgJEgwKBHBvcnQYAyABKAkSDwoHZGVuc2l0",
-            "eRgEIAEoBUIgqgIdR29vZ2xlLlByb3RvYnVmLlJlZGlzUHJvdG9jb2xiBnBy",
-            "b3RvMw=="));
+            "IlAKDlJfQUNDT1VOVF9EQVRBEhIKCmFjY291bnRfaWQYASABKAUSKgoMb2Jq",
+            "ZWN0X2luZm9zGAIgAygLMhQuUHJvdG9jb2wuT2JqZWN0SW5mbyJcCg1SX1NF",
+            "UlZFUl9EQVRBEgoKAmlkGAEgASgNEgwKBG5hbWUYAiABKAkSEgoKaXBfYWRk",
+            "cmVzcxgDIAEoCRIMCgRwb3J0GAQgASgJEg8KB2RlbnNpdHkYBSABKAJCIKoC",
+            "HUdvb2dsZS5Qcm90b2J1Zi5SZWRpc1Byb3RvY29sYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Google.Protobuf.Enum.EnumReflection.Descriptor, global::Google.Protobuf.Struct.StructReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.RedisProtocol.R_TOKEN_DATA), global::Google.Protobuf.RedisProtocol.R_TOKEN_DATA.Parser, new[]{ "AccountDbId", "TokenValue" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.RedisProtocol.R_SERVER_DATA), global::Google.Protobuf.RedisProtocol.R_SERVER_DATA.Parser, new[]{ "Name", "IpAddress", "Port", "Density" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.RedisProtocol.R_ACCOUNT_DATA), global::Google.Protobuf.RedisProtocol.R_ACCOUNT_DATA.Parser, new[]{ "AccountId", "ObjectInfos" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.RedisProtocol.R_SERVER_DATA), global::Google.Protobuf.RedisProtocol.R_SERVER_DATA.Parser, new[]{ "Id", "Name", "IpAddress", "Port", "Density" }, null, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  public sealed partial class R_TOKEN_DATA : pb::IMessage<R_TOKEN_DATA>
+  /// <summary>
+  /// 로그인 데이터
+  /// Structure: String TTL
+  /// </summary>
+  public sealed partial class R_ACCOUNT_DATA : pb::IMessage<R_ACCOUNT_DATA>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<R_TOKEN_DATA> _parser = new pb::MessageParser<R_TOKEN_DATA>(() => new R_TOKEN_DATA());
+    private static readonly pb::MessageParser<R_ACCOUNT_DATA> _parser = new pb::MessageParser<R_ACCOUNT_DATA>(() => new R_ACCOUNT_DATA());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<R_TOKEN_DATA> Parser { get { return _parser; } }
+    public static pb::MessageParser<R_ACCOUNT_DATA> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -67,7 +71,7 @@ namespace Google.Protobuf.RedisProtocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public R_TOKEN_DATA() {
+    public R_ACCOUNT_DATA() {
       OnConstruction();
     }
 
@@ -75,59 +79,58 @@ namespace Google.Protobuf.RedisProtocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public R_TOKEN_DATA(R_TOKEN_DATA other) : this() {
-      accountDbId_ = other.accountDbId_;
-      tokenValue_ = other.tokenValue_;
+    public R_ACCOUNT_DATA(R_ACCOUNT_DATA other) : this() {
+      accountId_ = other.accountId_;
+      objectInfos_ = other.objectInfos_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public R_TOKEN_DATA Clone() {
-      return new R_TOKEN_DATA(this);
+    public R_ACCOUNT_DATA Clone() {
+      return new R_ACCOUNT_DATA(this);
     }
 
-    /// <summary>Field number for the "account_db_id" field.</summary>
-    public const int AccountDbIdFieldNumber = 1;
-    private int accountDbId_;
+    /// <summary>Field number for the "account_id" field.</summary>
+    public const int AccountIdFieldNumber = 1;
+    private int accountId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int AccountDbId {
-      get { return accountDbId_; }
+    public int AccountId {
+      get { return accountId_; }
       set {
-        accountDbId_ = value;
+        accountId_ = value;
       }
     }
 
-    /// <summary>Field number for the "token_value" field.</summary>
-    public const int TokenValueFieldNumber = 2;
-    private int tokenValue_;
+    /// <summary>Field number for the "object_infos" field.</summary>
+    public const int ObjectInfosFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::Google.Protobuf.Struct.ObjectInfo> _repeated_objectInfos_codec
+        = pb::FieldCodec.ForMessage(18, global::Google.Protobuf.Struct.ObjectInfo.Parser);
+    private readonly pbc::RepeatedField<global::Google.Protobuf.Struct.ObjectInfo> objectInfos_ = new pbc::RepeatedField<global::Google.Protobuf.Struct.ObjectInfo>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int TokenValue {
-      get { return tokenValue_; }
-      set {
-        tokenValue_ = value;
-      }
+    public pbc::RepeatedField<global::Google.Protobuf.Struct.ObjectInfo> ObjectInfos {
+      get { return objectInfos_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as R_TOKEN_DATA);
+      return Equals(other as R_ACCOUNT_DATA);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(R_TOKEN_DATA other) {
+    public bool Equals(R_ACCOUNT_DATA other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (AccountDbId != other.AccountDbId) return false;
-      if (TokenValue != other.TokenValue) return false;
+      if (AccountId != other.AccountId) return false;
+      if(!objectInfos_.Equals(other.objectInfos_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -135,8 +138,8 @@ namespace Google.Protobuf.RedisProtocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (AccountDbId != 0) hash ^= AccountDbId.GetHashCode();
-      if (TokenValue != 0) hash ^= TokenValue.GetHashCode();
+      if (AccountId != 0) hash ^= AccountId.GetHashCode();
+      hash ^= objectInfos_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -155,14 +158,11 @@ namespace Google.Protobuf.RedisProtocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (AccountDbId != 0) {
+      if (AccountId != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(AccountDbId);
+        output.WriteInt32(AccountId);
       }
-      if (TokenValue != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(TokenValue);
-      }
+      objectInfos_.WriteTo(output, _repeated_objectInfos_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -173,14 +173,11 @@ namespace Google.Protobuf.RedisProtocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (AccountDbId != 0) {
+      if (AccountId != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(AccountDbId);
+        output.WriteInt32(AccountId);
       }
-      if (TokenValue != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(TokenValue);
-      }
+      objectInfos_.WriteTo(ref output, _repeated_objectInfos_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -191,12 +188,10 @@ namespace Google.Protobuf.RedisProtocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (AccountDbId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(AccountDbId);
+      if (AccountId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(AccountId);
       }
-      if (TokenValue != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TokenValue);
-      }
+      size += objectInfos_.CalculateSize(_repeated_objectInfos_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -205,16 +200,14 @@ namespace Google.Protobuf.RedisProtocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(R_TOKEN_DATA other) {
+    public void MergeFrom(R_ACCOUNT_DATA other) {
       if (other == null) {
         return;
       }
-      if (other.AccountDbId != 0) {
-        AccountDbId = other.AccountDbId;
+      if (other.AccountId != 0) {
+        AccountId = other.AccountId;
       }
-      if (other.TokenValue != 0) {
-        TokenValue = other.TokenValue;
-      }
+      objectInfos_.Add(other.objectInfos_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -231,11 +224,11 @@ namespace Google.Protobuf.RedisProtocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            AccountDbId = input.ReadInt32();
+            AccountId = input.ReadInt32();
             break;
           }
-          case 16: {
-            TokenValue = input.ReadInt32();
+          case 18: {
+            objectInfos_.AddEntriesFrom(input, _repeated_objectInfos_codec);
             break;
           }
         }
@@ -254,11 +247,11 @@ namespace Google.Protobuf.RedisProtocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            AccountDbId = input.ReadInt32();
+            AccountId = input.ReadInt32();
             break;
           }
-          case 16: {
-            TokenValue = input.ReadInt32();
+          case 18: {
+            objectInfos_.AddEntriesFrom(ref input, _repeated_objectInfos_codec);
             break;
           }
         }
@@ -268,6 +261,10 @@ namespace Google.Protobuf.RedisProtocol {
 
   }
 
+  /// <summary>
+  /// 실시간 운영중인 게임 서버 데이터
+  /// Structure: Hashset
+  /// </summary>
   public sealed partial class R_SERVER_DATA : pb::IMessage<R_SERVER_DATA>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -302,6 +299,7 @@ namespace Google.Protobuf.RedisProtocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public R_SERVER_DATA(R_SERVER_DATA other) : this() {
+      id_ = other.id_;
       name_ = other.name_;
       ipAddress_ = other.ipAddress_;
       port_ = other.port_;
@@ -315,8 +313,20 @@ namespace Google.Protobuf.RedisProtocol {
       return new R_SERVER_DATA(this);
     }
 
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private uint id_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Id {
+      get { return id_; }
+      set {
+        id_ = value;
+      }
+    }
+
     /// <summary>Field number for the "name" field.</summary>
-    public const int NameFieldNumber = 1;
+    public const int NameFieldNumber = 2;
     private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -328,7 +338,7 @@ namespace Google.Protobuf.RedisProtocol {
     }
 
     /// <summary>Field number for the "ip_address" field.</summary>
-    public const int IpAddressFieldNumber = 2;
+    public const int IpAddressFieldNumber = 3;
     private string ipAddress_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -340,7 +350,7 @@ namespace Google.Protobuf.RedisProtocol {
     }
 
     /// <summary>Field number for the "port" field.</summary>
-    public const int PortFieldNumber = 3;
+    public const int PortFieldNumber = 4;
     private string port_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -352,11 +362,11 @@ namespace Google.Protobuf.RedisProtocol {
     }
 
     /// <summary>Field number for the "density" field.</summary>
-    public const int DensityFieldNumber = 4;
-    private int density_;
+    public const int DensityFieldNumber = 5;
+    private float density_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Density {
+    public float Density {
       get { return density_; }
       set {
         density_ = value;
@@ -378,10 +388,11 @@ namespace Google.Protobuf.RedisProtocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (Id != other.Id) return false;
       if (Name != other.Name) return false;
       if (IpAddress != other.IpAddress) return false;
       if (Port != other.Port) return false;
-      if (Density != other.Density) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Density, other.Density)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -389,10 +400,11 @@ namespace Google.Protobuf.RedisProtocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
+      if (Id != 0) hash ^= Id.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (IpAddress.Length != 0) hash ^= IpAddress.GetHashCode();
       if (Port.Length != 0) hash ^= Port.GetHashCode();
-      if (Density != 0) hash ^= Density.GetHashCode();
+      if (Density != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Density);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -411,21 +423,25 @@ namespace Google.Protobuf.RedisProtocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
+      if (Id != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(Id);
+      }
       if (Name.Length != 0) {
-        output.WriteRawTag(10);
+        output.WriteRawTag(18);
         output.WriteString(Name);
       }
       if (IpAddress.Length != 0) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(26);
         output.WriteString(IpAddress);
       }
       if (Port.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(34);
         output.WriteString(Port);
       }
-      if (Density != 0) {
-        output.WriteRawTag(32);
-        output.WriteInt32(Density);
+      if (Density != 0F) {
+        output.WriteRawTag(45);
+        output.WriteFloat(Density);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -437,21 +453,25 @@ namespace Google.Protobuf.RedisProtocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Id != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(Id);
+      }
       if (Name.Length != 0) {
-        output.WriteRawTag(10);
+        output.WriteRawTag(18);
         output.WriteString(Name);
       }
       if (IpAddress.Length != 0) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(26);
         output.WriteString(IpAddress);
       }
       if (Port.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(34);
         output.WriteString(Port);
       }
-      if (Density != 0) {
-        output.WriteRawTag(32);
-        output.WriteInt32(Density);
+      if (Density != 0F) {
+        output.WriteRawTag(45);
+        output.WriteFloat(Density);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -463,6 +483,9 @@ namespace Google.Protobuf.RedisProtocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Id);
+      }
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
@@ -472,8 +495,8 @@ namespace Google.Protobuf.RedisProtocol {
       if (Port.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Port);
       }
-      if (Density != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Density);
+      if (Density != 0F) {
+        size += 1 + 4;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -487,6 +510,9 @@ namespace Google.Protobuf.RedisProtocol {
       if (other == null) {
         return;
       }
+      if (other.Id != 0) {
+        Id = other.Id;
+      }
       if (other.Name.Length != 0) {
         Name = other.Name;
       }
@@ -496,7 +522,7 @@ namespace Google.Protobuf.RedisProtocol {
       if (other.Port.Length != 0) {
         Port = other.Port;
       }
-      if (other.Density != 0) {
+      if (other.Density != 0F) {
         Density = other.Density;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -514,20 +540,24 @@ namespace Google.Protobuf.RedisProtocol {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
-            Name = input.ReadString();
+          case 8: {
+            Id = input.ReadUInt32();
             break;
           }
           case 18: {
-            IpAddress = input.ReadString();
+            Name = input.ReadString();
             break;
           }
           case 26: {
+            IpAddress = input.ReadString();
+            break;
+          }
+          case 34: {
             Port = input.ReadString();
             break;
           }
-          case 32: {
-            Density = input.ReadInt32();
+          case 45: {
+            Density = input.ReadFloat();
             break;
           }
         }
@@ -545,20 +575,24 @@ namespace Google.Protobuf.RedisProtocol {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10: {
-            Name = input.ReadString();
+          case 8: {
+            Id = input.ReadUInt32();
             break;
           }
           case 18: {
-            IpAddress = input.ReadString();
+            Name = input.ReadString();
             break;
           }
           case 26: {
+            IpAddress = input.ReadString();
+            break;
+          }
+          case 34: {
             Port = input.ReadString();
             break;
           }
-          case 32: {
-            Density = input.ReadInt32();
+          case 45: {
+            Density = input.ReadFloat();
             break;
           }
         }

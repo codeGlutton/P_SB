@@ -1,9 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using System.Text;
 using WS_SB.DB;
 using WS_SB.Protobuf;
+using WS_SB.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,16 @@ var redisConnectionString = builder.Configuration.GetConnectionString("CacheConn
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp => 
     ConnectionMultiplexer.Connect(redisConnectionString));
 
+// 호스트 백그라운드
+builder.Services.AddSingleton<LocalCacheService>();
+builder.Services.AddHostedService<HostTimerService>();
+
+// 계정 로그인
+builder.Services.AddSingleton<JwtTokenService>();
+builder.Services.AddSingleton<LocalAccountService>();
+builder.Services.AddSingleton<GoogleService>();
+builder.Services.AddScoped<AccountService>();
+
 // Protobuf 포맷터
 builder.Services.AddControllers(options =>
 {
@@ -52,6 +63,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

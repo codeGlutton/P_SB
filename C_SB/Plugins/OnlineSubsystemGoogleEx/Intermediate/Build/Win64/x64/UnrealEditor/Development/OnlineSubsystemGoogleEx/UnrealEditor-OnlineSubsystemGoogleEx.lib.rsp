@@ -1,0 +1,12 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-OnlineSubsystemGoogleEx.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\vsProjs\P_SB\C_SB\Intermediate\Build\Win64\x64\C_SBEditor\Development\CoreUObject\SharedPCH.CoreUObject.Cpp20.h.obj"
+"C:\vsProjs\P_SB\C_SB\Plugins\OnlineSubsystemGoogleEx\Intermediate\Build\Win64\x64\UnrealEditor\Development\OnlineSubsystemGoogleEx\Module.OnlineSubsystemGoogleEx.cpp.obj"
+"C:\vsProjs\P_SB\C_SB\Plugins\OnlineSubsystemGoogleEx\Intermediate\Build\Win64\x64\UnrealEditor\Development\OnlineSubsystemGoogleEx\Default.rc2.res"
+/OUT:"C:\vsProjs\P_SB\C_SB\Plugins\OnlineSubsystemGoogleEx\Intermediate\Build\Win64\x64\UnrealEditor\Development\OnlineSubsystemGoogleEx\UnrealEditor-OnlineSubsystemGoogleEx.lib"

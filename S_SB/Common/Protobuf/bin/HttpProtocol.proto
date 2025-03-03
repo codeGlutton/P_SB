@@ -38,7 +38,26 @@ message REQ_LOGIN_ACCOUNT
 	string password = 2;
 }
 
+message REQ_LOGIN_GOOGLE_ACCOUNT
+{
+	string auth_code = 1;
+}
+
 message RES_LOGIN_ACCOUNT
+{
+	bool success = 1;
+	int32 account_id = 2;
+	string token_value = 3;
+	repeated ServerSelectInfo server_list = 4;
+}
+
+message REQ_RECHECK_SERVER
+{
+	int32 account_id = 1;
+	string token_value = 2;
+}
+
+message RES_RECHECK_SERVER
 {
 	bool success = 1;
 	repeated ServerSelectInfo server_list = 2;

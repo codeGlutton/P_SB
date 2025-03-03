@@ -3,6 +3,8 @@
 
 #if UE_BUILD_DEBUG + UE_BUILD_DEVELOPMENT + UE_BUILD_TEST + UE_BUILD_SHIPPING >= 1
 #include "C_SB.h"
+
+DECLARE_LOG_CATEGORY_EXTERN(LogTcpHandler, Log, All);
 #endif
 
 using PacketHandlerFunc = std::function<bool(PacketSessionRef&, BYTE*, int32)>;
@@ -83,6 +85,10 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::S_UPDATE_TEAM_MATCH& pkt) { return MakeSendBuffer(pkt, PKT_S_UPDATE_TEAM_MATCH); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_MOVE& pkt) { return MakeSendBuffer(pkt, PKT_S_MOVE); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_CHAT& pkt) { return MakeSendBuffer(pkt, PKT_S_CHAT); }
+
+#if UE_BUILD_DEBUG + UE_BUILD_DEVELOPMENT + UE_BUILD_TEST + UE_BUILD_SHIPPING >= 1
+	static class USBNetworkManager* const GetNetworkManager();
+#endif
 
 private:
 	// (수신) 특정 핸들러 함수를 통해 패킷 역직렬화 후 처리

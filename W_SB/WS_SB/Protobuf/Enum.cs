@@ -59,11 +59,15 @@ namespace Google.Protobuf.Enum {
             "TkUQACqXAQoNVGVhbU1hdGNoVHlwZRIYChRURUFNX01BVENIX1RZUEVfTk9O",
             "RRAAEhoKFlRFQU1fTUFUQ0hfVFlQRV9TRUFTT04QARIYChRURUFNX01BVENI",
             "X1RZUEVfRlJFRRACEhsKF1RFQU1fTUFUQ0hfVFlQRV9QTEFZT0ZGEAMSGQoV",
-            "VEVBTV9NQVRDSF9UWVBFX0ZJTkFMEARCF6oCFEdvb2dsZS5Qcm90b2J1Zi5F",
-            "bnVtYgZwcm90bzM="));
+            "VEVBTV9NQVRDSF9UWVBFX0ZJTkFMEAQqrgEKC0xvZ2luUmVzdWx0EhUKEUxP",
+            "R0lOX1JFU1VMVF9OT05FEAASGAoUTE9HSU5fUkVTVUxUX1NVQ0NFU1MQARIi",
+            "Ch5MT0dJTl9SRVNVTFRfRVJST1JfRlVMTF9TRVJWRVIQAhIkCiBMT0dJTl9S",
+            "RVNVTFRfRVJST1JfSU5WQUxJRF9UT0tFThADEiQKIExPR0lOX1JFU1VMVF9F",
+            "UlJPUl9BQ0NPVU5UX0VYSVNUEARCF6oCFEdvb2dsZS5Qcm90b2J1Zi5FbnVt",
+            "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Enum.ObjectType), typeof(global::Google.Protobuf.Enum.RoomType), typeof(global::Google.Protobuf.Enum.AthleteRace), typeof(global::Google.Protobuf.Enum.AthletePosition), typeof(global::Google.Protobuf.Enum.AthleteTag), typeof(global::Google.Protobuf.Enum.EmotionState), typeof(global::Google.Protobuf.Enum.InjuryType), typeof(global::Google.Protobuf.Enum.Bodypart), typeof(global::Google.Protobuf.Enum.MoveState), typeof(global::Google.Protobuf.Enum.TeamState), typeof(global::Google.Protobuf.Enum.TacticsType), typeof(global::Google.Protobuf.Enum.TeamMatchType), }, null, null));
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Enum.ObjectType), typeof(global::Google.Protobuf.Enum.RoomType), typeof(global::Google.Protobuf.Enum.AthleteRace), typeof(global::Google.Protobuf.Enum.AthletePosition), typeof(global::Google.Protobuf.Enum.AthleteTag), typeof(global::Google.Protobuf.Enum.EmotionState), typeof(global::Google.Protobuf.Enum.InjuryType), typeof(global::Google.Protobuf.Enum.Bodypart), typeof(global::Google.Protobuf.Enum.MoveState), typeof(global::Google.Protobuf.Enum.TeamState), typeof(global::Google.Protobuf.Enum.TacticsType), typeof(global::Google.Protobuf.Enum.TeamMatchType), typeof(global::Google.Protobuf.Enum.LoginResult), }, null, null));
     }
     #endregion
 
@@ -170,6 +174,14 @@ namespace Google.Protobuf.Enum {
     [pbr::OriginalName("TEAM_MATCH_TYPE_FREE")] Free = 2,
     [pbr::OriginalName("TEAM_MATCH_TYPE_PLAYOFF")] Playoff = 3,
     [pbr::OriginalName("TEAM_MATCH_TYPE_FINAL")] Final = 4,
+  }
+
+  public enum LoginResult {
+    [pbr::OriginalName("LOGIN_RESULT_NONE")] None = 0,
+    [pbr::OriginalName("LOGIN_RESULT_SUCCESS")] Success = 1,
+    [pbr::OriginalName("LOGIN_RESULT_ERROR_FULL_SERVER")] ErrorFullServer = 2,
+    [pbr::OriginalName("LOGIN_RESULT_ERROR_INVALID_TOKEN")] ErrorInvalidToken = 3,
+    [pbr::OriginalName("LOGIN_RESULT_ERROR_ACCOUNT_EXIST")] ErrorAccountExist = 4,
   }
 
   #endregion

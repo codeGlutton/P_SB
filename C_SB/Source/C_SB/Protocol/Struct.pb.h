@@ -251,11 +251,13 @@ class ServerSelectInfo final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNameFieldNumber = 1,
-    kIpFieldNumber = 2,
-    kClowdedLevelFieldNumber = 3,
+    kNameFieldNumber = 2,
+    kIpAddressFieldNumber = 3,
+    kPortFieldNumber = 4,
+    kIdFieldNumber = 1,
+    kDensityFieldNumber = 5,
   };
-  // string name = 1;
+  // string name = 2;
   void clear_name();
   const std::string& name() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -269,27 +271,50 @@ class ServerSelectInfo final :
   std::string* _internal_mutable_name();
   public:
 
-  // string ip = 2;
-  void clear_ip();
-  const std::string& ip() const;
+  // string ip_address = 3;
+  void clear_ip_address();
+  const std::string& ip_address() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_ip(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_ip();
-  PROTOBUF_NODISCARD std::string* release_ip();
-  void set_allocated_ip(std::string* ip);
+  void set_ip_address(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ip_address();
+  PROTOBUF_NODISCARD std::string* release_ip_address();
+  void set_allocated_ip_address(std::string* ip_address);
   private:
-  const std::string& _internal_ip() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ip(const std::string& value);
-  std::string* _internal_mutable_ip();
+  const std::string& _internal_ip_address() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ip_address(const std::string& value);
+  std::string* _internal_mutable_ip_address();
   public:
 
-  // uint32 clowded_level = 3;
-  void clear_clowded_level();
-  uint32_t clowded_level() const;
-  void set_clowded_level(uint32_t value);
+  // string port = 4;
+  void clear_port();
+  const std::string& port() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_port(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_port();
+  PROTOBUF_NODISCARD std::string* release_port();
+  void set_allocated_port(std::string* port);
   private:
-  uint32_t _internal_clowded_level() const;
-  void _internal_set_clowded_level(uint32_t value);
+  const std::string& _internal_port() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_port(const std::string& value);
+  std::string* _internal_mutable_port();
+  public:
+
+  // uint32 id = 1;
+  void clear_id();
+  uint32_t id() const;
+  void set_id(uint32_t value);
+  private:
+  uint32_t _internal_id() const;
+  void _internal_set_id(uint32_t value);
+  public:
+
+  // float density = 5;
+  void clear_density();
+  float density() const;
+  void set_density(float value);
+  private:
+  float _internal_density() const;
+  void _internal_set_density(float value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.ServerSelectInfo)
@@ -301,8 +326,10 @@ class ServerSelectInfo final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
-    uint32_t clowded_level_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_address_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr port_;
+    uint32_t id_;
+    float density_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -433,6 +460,7 @@ class PlayerSelectInfo final :
   enum : int {
     kNameFieldNumber = 2,
     kObjectIdFieldNumber = 1,
+    kCostumeSettingFieldNumber = 3,
   };
   // string name = 2;
   void clear_name();
@@ -457,6 +485,15 @@ class PlayerSelectInfo final :
   void _internal_set_object_id(uint64_t value);
   public:
 
+  // uint32 costume_setting = 3;
+  void clear_costume_setting();
+  uint32_t costume_setting() const;
+  void set_costume_setting(uint32_t value);
+  private:
+  uint32_t _internal_costume_setting() const;
+  void _internal_set_costume_setting(uint32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.PlayerSelectInfo)
  private:
   class _Internal;
@@ -467,6 +504,7 @@ class PlayerSelectInfo final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
     uint64_t object_id_;
+    uint32_t costume_setting_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -3555,7 +3593,27 @@ class MovementRecord final :
 #endif  // __GNUC__
 // ServerSelectInfo
 
-// string name = 1;
+// uint32 id = 1;
+inline void ServerSelectInfo::clear_id() {
+  _impl_.id_ = 0u;
+}
+inline uint32_t ServerSelectInfo::_internal_id() const {
+  return _impl_.id_;
+}
+inline uint32_t ServerSelectInfo::id() const {
+  // @@protoc_insertion_point(field_get:Protocol.ServerSelectInfo.id)
+  return _internal_id();
+}
+inline void ServerSelectInfo::_internal_set_id(uint32_t value) {
+  
+  _impl_.id_ = value;
+}
+inline void ServerSelectInfo::set_id(uint32_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.ServerSelectInfo.id)
+}
+
+// string name = 2;
 inline void ServerSelectInfo::clear_name() {
   _impl_.name_.ClearToEmpty();
 }
@@ -3605,74 +3663,124 @@ inline void ServerSelectInfo::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.ServerSelectInfo.name)
 }
 
-// string ip = 2;
-inline void ServerSelectInfo::clear_ip() {
-  _impl_.ip_.ClearToEmpty();
+// string ip_address = 3;
+inline void ServerSelectInfo::clear_ip_address() {
+  _impl_.ip_address_.ClearToEmpty();
 }
-inline const std::string& ServerSelectInfo::ip() const {
-  // @@protoc_insertion_point(field_get:Protocol.ServerSelectInfo.ip)
-  return _internal_ip();
+inline const std::string& ServerSelectInfo::ip_address() const {
+  // @@protoc_insertion_point(field_get:Protocol.ServerSelectInfo.ip_address)
+  return _internal_ip_address();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void ServerSelectInfo::set_ip(ArgT0&& arg0, ArgT... args) {
+void ServerSelectInfo::set_ip_address(ArgT0&& arg0, ArgT... args) {
  
- _impl_.ip_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:Protocol.ServerSelectInfo.ip)
+ _impl_.ip_address_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.ServerSelectInfo.ip_address)
 }
-inline std::string* ServerSelectInfo::mutable_ip() {
-  std::string* _s = _internal_mutable_ip();
-  // @@protoc_insertion_point(field_mutable:Protocol.ServerSelectInfo.ip)
+inline std::string* ServerSelectInfo::mutable_ip_address() {
+  std::string* _s = _internal_mutable_ip_address();
+  // @@protoc_insertion_point(field_mutable:Protocol.ServerSelectInfo.ip_address)
   return _s;
 }
-inline const std::string& ServerSelectInfo::_internal_ip() const {
-  return _impl_.ip_.Get();
+inline const std::string& ServerSelectInfo::_internal_ip_address() const {
+  return _impl_.ip_address_.Get();
 }
-inline void ServerSelectInfo::_internal_set_ip(const std::string& value) {
+inline void ServerSelectInfo::_internal_set_ip_address(const std::string& value) {
   
-  _impl_.ip_.Set(value, GetArenaForAllocation());
+  _impl_.ip_address_.Set(value, GetArenaForAllocation());
 }
-inline std::string* ServerSelectInfo::_internal_mutable_ip() {
+inline std::string* ServerSelectInfo::_internal_mutable_ip_address() {
   
-  return _impl_.ip_.Mutable(GetArenaForAllocation());
+  return _impl_.ip_address_.Mutable(GetArenaForAllocation());
 }
-inline std::string* ServerSelectInfo::release_ip() {
-  // @@protoc_insertion_point(field_release:Protocol.ServerSelectInfo.ip)
-  return _impl_.ip_.Release();
+inline std::string* ServerSelectInfo::release_ip_address() {
+  // @@protoc_insertion_point(field_release:Protocol.ServerSelectInfo.ip_address)
+  return _impl_.ip_address_.Release();
 }
-inline void ServerSelectInfo::set_allocated_ip(std::string* ip) {
-  if (ip != nullptr) {
+inline void ServerSelectInfo::set_allocated_ip_address(std::string* ip_address) {
+  if (ip_address != nullptr) {
     
   } else {
     
   }
-  _impl_.ip_.SetAllocated(ip, GetArenaForAllocation());
+  _impl_.ip_address_.SetAllocated(ip_address, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.ip_.IsDefault()) {
-    _impl_.ip_.Set("", GetArenaForAllocation());
+  if (_impl_.ip_address_.IsDefault()) {
+    _impl_.ip_address_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:Protocol.ServerSelectInfo.ip)
+  // @@protoc_insertion_point(field_set_allocated:Protocol.ServerSelectInfo.ip_address)
 }
 
-// uint32 clowded_level = 3;
-inline void ServerSelectInfo::clear_clowded_level() {
-  _impl_.clowded_level_ = 0u;
+// string port = 4;
+inline void ServerSelectInfo::clear_port() {
+  _impl_.port_.ClearToEmpty();
 }
-inline uint32_t ServerSelectInfo::_internal_clowded_level() const {
-  return _impl_.clowded_level_;
+inline const std::string& ServerSelectInfo::port() const {
+  // @@protoc_insertion_point(field_get:Protocol.ServerSelectInfo.port)
+  return _internal_port();
 }
-inline uint32_t ServerSelectInfo::clowded_level() const {
-  // @@protoc_insertion_point(field_get:Protocol.ServerSelectInfo.clowded_level)
-  return _internal_clowded_level();
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ServerSelectInfo::set_port(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.port_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.ServerSelectInfo.port)
 }
-inline void ServerSelectInfo::_internal_set_clowded_level(uint32_t value) {
+inline std::string* ServerSelectInfo::mutable_port() {
+  std::string* _s = _internal_mutable_port();
+  // @@protoc_insertion_point(field_mutable:Protocol.ServerSelectInfo.port)
+  return _s;
+}
+inline const std::string& ServerSelectInfo::_internal_port() const {
+  return _impl_.port_.Get();
+}
+inline void ServerSelectInfo::_internal_set_port(const std::string& value) {
   
-  _impl_.clowded_level_ = value;
+  _impl_.port_.Set(value, GetArenaForAllocation());
 }
-inline void ServerSelectInfo::set_clowded_level(uint32_t value) {
-  _internal_set_clowded_level(value);
-  // @@protoc_insertion_point(field_set:Protocol.ServerSelectInfo.clowded_level)
+inline std::string* ServerSelectInfo::_internal_mutable_port() {
+  
+  return _impl_.port_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ServerSelectInfo::release_port() {
+  // @@protoc_insertion_point(field_release:Protocol.ServerSelectInfo.port)
+  return _impl_.port_.Release();
+}
+inline void ServerSelectInfo::set_allocated_port(std::string* port) {
+  if (port != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.port_.SetAllocated(port, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.port_.IsDefault()) {
+    _impl_.port_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.ServerSelectInfo.port)
+}
+
+// float density = 5;
+inline void ServerSelectInfo::clear_density() {
+  _impl_.density_ = 0;
+}
+inline float ServerSelectInfo::_internal_density() const {
+  return _impl_.density_;
+}
+inline float ServerSelectInfo::density() const {
+  // @@protoc_insertion_point(field_get:Protocol.ServerSelectInfo.density)
+  return _internal_density();
+}
+inline void ServerSelectInfo::_internal_set_density(float value) {
+  
+  _impl_.density_ = value;
+}
+inline void ServerSelectInfo::set_density(float value) {
+  _internal_set_density(value);
+  // @@protoc_insertion_point(field_set:Protocol.ServerSelectInfo.density)
 }
 
 // -------------------------------------------------------------------
@@ -3747,6 +3855,26 @@ inline void PlayerSelectInfo::set_allocated_name(std::string* name) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:Protocol.PlayerSelectInfo.name)
+}
+
+// uint32 costume_setting = 3;
+inline void PlayerSelectInfo::clear_costume_setting() {
+  _impl_.costume_setting_ = 0u;
+}
+inline uint32_t PlayerSelectInfo::_internal_costume_setting() const {
+  return _impl_.costume_setting_;
+}
+inline uint32_t PlayerSelectInfo::costume_setting() const {
+  // @@protoc_insertion_point(field_get:Protocol.PlayerSelectInfo.costume_setting)
+  return _internal_costume_setting();
+}
+inline void PlayerSelectInfo::_internal_set_costume_setting(uint32_t value) {
+  
+  _impl_.costume_setting_ = value;
+}
+inline void PlayerSelectInfo::set_costume_setting(uint32_t value) {
+  _internal_set_costume_setting(value);
+  // @@protoc_insertion_point(field_set:Protocol.PlayerSelectInfo.costume_setting)
 }
 
 // -------------------------------------------------------------------

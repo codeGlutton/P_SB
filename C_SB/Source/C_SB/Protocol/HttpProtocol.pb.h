@@ -57,6 +57,12 @@ extern REQ_CREATE_ACCOUNTDefaultTypeInternal _REQ_CREATE_ACCOUNT_default_instanc
 class REQ_LOGIN_ACCOUNT;
 struct REQ_LOGIN_ACCOUNTDefaultTypeInternal;
 extern REQ_LOGIN_ACCOUNTDefaultTypeInternal _REQ_LOGIN_ACCOUNT_default_instance_;
+class REQ_LOGIN_GOOGLE_ACCOUNT;
+struct REQ_LOGIN_GOOGLE_ACCOUNTDefaultTypeInternal;
+extern REQ_LOGIN_GOOGLE_ACCOUNTDefaultTypeInternal _REQ_LOGIN_GOOGLE_ACCOUNT_default_instance_;
+class REQ_RECHECK_SERVER;
+struct REQ_RECHECK_SERVERDefaultTypeInternal;
+extern REQ_RECHECK_SERVERDefaultTypeInternal _REQ_RECHECK_SERVER_default_instance_;
 class RES_CHECK_EXISTS_ACCOUNT;
 struct RES_CHECK_EXISTS_ACCOUNTDefaultTypeInternal;
 extern RES_CHECK_EXISTS_ACCOUNTDefaultTypeInternal _RES_CHECK_EXISTS_ACCOUNT_default_instance_;
@@ -66,14 +72,20 @@ extern RES_CREATE_ACCOUNTDefaultTypeInternal _RES_CREATE_ACCOUNT_default_instanc
 class RES_LOGIN_ACCOUNT;
 struct RES_LOGIN_ACCOUNTDefaultTypeInternal;
 extern RES_LOGIN_ACCOUNTDefaultTypeInternal _RES_LOGIN_ACCOUNT_default_instance_;
+class RES_RECHECK_SERVER;
+struct RES_RECHECK_SERVERDefaultTypeInternal;
+extern RES_RECHECK_SERVERDefaultTypeInternal _RES_RECHECK_SERVER_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::REQ_CHECK_EXISTS_ACCOUNT* Arena::CreateMaybeMessage<::Protocol::REQ_CHECK_EXISTS_ACCOUNT>(Arena*);
 template<> ::Protocol::REQ_CREATE_ACCOUNT* Arena::CreateMaybeMessage<::Protocol::REQ_CREATE_ACCOUNT>(Arena*);
 template<> ::Protocol::REQ_LOGIN_ACCOUNT* Arena::CreateMaybeMessage<::Protocol::REQ_LOGIN_ACCOUNT>(Arena*);
+template<> ::Protocol::REQ_LOGIN_GOOGLE_ACCOUNT* Arena::CreateMaybeMessage<::Protocol::REQ_LOGIN_GOOGLE_ACCOUNT>(Arena*);
+template<> ::Protocol::REQ_RECHECK_SERVER* Arena::CreateMaybeMessage<::Protocol::REQ_RECHECK_SERVER>(Arena*);
 template<> ::Protocol::RES_CHECK_EXISTS_ACCOUNT* Arena::CreateMaybeMessage<::Protocol::RES_CHECK_EXISTS_ACCOUNT>(Arena*);
 template<> ::Protocol::RES_CREATE_ACCOUNT* Arena::CreateMaybeMessage<::Protocol::RES_CREATE_ACCOUNT>(Arena*);
 template<> ::Protocol::RES_LOGIN_ACCOUNT* Arena::CreateMaybeMessage<::Protocol::RES_LOGIN_ACCOUNT>(Arena*);
+template<> ::Protocol::RES_RECHECK_SERVER* Arena::CreateMaybeMessage<::Protocol::RES_RECHECK_SERVER>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
@@ -866,6 +878,159 @@ class REQ_LOGIN_ACCOUNT final :
 };
 // -------------------------------------------------------------------
 
+class REQ_LOGIN_GOOGLE_ACCOUNT final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT) */ {
+ public:
+  inline REQ_LOGIN_GOOGLE_ACCOUNT() : REQ_LOGIN_GOOGLE_ACCOUNT(nullptr) {}
+  ~REQ_LOGIN_GOOGLE_ACCOUNT() override;
+  explicit PROTOBUF_CONSTEXPR REQ_LOGIN_GOOGLE_ACCOUNT(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  REQ_LOGIN_GOOGLE_ACCOUNT(const REQ_LOGIN_GOOGLE_ACCOUNT& from);
+  REQ_LOGIN_GOOGLE_ACCOUNT(REQ_LOGIN_GOOGLE_ACCOUNT&& from) noexcept
+    : REQ_LOGIN_GOOGLE_ACCOUNT() {
+    *this = ::std::move(from);
+  }
+
+  inline REQ_LOGIN_GOOGLE_ACCOUNT& operator=(const REQ_LOGIN_GOOGLE_ACCOUNT& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline REQ_LOGIN_GOOGLE_ACCOUNT& operator=(REQ_LOGIN_GOOGLE_ACCOUNT&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const REQ_LOGIN_GOOGLE_ACCOUNT& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const REQ_LOGIN_GOOGLE_ACCOUNT* internal_default_instance() {
+    return reinterpret_cast<const REQ_LOGIN_GOOGLE_ACCOUNT*>(
+               &_REQ_LOGIN_GOOGLE_ACCOUNT_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(REQ_LOGIN_GOOGLE_ACCOUNT& a, REQ_LOGIN_GOOGLE_ACCOUNT& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(REQ_LOGIN_GOOGLE_ACCOUNT* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(REQ_LOGIN_GOOGLE_ACCOUNT* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  REQ_LOGIN_GOOGLE_ACCOUNT* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<REQ_LOGIN_GOOGLE_ACCOUNT>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const REQ_LOGIN_GOOGLE_ACCOUNT& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const REQ_LOGIN_GOOGLE_ACCOUNT& from) {
+    REQ_LOGIN_GOOGLE_ACCOUNT::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(REQ_LOGIN_GOOGLE_ACCOUNT* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.REQ_LOGIN_GOOGLE_ACCOUNT";
+  }
+  protected:
+  explicit REQ_LOGIN_GOOGLE_ACCOUNT(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kAuthCodeFieldNumber = 1,
+  };
+  // string auth_code = 1;
+  void clear_auth_code();
+  const std::string& auth_code() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_auth_code(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_auth_code();
+  PROTOBUF_NODISCARD std::string* release_auth_code();
+  void set_allocated_auth_code(std::string* auth_code);
+  private:
+  const std::string& _internal_auth_code() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_auth_code(const std::string& value);
+  std::string* _internal_mutable_auth_code();
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr auth_code_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_HttpProtocol_2eproto;
+};
+// -------------------------------------------------------------------
+
 class RES_LOGIN_ACCOUNT final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.RES_LOGIN_ACCOUNT) */ {
  public:
@@ -914,7 +1079,7 @@ class RES_LOGIN_ACCOUNT final :
                &_RES_LOGIN_ACCOUNT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   friend void swap(RES_LOGIN_ACCOUNT& a, RES_LOGIN_ACCOUNT& b) {
     a.Swap(&b);
@@ -987,6 +1152,365 @@ class RES_LOGIN_ACCOUNT final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kServerListFieldNumber = 4,
+    kTokenValueFieldNumber = 3,
+    kSuccessFieldNumber = 1,
+    kAccountIdFieldNumber = 2,
+  };
+  // repeated .Protocol.ServerSelectInfo server_list = 4;
+  int server_list_size() const;
+  private:
+  int _internal_server_list_size() const;
+  public:
+  void clear_server_list();
+  ::Protocol::ServerSelectInfo* mutable_server_list(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ServerSelectInfo >*
+      mutable_server_list();
+  private:
+  const ::Protocol::ServerSelectInfo& _internal_server_list(int index) const;
+  ::Protocol::ServerSelectInfo* _internal_add_server_list();
+  public:
+  const ::Protocol::ServerSelectInfo& server_list(int index) const;
+  ::Protocol::ServerSelectInfo* add_server_list();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ServerSelectInfo >&
+      server_list() const;
+
+  // string token_value = 3;
+  void clear_token_value();
+  const std::string& token_value() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_token_value(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_token_value();
+  PROTOBUF_NODISCARD std::string* release_token_value();
+  void set_allocated_token_value(std::string* token_value);
+  private:
+  const std::string& _internal_token_value() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_token_value(const std::string& value);
+  std::string* _internal_mutable_token_value();
+  public:
+
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // int32 account_id = 2;
+  void clear_account_id();
+  int32_t account_id() const;
+  void set_account_id(int32_t value);
+  private:
+  int32_t _internal_account_id() const;
+  void _internal_set_account_id(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.RES_LOGIN_ACCOUNT)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ServerSelectInfo > server_list_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_value_;
+    bool success_;
+    int32_t account_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_HttpProtocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class REQ_RECHECK_SERVER final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.REQ_RECHECK_SERVER) */ {
+ public:
+  inline REQ_RECHECK_SERVER() : REQ_RECHECK_SERVER(nullptr) {}
+  ~REQ_RECHECK_SERVER() override;
+  explicit PROTOBUF_CONSTEXPR REQ_RECHECK_SERVER(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  REQ_RECHECK_SERVER(const REQ_RECHECK_SERVER& from);
+  REQ_RECHECK_SERVER(REQ_RECHECK_SERVER&& from) noexcept
+    : REQ_RECHECK_SERVER() {
+    *this = ::std::move(from);
+  }
+
+  inline REQ_RECHECK_SERVER& operator=(const REQ_RECHECK_SERVER& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline REQ_RECHECK_SERVER& operator=(REQ_RECHECK_SERVER&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const REQ_RECHECK_SERVER& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const REQ_RECHECK_SERVER* internal_default_instance() {
+    return reinterpret_cast<const REQ_RECHECK_SERVER*>(
+               &_REQ_RECHECK_SERVER_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  friend void swap(REQ_RECHECK_SERVER& a, REQ_RECHECK_SERVER& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(REQ_RECHECK_SERVER* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(REQ_RECHECK_SERVER* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  REQ_RECHECK_SERVER* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<REQ_RECHECK_SERVER>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const REQ_RECHECK_SERVER& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const REQ_RECHECK_SERVER& from) {
+    REQ_RECHECK_SERVER::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(REQ_RECHECK_SERVER* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.REQ_RECHECK_SERVER";
+  }
+  protected:
+  explicit REQ_RECHECK_SERVER(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTokenValueFieldNumber = 2,
+    kAccountIdFieldNumber = 1,
+  };
+  // string token_value = 2;
+  void clear_token_value();
+  const std::string& token_value() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_token_value(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_token_value();
+  PROTOBUF_NODISCARD std::string* release_token_value();
+  void set_allocated_token_value(std::string* token_value);
+  private:
+  const std::string& _internal_token_value() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_token_value(const std::string& value);
+  std::string* _internal_mutable_token_value();
+  public:
+
+  // int32 account_id = 1;
+  void clear_account_id();
+  int32_t account_id() const;
+  void set_account_id(int32_t value);
+  private:
+  int32_t _internal_account_id() const;
+  void _internal_set_account_id(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.REQ_RECHECK_SERVER)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_value_;
+    int32_t account_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_HttpProtocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class RES_RECHECK_SERVER final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.RES_RECHECK_SERVER) */ {
+ public:
+  inline RES_RECHECK_SERVER() : RES_RECHECK_SERVER(nullptr) {}
+  ~RES_RECHECK_SERVER() override;
+  explicit PROTOBUF_CONSTEXPR RES_RECHECK_SERVER(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  RES_RECHECK_SERVER(const RES_RECHECK_SERVER& from);
+  RES_RECHECK_SERVER(RES_RECHECK_SERVER&& from) noexcept
+    : RES_RECHECK_SERVER() {
+    *this = ::std::move(from);
+  }
+
+  inline RES_RECHECK_SERVER& operator=(const RES_RECHECK_SERVER& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RES_RECHECK_SERVER& operator=(RES_RECHECK_SERVER&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const RES_RECHECK_SERVER& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const RES_RECHECK_SERVER* internal_default_instance() {
+    return reinterpret_cast<const RES_RECHECK_SERVER*>(
+               &_RES_RECHECK_SERVER_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    8;
+
+  friend void swap(RES_RECHECK_SERVER& a, RES_RECHECK_SERVER& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(RES_RECHECK_SERVER* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RES_RECHECK_SERVER* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  RES_RECHECK_SERVER* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<RES_RECHECK_SERVER>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const RES_RECHECK_SERVER& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const RES_RECHECK_SERVER& from) {
+    RES_RECHECK_SERVER::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RES_RECHECK_SERVER* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.RES_RECHECK_SERVER";
+  }
+  protected:
+  explicit RES_RECHECK_SERVER(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
     kServerListFieldNumber = 2,
     kSuccessFieldNumber = 1,
   };
@@ -1017,7 +1541,7 @@ class RES_LOGIN_ACCOUNT final :
   void _internal_set_success(bool value);
   public:
 
-  // @@protoc_insertion_point(class_scope:Protocol.RES_LOGIN_ACCOUNT)
+  // @@protoc_insertion_point(class_scope:Protocol.RES_RECHECK_SERVER)
  private:
   class _Internal;
 
@@ -1351,6 +1875,60 @@ inline void REQ_LOGIN_ACCOUNT::set_allocated_password(std::string* password) {
 
 // -------------------------------------------------------------------
 
+// REQ_LOGIN_GOOGLE_ACCOUNT
+
+// string auth_code = 1;
+inline void REQ_LOGIN_GOOGLE_ACCOUNT::clear_auth_code() {
+  _impl_.auth_code_.ClearToEmpty();
+}
+inline const std::string& REQ_LOGIN_GOOGLE_ACCOUNT::auth_code() const {
+  // @@protoc_insertion_point(field_get:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT.auth_code)
+  return _internal_auth_code();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void REQ_LOGIN_GOOGLE_ACCOUNT::set_auth_code(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.auth_code_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT.auth_code)
+}
+inline std::string* REQ_LOGIN_GOOGLE_ACCOUNT::mutable_auth_code() {
+  std::string* _s = _internal_mutable_auth_code();
+  // @@protoc_insertion_point(field_mutable:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT.auth_code)
+  return _s;
+}
+inline const std::string& REQ_LOGIN_GOOGLE_ACCOUNT::_internal_auth_code() const {
+  return _impl_.auth_code_.Get();
+}
+inline void REQ_LOGIN_GOOGLE_ACCOUNT::_internal_set_auth_code(const std::string& value) {
+  
+  _impl_.auth_code_.Set(value, GetArenaForAllocation());
+}
+inline std::string* REQ_LOGIN_GOOGLE_ACCOUNT::_internal_mutable_auth_code() {
+  
+  return _impl_.auth_code_.Mutable(GetArenaForAllocation());
+}
+inline std::string* REQ_LOGIN_GOOGLE_ACCOUNT::release_auth_code() {
+  // @@protoc_insertion_point(field_release:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT.auth_code)
+  return _impl_.auth_code_.Release();
+}
+inline void REQ_LOGIN_GOOGLE_ACCOUNT::set_allocated_auth_code(std::string* auth_code) {
+  if (auth_code != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.auth_code_.SetAllocated(auth_code, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.auth_code_.IsDefault()) {
+    _impl_.auth_code_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT.auth_code)
+}
+
+// -------------------------------------------------------------------
+
 // RES_LOGIN_ACCOUNT
 
 // bool success = 1;
@@ -1373,7 +1951,77 @@ inline void RES_LOGIN_ACCOUNT::set_success(bool value) {
   // @@protoc_insertion_point(field_set:Protocol.RES_LOGIN_ACCOUNT.success)
 }
 
-// repeated .Protocol.ServerSelectInfo server_list = 2;
+// int32 account_id = 2;
+inline void RES_LOGIN_ACCOUNT::clear_account_id() {
+  _impl_.account_id_ = 0;
+}
+inline int32_t RES_LOGIN_ACCOUNT::_internal_account_id() const {
+  return _impl_.account_id_;
+}
+inline int32_t RES_LOGIN_ACCOUNT::account_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.RES_LOGIN_ACCOUNT.account_id)
+  return _internal_account_id();
+}
+inline void RES_LOGIN_ACCOUNT::_internal_set_account_id(int32_t value) {
+  
+  _impl_.account_id_ = value;
+}
+inline void RES_LOGIN_ACCOUNT::set_account_id(int32_t value) {
+  _internal_set_account_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.RES_LOGIN_ACCOUNT.account_id)
+}
+
+// string token_value = 3;
+inline void RES_LOGIN_ACCOUNT::clear_token_value() {
+  _impl_.token_value_.ClearToEmpty();
+}
+inline const std::string& RES_LOGIN_ACCOUNT::token_value() const {
+  // @@protoc_insertion_point(field_get:Protocol.RES_LOGIN_ACCOUNT.token_value)
+  return _internal_token_value();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void RES_LOGIN_ACCOUNT::set_token_value(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.token_value_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.RES_LOGIN_ACCOUNT.token_value)
+}
+inline std::string* RES_LOGIN_ACCOUNT::mutable_token_value() {
+  std::string* _s = _internal_mutable_token_value();
+  // @@protoc_insertion_point(field_mutable:Protocol.RES_LOGIN_ACCOUNT.token_value)
+  return _s;
+}
+inline const std::string& RES_LOGIN_ACCOUNT::_internal_token_value() const {
+  return _impl_.token_value_.Get();
+}
+inline void RES_LOGIN_ACCOUNT::_internal_set_token_value(const std::string& value) {
+  
+  _impl_.token_value_.Set(value, GetArenaForAllocation());
+}
+inline std::string* RES_LOGIN_ACCOUNT::_internal_mutable_token_value() {
+  
+  return _impl_.token_value_.Mutable(GetArenaForAllocation());
+}
+inline std::string* RES_LOGIN_ACCOUNT::release_token_value() {
+  // @@protoc_insertion_point(field_release:Protocol.RES_LOGIN_ACCOUNT.token_value)
+  return _impl_.token_value_.Release();
+}
+inline void RES_LOGIN_ACCOUNT::set_allocated_token_value(std::string* token_value) {
+  if (token_value != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.token_value_.SetAllocated(token_value, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.token_value_.IsDefault()) {
+    _impl_.token_value_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.RES_LOGIN_ACCOUNT.token_value)
+}
+
+// repeated .Protocol.ServerSelectInfo server_list = 4;
 inline int RES_LOGIN_ACCOUNT::_internal_server_list_size() const {
   return _impl_.server_list_.size();
 }
@@ -1410,9 +2058,150 @@ RES_LOGIN_ACCOUNT::server_list() const {
   return _impl_.server_list_;
 }
 
+// -------------------------------------------------------------------
+
+// REQ_RECHECK_SERVER
+
+// int32 account_id = 1;
+inline void REQ_RECHECK_SERVER::clear_account_id() {
+  _impl_.account_id_ = 0;
+}
+inline int32_t REQ_RECHECK_SERVER::_internal_account_id() const {
+  return _impl_.account_id_;
+}
+inline int32_t REQ_RECHECK_SERVER::account_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.REQ_RECHECK_SERVER.account_id)
+  return _internal_account_id();
+}
+inline void REQ_RECHECK_SERVER::_internal_set_account_id(int32_t value) {
+  
+  _impl_.account_id_ = value;
+}
+inline void REQ_RECHECK_SERVER::set_account_id(int32_t value) {
+  _internal_set_account_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.REQ_RECHECK_SERVER.account_id)
+}
+
+// string token_value = 2;
+inline void REQ_RECHECK_SERVER::clear_token_value() {
+  _impl_.token_value_.ClearToEmpty();
+}
+inline const std::string& REQ_RECHECK_SERVER::token_value() const {
+  // @@protoc_insertion_point(field_get:Protocol.REQ_RECHECK_SERVER.token_value)
+  return _internal_token_value();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void REQ_RECHECK_SERVER::set_token_value(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.token_value_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.REQ_RECHECK_SERVER.token_value)
+}
+inline std::string* REQ_RECHECK_SERVER::mutable_token_value() {
+  std::string* _s = _internal_mutable_token_value();
+  // @@protoc_insertion_point(field_mutable:Protocol.REQ_RECHECK_SERVER.token_value)
+  return _s;
+}
+inline const std::string& REQ_RECHECK_SERVER::_internal_token_value() const {
+  return _impl_.token_value_.Get();
+}
+inline void REQ_RECHECK_SERVER::_internal_set_token_value(const std::string& value) {
+  
+  _impl_.token_value_.Set(value, GetArenaForAllocation());
+}
+inline std::string* REQ_RECHECK_SERVER::_internal_mutable_token_value() {
+  
+  return _impl_.token_value_.Mutable(GetArenaForAllocation());
+}
+inline std::string* REQ_RECHECK_SERVER::release_token_value() {
+  // @@protoc_insertion_point(field_release:Protocol.REQ_RECHECK_SERVER.token_value)
+  return _impl_.token_value_.Release();
+}
+inline void REQ_RECHECK_SERVER::set_allocated_token_value(std::string* token_value) {
+  if (token_value != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.token_value_.SetAllocated(token_value, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.token_value_.IsDefault()) {
+    _impl_.token_value_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.REQ_RECHECK_SERVER.token_value)
+}
+
+// -------------------------------------------------------------------
+
+// RES_RECHECK_SERVER
+
+// bool success = 1;
+inline void RES_RECHECK_SERVER::clear_success() {
+  _impl_.success_ = false;
+}
+inline bool RES_RECHECK_SERVER::_internal_success() const {
+  return _impl_.success_;
+}
+inline bool RES_RECHECK_SERVER::success() const {
+  // @@protoc_insertion_point(field_get:Protocol.RES_RECHECK_SERVER.success)
+  return _internal_success();
+}
+inline void RES_RECHECK_SERVER::_internal_set_success(bool value) {
+  
+  _impl_.success_ = value;
+}
+inline void RES_RECHECK_SERVER::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:Protocol.RES_RECHECK_SERVER.success)
+}
+
+// repeated .Protocol.ServerSelectInfo server_list = 2;
+inline int RES_RECHECK_SERVER::_internal_server_list_size() const {
+  return _impl_.server_list_.size();
+}
+inline int RES_RECHECK_SERVER::server_list_size() const {
+  return _internal_server_list_size();
+}
+inline ::Protocol::ServerSelectInfo* RES_RECHECK_SERVER::mutable_server_list(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.RES_RECHECK_SERVER.server_list)
+  return _impl_.server_list_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ServerSelectInfo >*
+RES_RECHECK_SERVER::mutable_server_list() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.RES_RECHECK_SERVER.server_list)
+  return &_impl_.server_list_;
+}
+inline const ::Protocol::ServerSelectInfo& RES_RECHECK_SERVER::_internal_server_list(int index) const {
+  return _impl_.server_list_.Get(index);
+}
+inline const ::Protocol::ServerSelectInfo& RES_RECHECK_SERVER::server_list(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.RES_RECHECK_SERVER.server_list)
+  return _internal_server_list(index);
+}
+inline ::Protocol::ServerSelectInfo* RES_RECHECK_SERVER::_internal_add_server_list() {
+  return _impl_.server_list_.Add();
+}
+inline ::Protocol::ServerSelectInfo* RES_RECHECK_SERVER::add_server_list() {
+  ::Protocol::ServerSelectInfo* _add = _internal_add_server_list();
+  // @@protoc_insertion_point(field_add:Protocol.RES_RECHECK_SERVER.server_list)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ServerSelectInfo >&
+RES_RECHECK_SERVER::server_list() const {
+  // @@protoc_insertion_point(field_list:Protocol.RES_RECHECK_SERVER.server_list)
+  return _impl_.server_list_;
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

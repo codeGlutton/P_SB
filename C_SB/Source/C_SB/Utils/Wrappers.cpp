@@ -1,6 +1,10 @@
 ﻿#include "Utils/Wrappers.h"
 #include "C_SB.h"
 
+/************************
+   FRegexPatternWrapper
+*************************/
+
 FRegexPatternWrapper& FRegexPatternWrapper::operator=(const FRegexPattern& Other)
 {
 	Pattern = Other;

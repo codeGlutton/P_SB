@@ -21,25 +21,26 @@ namespace _pb = ::PROTOBUF_NAMESPACE_ID;
 namespace _pbi = _pb::internal;
 
 namespace Protocol {
-PROTOBUF_CONSTEXPR R_TOKEN_DATA::R_TOKEN_DATA(
+PROTOBUF_CONSTEXPR R_ACCOUNT_DATA::R_ACCOUNT_DATA(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.account_db_id_)*/0
-  , /*decltype(_impl_.token_value_)*/0
+    /*decltype(_impl_.object_infos_)*/{}
+  , /*decltype(_impl_.account_id_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
-struct R_TOKEN_DATADefaultTypeInternal {
-  PROTOBUF_CONSTEXPR R_TOKEN_DATADefaultTypeInternal()
+struct R_ACCOUNT_DATADefaultTypeInternal {
+  PROTOBUF_CONSTEXPR R_ACCOUNT_DATADefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~R_TOKEN_DATADefaultTypeInternal() {}
+  ~R_ACCOUNT_DATADefaultTypeInternal() {}
   union {
-    R_TOKEN_DATA _instance;
+    R_ACCOUNT_DATA _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 R_TOKEN_DATADefaultTypeInternal _R_TOKEN_DATA_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 R_ACCOUNT_DATADefaultTypeInternal _R_ACCOUNT_DATA_default_instance_;
 PROTOBUF_CONSTEXPR R_SERVER_DATA::R_SERVER_DATA(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.ip_address_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.port_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.id_)*/0u
   , /*decltype(_impl_.density_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct R_SERVER_DATADefaultTypeInternal {
@@ -58,42 +59,44 @@ static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors
 
 const uint32_t TableStruct_RedisProtocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Protocol::R_TOKEN_DATA, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::R_ACCOUNT_DATA, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protocol::R_TOKEN_DATA, _impl_.account_db_id_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::R_TOKEN_DATA, _impl_.token_value_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::R_ACCOUNT_DATA, _impl_.account_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::R_ACCOUNT_DATA, _impl_.object_infos_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::R_SERVER_DATA, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::R_SERVER_DATA, _impl_.id_),
   PROTOBUF_FIELD_OFFSET(::Protocol::R_SERVER_DATA, _impl_.name_),
   PROTOBUF_FIELD_OFFSET(::Protocol::R_SERVER_DATA, _impl_.ip_address_),
   PROTOBUF_FIELD_OFFSET(::Protocol::R_SERVER_DATA, _impl_.port_),
   PROTOBUF_FIELD_OFFSET(::Protocol::R_SERVER_DATA, _impl_.density_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, -1, sizeof(::Protocol::R_TOKEN_DATA)},
+  { 0, -1, -1, sizeof(::Protocol::R_ACCOUNT_DATA)},
   { 8, -1, -1, sizeof(::Protocol::R_SERVER_DATA)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
-  &::Protocol::_R_TOKEN_DATA_default_instance_._instance,
+  &::Protocol::_R_ACCOUNT_DATA_default_instance_._instance,
   &::Protocol::_R_SERVER_DATA_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_RedisProtocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\023RedisProtocol.proto\022\010Protocol\032\037google/"
   "protobuf/timestamp.proto\032\nEnum.proto\032\014St"
-  "ruct.proto\":\n\014R_TOKEN_DATA\022\025\n\raccount_db"
-  "_id\030\001 \001(\005\022\023\n\013token_value\030\002 \001(\005\"P\n\rR_SERV"
-  "ER_DATA\022\014\n\004name\030\001 \001(\t\022\022\n\nip_address\030\002 \001("
-  "\t\022\014\n\004port\030\003 \001(\t\022\017\n\007density\030\004 \001(\005B \252\002\035Goo"
-  "gle.Protobuf.RedisProtocolb\006proto3"
+  "ruct.proto\"P\n\016R_ACCOUNT_DATA\022\022\n\naccount_"
+  "id\030\001 \001(\005\022*\n\014object_infos\030\002 \003(\0132\024.Protoco"
+  "l.ObjectInfo\"\\\n\rR_SERVER_DATA\022\n\n\002id\030\001 \001("
+  "\r\022\014\n\004name\030\002 \001(\t\022\022\n\nip_address\030\003 \001(\t\022\014\n\004p"
+  "ort\030\004 \001(\t\022\017\n\007density\030\005 \001(\002B \252\002\035Google.Pr"
+  "otobuf.RedisProtocolb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_RedisProtocol_2eproto_deps[3] = {
   &::descriptor_table_Enum_2eproto,
@@ -102,7 +105,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_RedisProtocol_2epro
 };
 static ::_pbi::once_flag descriptor_table_RedisProtocol_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_RedisProtocol_2eproto = {
-    false, false, 274, descriptor_table_protodef_RedisProtocol_2eproto,
+    false, false, 308, descriptor_table_protodef_RedisProtocol_2eproto,
     "RedisProtocol.proto",
     &descriptor_table_RedisProtocol_2eproto_once, descriptor_table_RedisProtocol_2eproto_deps, 3, 2,
     schemas, file_default_instances, TableStruct_RedisProtocol_2eproto::offsets,
@@ -119,44 +122,45 @@ namespace Protocol {
 
 // ===================================================================
 
-class R_TOKEN_DATA::_Internal {
+class R_ACCOUNT_DATA::_Internal {
  public:
 };
 
-R_TOKEN_DATA::R_TOKEN_DATA(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+void R_ACCOUNT_DATA::clear_object_infos() {
+  _impl_.object_infos_.Clear();
+}
+R_ACCOUNT_DATA::R_ACCOUNT_DATA(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:Protocol.R_TOKEN_DATA)
+  // @@protoc_insertion_point(arena_constructor:Protocol.R_ACCOUNT_DATA)
 }
-R_TOKEN_DATA::R_TOKEN_DATA(const R_TOKEN_DATA& from)
+R_ACCOUNT_DATA::R_ACCOUNT_DATA(const R_ACCOUNT_DATA& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  R_TOKEN_DATA* const _this = this; (void)_this;
+  R_ACCOUNT_DATA* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.account_db_id_){}
-    , decltype(_impl_.token_value_){}
+      decltype(_impl_.object_infos_){from._impl_.object_infos_}
+    , decltype(_impl_.account_id_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.account_db_id_, &from._impl_.account_db_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.token_value_) -
-    reinterpret_cast<char*>(&_impl_.account_db_id_)) + sizeof(_impl_.token_value_));
-  // @@protoc_insertion_point(copy_constructor:Protocol.R_TOKEN_DATA)
+  _this->_impl_.account_id_ = from._impl_.account_id_;
+  // @@protoc_insertion_point(copy_constructor:Protocol.R_ACCOUNT_DATA)
 }
 
-inline void R_TOKEN_DATA::SharedCtor(
+inline void R_ACCOUNT_DATA::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.account_db_id_){0}
-    , decltype(_impl_.token_value_){0}
+      decltype(_impl_.object_infos_){arena}
+    , decltype(_impl_.account_id_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
 
-R_TOKEN_DATA::~R_TOKEN_DATA() {
-  // @@protoc_insertion_point(destructor:Protocol.R_TOKEN_DATA)
+R_ACCOUNT_DATA::~R_ACCOUNT_DATA() {
+  // @@protoc_insertion_point(destructor:Protocol.R_ACCOUNT_DATA)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -164,45 +168,50 @@ R_TOKEN_DATA::~R_TOKEN_DATA() {
   SharedDtor();
 }
 
-inline void R_TOKEN_DATA::SharedDtor() {
+inline void R_ACCOUNT_DATA::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.object_infos_.~RepeatedPtrField();
 }
 
-void R_TOKEN_DATA::SetCachedSize(int size) const {
+void R_ACCOUNT_DATA::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void R_TOKEN_DATA::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protocol.R_TOKEN_DATA)
+void R_ACCOUNT_DATA::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.R_ACCOUNT_DATA)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.account_db_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.token_value_) -
-      reinterpret_cast<char*>(&_impl_.account_db_id_)) + sizeof(_impl_.token_value_));
+  _impl_.object_infos_.Clear();
+  _impl_.account_id_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* R_TOKEN_DATA::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* R_ACCOUNT_DATA::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int32 account_db_id = 1;
+      // int32 account_id = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.account_db_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _impl_.account_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 token_value = 2;
+      // repeated .Protocol.ObjectInfo object_infos = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _impl_.token_value_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_object_infos(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
         } else
           goto handle_unusual;
         continue;
@@ -229,100 +238,98 @@ failure:
 #undef CHK_
 }
 
-uint8_t* R_TOKEN_DATA::_InternalSerialize(
+uint8_t* R_ACCOUNT_DATA::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Protocol.R_TOKEN_DATA)
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.R_ACCOUNT_DATA)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 account_db_id = 1;
-  if (this->_internal_account_db_id() != 0) {
+  // int32 account_id = 1;
+  if (this->_internal_account_id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_account_db_id(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_account_id(), target);
   }
 
-  // int32 token_value = 2;
-  if (this->_internal_token_value() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_token_value(), target);
+  // repeated .Protocol.ObjectInfo object_infos = 2;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_object_infos_size()); i < n; i++) {
+    const auto& repfield = this->_internal_object_infos(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(2, repfield, repfield.GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Protocol.R_TOKEN_DATA)
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.R_ACCOUNT_DATA)
   return target;
 }
 
-size_t R_TOKEN_DATA::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Protocol.R_TOKEN_DATA)
+size_t R_ACCOUNT_DATA::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.R_ACCOUNT_DATA)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // int32 account_db_id = 1;
-  if (this->_internal_account_db_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_account_db_id());
+  // repeated .Protocol.ObjectInfo object_infos = 2;
+  total_size += 1UL * this->_internal_object_infos_size();
+  for (const auto& msg : this->_impl_.object_infos_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // int32 token_value = 2;
-  if (this->_internal_token_value() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_token_value());
+  // int32 account_id = 1;
+  if (this->_internal_account_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_account_id());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData R_TOKEN_DATA::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData R_ACCOUNT_DATA::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    R_TOKEN_DATA::MergeImpl
+    R_ACCOUNT_DATA::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*R_TOKEN_DATA::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*R_ACCOUNT_DATA::GetClassData() const { return &_class_data_; }
 
 
-void R_TOKEN_DATA::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<R_TOKEN_DATA*>(&to_msg);
-  auto& from = static_cast<const R_TOKEN_DATA&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.R_TOKEN_DATA)
+void R_ACCOUNT_DATA::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<R_ACCOUNT_DATA*>(&to_msg);
+  auto& from = static_cast<const R_ACCOUNT_DATA&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.R_ACCOUNT_DATA)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_account_db_id() != 0) {
-    _this->_internal_set_account_db_id(from._internal_account_db_id());
-  }
-  if (from._internal_token_value() != 0) {
-    _this->_internal_set_token_value(from._internal_token_value());
+  _this->_impl_.object_infos_.MergeFrom(from._impl_.object_infos_);
+  if (from._internal_account_id() != 0) {
+    _this->_internal_set_account_id(from._internal_account_id());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void R_TOKEN_DATA::CopyFrom(const R_TOKEN_DATA& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.R_TOKEN_DATA)
+void R_ACCOUNT_DATA::CopyFrom(const R_ACCOUNT_DATA& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.R_ACCOUNT_DATA)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool R_TOKEN_DATA::IsInitialized() const {
+bool R_ACCOUNT_DATA::IsInitialized() const {
   return true;
 }
 
-void R_TOKEN_DATA::InternalSwap(R_TOKEN_DATA* other) {
+void R_ACCOUNT_DATA::InternalSwap(R_ACCOUNT_DATA* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(R_TOKEN_DATA, _impl_.token_value_)
-      + sizeof(R_TOKEN_DATA::_impl_.token_value_)
-      - PROTOBUF_FIELD_OFFSET(R_TOKEN_DATA, _impl_.account_db_id_)>(
-          reinterpret_cast<char*>(&_impl_.account_db_id_),
-          reinterpret_cast<char*>(&other->_impl_.account_db_id_));
+  _impl_.object_infos_.InternalSwap(&other->_impl_.object_infos_);
+  swap(_impl_.account_id_, other->_impl_.account_id_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata R_TOKEN_DATA::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata R_ACCOUNT_DATA::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_RedisProtocol_2eproto_getter, &descriptor_table_RedisProtocol_2eproto_once,
       file_level_metadata_RedisProtocol_2eproto[0]);
@@ -347,6 +354,7 @@ R_SERVER_DATA::R_SERVER_DATA(const R_SERVER_DATA& from)
       decltype(_impl_.name_){}
     , decltype(_impl_.ip_address_){}
     , decltype(_impl_.port_){}
+    , decltype(_impl_.id_){}
     , decltype(_impl_.density_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
@@ -375,7 +383,9 @@ R_SERVER_DATA::R_SERVER_DATA(const R_SERVER_DATA& from)
     _this->_impl_.port_.Set(from._internal_port(), 
       _this->GetArenaForAllocation());
   }
-  _this->_impl_.density_ = from._impl_.density_;
+  ::memcpy(&_impl_.id_, &from._impl_.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.density_) -
+    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.density_));
   // @@protoc_insertion_point(copy_constructor:Protocol.R_SERVER_DATA)
 }
 
@@ -387,6 +397,7 @@ inline void R_SERVER_DATA::SharedCtor(
       decltype(_impl_.name_){}
     , decltype(_impl_.ip_address_){}
     , decltype(_impl_.port_){}
+    , decltype(_impl_.id_){0u}
     , decltype(_impl_.density_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
@@ -433,7 +444,9 @@ void R_SERVER_DATA::Clear() {
   _impl_.name_.ClearToEmpty();
   _impl_.ip_address_.ClearToEmpty();
   _impl_.port_.ClearToEmpty();
-  _impl_.density_ = 0;
+  ::memset(&_impl_.id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.density_) -
+      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.density_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -443,9 +456,17 @@ const char* R_SERVER_DATA::_InternalParse(const char* ptr, ::_pbi::ParseContext*
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string name = 1;
+      // uint32 id = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           auto str = _internal_mutable_name();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -453,9 +474,9 @@ const char* R_SERVER_DATA::_InternalParse(const char* ptr, ::_pbi::ParseContext*
         } else
           goto handle_unusual;
         continue;
-      // string ip_address = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+      // string ip_address = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
           auto str = _internal_mutable_ip_address();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -463,9 +484,9 @@ const char* R_SERVER_DATA::_InternalParse(const char* ptr, ::_pbi::ParseContext*
         } else
           goto handle_unusual;
         continue;
-      // string port = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+      // string port = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           auto str = _internal_mutable_port();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -473,11 +494,11 @@ const char* R_SERVER_DATA::_InternalParse(const char* ptr, ::_pbi::ParseContext*
         } else
           goto handle_unusual;
         continue;
-      // int32 density = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
-          _impl_.density_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
+      // float density = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 45)) {
+          _impl_.density_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
@@ -510,40 +531,50 @@ uint8_t* R_SERVER_DATA::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string name = 1;
+  // uint32 id = 1;
+  if (this->_internal_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_id(), target);
+  }
+
+  // string name = 2;
   if (!this->_internal_name().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "Protocol.R_SERVER_DATA.name");
     target = stream->WriteStringMaybeAliased(
-        1, this->_internal_name(), target);
+        2, this->_internal_name(), target);
   }
 
-  // string ip_address = 2;
+  // string ip_address = 3;
   if (!this->_internal_ip_address().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_ip_address().data(), static_cast<int>(this->_internal_ip_address().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "Protocol.R_SERVER_DATA.ip_address");
     target = stream->WriteStringMaybeAliased(
-        2, this->_internal_ip_address(), target);
+        3, this->_internal_ip_address(), target);
   }
 
-  // string port = 3;
+  // string port = 4;
   if (!this->_internal_port().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_port().data(), static_cast<int>(this->_internal_port().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "Protocol.R_SERVER_DATA.port");
     target = stream->WriteStringMaybeAliased(
-        3, this->_internal_port(), target);
+        4, this->_internal_port(), target);
   }
 
-  // int32 density = 4;
-  if (this->_internal_density() != 0) {
+  // float density = 5;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_density = this->_internal_density();
+  uint32_t raw_density;
+  memcpy(&raw_density, &tmp_density, sizeof(tmp_density));
+  if (raw_density != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_density(), target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(5, this->_internal_density(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -562,30 +593,39 @@ size_t R_SERVER_DATA::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string name = 1;
+  // string name = 2;
   if (!this->_internal_name().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_name());
   }
 
-  // string ip_address = 2;
+  // string ip_address = 3;
   if (!this->_internal_ip_address().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_ip_address());
   }
 
-  // string port = 3;
+  // string port = 4;
   if (!this->_internal_port().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_port());
   }
 
-  // int32 density = 4;
-  if (this->_internal_density() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_density());
+  // uint32 id = 1;
+  if (this->_internal_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_id());
+  }
+
+  // float density = 5;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_density = this->_internal_density();
+  uint32_t raw_density;
+  memcpy(&raw_density, &tmp_density, sizeof(tmp_density));
+  if (raw_density != 0) {
+    total_size += 1 + 4;
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -615,7 +655,14 @@ void R_SERVER_DATA::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
   if (!from._internal_port().empty()) {
     _this->_internal_set_port(from._internal_port());
   }
-  if (from._internal_density() != 0) {
+  if (from._internal_id() != 0) {
+    _this->_internal_set_id(from._internal_id());
+  }
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_density = from._internal_density();
+  uint32_t raw_density;
+  memcpy(&raw_density, &tmp_density, sizeof(tmp_density));
+  if (raw_density != 0) {
     _this->_internal_set_density(from._internal_density());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -649,7 +696,12 @@ void R_SERVER_DATA::InternalSwap(R_SERVER_DATA* other) {
       &_impl_.port_, lhs_arena,
       &other->_impl_.port_, rhs_arena
   );
-  swap(_impl_.density_, other->_impl_.density_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(R_SERVER_DATA, _impl_.density_)
+      + sizeof(R_SERVER_DATA::_impl_.density_)
+      - PROTOBUF_FIELD_OFFSET(R_SERVER_DATA, _impl_.id_)>(
+          reinterpret_cast<char*>(&_impl_.id_),
+          reinterpret_cast<char*>(&other->_impl_.id_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata R_SERVER_DATA::GetMetadata() const {
@@ -661,9 +713,9 @@ void R_SERVER_DATA::InternalSwap(R_SERVER_DATA* other) {
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::Protocol::R_TOKEN_DATA*
-Arena::CreateMaybeMessage< ::Protocol::R_TOKEN_DATA >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Protocol::R_TOKEN_DATA >(arena);
+template<> PROTOBUF_NOINLINE ::Protocol::R_ACCOUNT_DATA*
+Arena::CreateMaybeMessage< ::Protocol::R_ACCOUNT_DATA >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::R_ACCOUNT_DATA >(arena);
 }
 template<> PROTOBUF_NOINLINE ::Protocol::R_SERVER_DATA*
 Arena::CreateMaybeMessage< ::Protocol::R_SERVER_DATA >(Arena* arena) {

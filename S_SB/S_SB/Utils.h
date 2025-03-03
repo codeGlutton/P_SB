@@ -28,9 +28,23 @@ public:
 		WideCharToMultiByte(CP_UTF8, 0, source, -1, target, sourceLen, NULL, NULL);
 	}
 
+	static std::string UTF16To8(const std::wstring& wstr) {
+		int32 sourceLen = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
+		std::string str(sourceLen - 1, 0);
+		WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, str.data(), sourceLen, NULL, NULL);
+		return str;
+	}
+
 	static void UTF8To16(const char* source, WCHAR* target)
 	{
 		int32 sourceLen = MultiByteToWideChar(CP_UTF8, 0, source, -1, NULL, NULL);
 		MultiByteToWideChar(CP_UTF8, 0, source, -1, target, sourceLen);
+	}
+
+	static std::wstring UTF8To16(const std::string& str) {
+		int32 sourceLen = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, NULL);
+		std::wstring wstr(sourceLen, 0);
+		MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, wstr.data(), sourceLen);
+		return wstr;
 	}
 };

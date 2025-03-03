@@ -16,7 +16,8 @@ RoomManager::RoomManager()
 
 void RoomManager::Init()
 {
-	_lobby->UpdateRoomTick();
+	_connectionRoom->DoAsync(&ConnectionRoom::UpdateServerDencityTick);
+	_lobby->DoAsync(&LobbyRoom::UpdateRoomTick);
 }
 
 GameMatchRoomRef RoomManager::Create(const xString name)

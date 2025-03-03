@@ -22,7 +22,6 @@ namespace WS_SB.Protobuf
             {
                 /* Body를 지정한 Protobuf Class로 역직렬화 */
 
-
                 MemoryStream stream = new MemoryStream();
                 HttpRequest request = context.HttpContext.Request;
                 await request.Body.CopyToAsync(stream);

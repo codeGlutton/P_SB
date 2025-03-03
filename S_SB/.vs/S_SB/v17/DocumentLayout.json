@@ -3,20 +3,56 @@
   "WorkspaceRootPath": "C:\\vsProjs\\P_SB\\S_SB\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\S_SB\\Room.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:S_SB\\Room.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\S_SB\\DBTaskExecutor.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:S_SB\\DBTaskExecutor.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\S_SB\\ClientPacketHandler.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:S_SB\\ClientPacketHandler.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\S_SB\\DataUtils.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:S_SB\\DataUtils.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\HttpProtocol.proto||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:Common\\Protobuf\\bin\\HttpProtocol.proto||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\S_SB\\GameSession.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:S_SB\\GameSession.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\S_SB\\GameSession.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:S_SB\\GameSession.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\S_SB\\DBTaskExecutor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:S_SB\\DBTaskExecutor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\S_SB\\Room.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:S_SB\\Room.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\S_SB\\S_SB.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:S_SB\\S_SB.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\Struct.proto||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:Common\\Protobuf\\bin\\Struct.proto||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\S_SB\\Room.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:S_SB\\Room.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\RedisProtocol.proto||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:Common\\Protobuf\\bin\\RedisProtocol.proto||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\Enum.proto||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:Common\\Protobuf\\bin\\Enum.proto||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\Protocol.proto||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{91D38891-F374-4BB6-848E-E7735B6A8109}|S_SB\\S_SB.vcxproj|solutionrelative:Common\\Protobuf\\bin\\Protocol.proto||{3B902123-F8A7-4915-9F01-361F908088D0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,58 +62,175 @@
       "DocumentGroups": [
         {
           "DockedWidth": 38,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "S_SB.cpp",
-              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\S_SB.cpp",
-              "RelativeDocumentMoniker": "S_SB\\S_SB.cpp",
-              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\S_SB.cpp",
-              "RelativeToolTip": "S_SB\\S_SB.cpp",
-              "ViewState": "AgIAAG0AAAAAAAAAAAAAAK0AAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-10T14:37:49.609Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "RedisProtocol.proto",
-              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\RedisProtocol.proto",
-              "RelativeDocumentMoniker": "Common\\Protobuf\\bin\\RedisProtocol.proto",
-              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\RedisProtocol.proto",
-              "RelativeToolTip": "Common\\Protobuf\\bin\\RedisProtocol.proto",
-              "ViewState": "AgIAAAYAAAAAAAAAAADwvxUAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003853|",
-              "WhenOpened": "2025-02-10T14:04:49.926Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Room.cpp",
-              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\Room.cpp",
-              "RelativeDocumentMoniker": "S_SB\\Room.cpp",
-              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\Room.cpp",
-              "RelativeToolTip": "S_SB\\Room.cpp",
-              "ViewState": "AgIAAMUBAAAAAAAAAAAMwNYBAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-10T09:23:15.259Z",
+              "DocumentIndex": 4,
+              "Title": "GameSession.h",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\GameSession.h",
+              "RelativeDocumentMoniker": "S_SB\\GameSession.h",
+              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\GameSession.h",
+              "RelativeToolTip": "S_SB\\GameSession.h",
+              "ViewState": "AgIAADEAAAAAAAAAAADwvy4AAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-28T07:40:08.229Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "ClientPacketHandler.cpp",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\ClientPacketHandler.cpp",
+              "RelativeDocumentMoniker": "S_SB\\ClientPacketHandler.cpp",
+              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\ClientPacketHandler.cpp",
+              "RelativeToolTip": "S_SB\\ClientPacketHandler.cpp",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAADEAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-13T16:53:05.586Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Struct.proto",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\Struct.proto",
+              "RelativeDocumentMoniker": "Common\\Protobuf\\bin\\Struct.proto",
+              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\Struct.proto",
+              "RelativeToolTip": "Common\\Protobuf\\bin\\Struct.proto",
+              "ViewState": "AgIAAHsAAAAAAAAAAAAAABoAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003853|",
+              "WhenOpened": "2025-02-12T10:20:05.602Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Protocol.proto",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\Protocol.proto",
+              "RelativeDocumentMoniker": "Common\\Protobuf\\bin\\Protocol.proto",
+              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\Protocol.proto",
+              "RelativeToolTip": "Common\\Protobuf\\bin\\Protocol.proto",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAGIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003853|",
+              "WhenOpened": "2025-02-12T08:13:10.649Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DBTaskExecutor.h",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\DBTaskExecutor.h",
+              "RelativeDocumentMoniker": "S_SB\\DBTaskExecutor.h",
+              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\DBTaskExecutor.h",
+              "RelativeToolTip": "S_SB\\DBTaskExecutor.h",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAwAwAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-12T07:50:58.805Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Room.cpp",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\Room.cpp",
+              "RelativeDocumentMoniker": "S_SB\\Room.cpp",
+              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\Room.cpp",
+              "RelativeToolTip": "S_SB\\Room.cpp",
+              "ViewState": "AgIAADMBAAAAAAAAAAAiwEIBAABXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-12T07:47:48.773Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "Room.h",
               "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\Room.h",
               "RelativeDocumentMoniker": "S_SB\\Room.h",
               "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\Room.h",
               "RelativeToolTip": "S_SB\\Room.h",
-              "ViewState": "AgIAAIUAAAAAAAAAAAAnwJMAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAIIAAAAAAAAAAAAiwIUAAABeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-02-10T09:36:44.809Z",
+              "WhenOpened": "2025-02-12T07:46:09.538Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DBTaskExecutor.cpp",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\DBTaskExecutor.cpp",
+              "RelativeDocumentMoniker": "S_SB\\DBTaskExecutor.cpp",
+              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\DBTaskExecutor.cpp",
+              "RelativeToolTip": "S_SB\\DBTaskExecutor.cpp",
+              "ViewState": "AgIAAIIAAAAAAAAAAAAiwJQAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-11T20:14:06.719Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GameSession.cpp",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\GameSession.cpp",
+              "RelativeDocumentMoniker": "S_SB\\GameSession.cpp",
+              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\GameSession.cpp",
+              "RelativeToolTip": "S_SB\\GameSession.cpp",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABAAAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-28T08:54:37.606Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "RedisProtocol.proto",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\RedisProtocol.proto",
+              "RelativeDocumentMoniker": "Common\\Protobuf\\bin\\RedisProtocol.proto",
+              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\RedisProtocol.proto",
+              "RelativeToolTip": "Common\\Protobuf\\bin\\RedisProtocol.proto",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA8AAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003853|",
+              "WhenOpened": "2025-02-12T08:03:09.189Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "HttpProtocol.proto",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\HttpProtocol.proto",
+              "RelativeDocumentMoniker": "Common\\Protobuf\\bin\\HttpProtocol.proto",
+              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\HttpProtocol.proto",
+              "RelativeToolTip": "Common\\Protobuf\\bin\\HttpProtocol.proto",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAADgAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003853|",
+              "WhenOpened": "2025-02-11T20:22:27.469Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Enum.proto",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\Enum.proto",
+              "RelativeDocumentMoniker": "Common\\Protobuf\\bin\\Enum.proto",
+              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\Common\\Protobuf\\bin\\Enum.proto",
+              "RelativeToolTip": "Common\\Protobuf\\bin\\Enum.proto",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAkwJcAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003853|",
+              "WhenOpened": "2025-02-14T07:39:39.394Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DataUtils.h",
+              "DocumentMoniker": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\DataUtils.h",
+              "RelativeDocumentMoniker": "S_SB\\DataUtils.h",
+              "ToolTip": "C:\\vsProjs\\P_SB\\S_SB\\S_SB\\DataUtils.h",
+              "RelativeToolTip": "S_SB\\DataUtils.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-14T10:40:26.432Z",
               "EditorCaption": ""
             }
           ]

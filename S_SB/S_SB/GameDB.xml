@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameDB>
-	<Table name="User" desc="유저 테이블">
-		<Column name="id" type="int" notnull="true" identity ="1,1"/>
-		<Column name="createDate" type="datetime" notnull="false"/>
-		<Index type="clustered">
-			<PrimaryKey/>
-			<Column name="id"/>
-		</Index>
-	</Table>
-
-	<Table name="Player" desc="캐릭터 테이블">
+	<Table name="Player" desc="character table">
 		<Column name="id" type="int" notnull="true" identity ="1,1"/>
 		<Column name="userId" type="int" notnull="true"/>
 		<Column name="name" type="nvarchar(50)" notnull="true"/>
@@ -20,6 +11,15 @@
 		</Index>
 		<Index type="nonclustered">
 			<Column name="userId"/>
+		</Index>
+	</Table>
+
+	<Table name="User" desc="user table">
+		<Column name="id" type="int" notnull="true" identity ="1,1"/>
+		<Column name="createDate" type="datetime" notnull="false"/>
+		<Index type="clustered">
+			<PrimaryKey/>
+			<Column name="id"/>
 		</Index>
 	</Table>
 

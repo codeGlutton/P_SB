@@ -10,18 +10,22 @@ option csharp_namespace = "Google.Protobuf.Struct";
 // 접속 연관 정보 //
 ////////////////////
 
+// 플레이어블 서버 초기 선택에 필요한 부분적 정보
 message ServerSelectInfo
 {
-	string name = 1;
-	string ip = 2;
-	uint32 clowded_level = 3;
+	uint32 id = 1;
+	string name = 2;
+	string ip_address = 3;
+	string port = 4;
+	float density = 5;
 }
 
-// 플레이어블 캐릭터 초기 선택에 필요한 정보
+// 플레이어블 캐릭터 초기 선택에 필요한 부분적 정보
 message PlayerSelectInfo
 {
 	uint64 object_id = 1;
 	string name = 2;
+	uint32 costume_setting = 3;
 }
 
 /////////////

@@ -11,7 +11,7 @@ namespace WS_SB.Controllers
 {%- for pkt in parser.recv_pkt %}
 
         [HttpPost("{{pkt.PascalName}}")]
-        public abstract IActionResult Handle{{pkt.PascalName}}([FromBody] {{pkt.name}} pkt);
+        public abstract Task<IActionResult> Handle{{pkt.PascalName}}([FromBody] {{pkt.name}} pkt);
 {%- endfor %}
     }
 }

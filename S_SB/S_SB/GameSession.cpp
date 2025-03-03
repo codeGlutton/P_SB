@@ -10,9 +10,17 @@
 	   GameSession
 *************************/
 
+const uint64 GameSession::AUTH_TIMEOUT_MS = 10000ull;
+
 void GameSession::OnConnected()
 {
-	GSessionManager->Add(std::static_pointer_cast<GameSession>(shared_from_this()));
+	GameSessionRef gameSession = std::static_pointer_cast<GameSession>(shared_from_this());
+	GSessionManager->Add(gameSession);
+	GRoomManager->GetConnectionRoom()->DoTimer(AUTH_TIMEOUT_MS, ([gameSession] {
+		if (gameSession->playerDataProtector->isVerified.load() == false)
+			gameSession->Disconnect(L"Authentication timeout");
+		})
+	);
 }
 
 void GameSession::OnDisconnected()

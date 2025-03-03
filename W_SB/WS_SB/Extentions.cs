@@ -1,4 +1,5 @@
-﻿using WS_SB.DB;
+﻿using Microsoft.EntityFrameworkCore;
+using WS_SB.DB;
 
 namespace WS_SB
 {
@@ -11,9 +12,14 @@ namespace WS_SB
                 db.SaveChanges();
                 return true;
             }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                ex.Entries.Single().Reload();
+                return false;
+            }
             catch
             {
-                return false;
+                throw;
             }
         }
     }

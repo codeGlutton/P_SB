@@ -27,12 +27,13 @@ message S_PING
 
 message C_LOGIN
 {
-
+	int32 account_id = 1;
+	string token_value = 2;
 }
 
 message S_LOGIN
 {
-	bool success = 1;
+	LoginResult result = 1;
 	// 클라이언트 소유 캐릭터들
 	repeated PlayerSelectInfo players = 2;
 } 
@@ -64,7 +65,7 @@ message C_LEAVE_GAME
 
 message S_LEAVE_GAME
 {
-	uint64 object_id = 1;
+
 }
 
 message S_SPAWN

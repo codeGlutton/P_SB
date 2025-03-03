@@ -67,7 +67,10 @@ RoomRef Room::GetRoomRef()
 bool Room::Enter(ObjectRef object, bool randPos)
 {
 	if (_objects.find(object->objectBaseInfo->object_id()) != _objects.end())
+	{
+		GConsoleLogger->WriteStdOut(Color::YELLOW, L"Can't enter. The player already exists in this room");
 		return false;
+	}
 
 	// 랜덤 위치
 	if (randPos)
@@ -128,7 +131,10 @@ bool Room::Enter(ObjectRef object, bool randPos)
 bool Room::Leave(ObjectRef object)
 {
 	if (_objects.find(object->objectBaseInfo->object_id()) == _objects.end())
+	{
+		GConsoleLogger->WriteStdOut(Color::YELLOW, L"Can't leave. The player already doesn't exist in this room");
 		return false;
+	}
 	_objects.erase(object->objectBaseInfo->object_id());
 
 	const uint64 objectId = object->objectBaseInfo->object_id();
@@ -146,7 +152,10 @@ bool Room::Leave(ObjectRef object)
 void Room::LeaveAndEnter(ObjectRef object, RoomRef nextRoom)
 {
 	if (_objects.find(object->objectBaseInfo->object_id()) == _objects.end())
+	{
+		GConsoleLogger->WriteStdOut(Color::YELLOW, L"Can't leave and enter. The player already doesn't exist in this room");
 		return;
+	}
 
 	/* 이동을 원하는 방과의 경로 파악 */
 
@@ -167,7 +176,10 @@ void Room::LeaveToRoot(ObjectRef object)
 
 	RoomBaseRef parentRoom = _parentRoom.lock();
 	if (_parentRoom.lock() == nullptr)
+	{
+		GConsoleLogger->WriteStdOut(Color::YELLOW, L"Player can't leave anymore becase of no parent room");
 		return;
+	}
 
 	parentRoom->DoAsync(&RoomBase::LeaveToRoot, object);
 }
@@ -191,7 +203,10 @@ void Room::LeaveAlongPath(ObjectRef object, uint8 leaveCount, xStack<RoomBaseRef
 
 		RoomBaseRef nextRoom = _parentRoom.lock();
 		if (nextRoom == nullptr)
+		{
+			GConsoleLogger->WriteStdOut(Color::YELLOW, L"Player can't leave anymore becase of no parent room");
 			return;
+		}
 
 		nextRoom->DoAsync(&RoomBase::LeaveAlongPath, object, --leaveCount, enterPath);
 	}
@@ -204,6 +219,8 @@ void Room::EnterAlongPath(ObjectRef object, xStack<RoomBaseRef> enterPath)
 		// 방 닫힘으로 인해 이동 실패 전송
 		if (object->IsPlayer() == true)
 		{
+			GConsoleLogger->WriteStdOut(Color::WHITE, L"Player can't enter anymore becase target room is closed. Alternatively, the player is moved to the lobby");
+
 			Protocol::S_CHANGE_MAP changeMapPkt;
 			changeMapPkt.set_success(false);
 			SEND_S_PACKET(std::static_pointer_cast<Player>(object)->ownerSession, changeMapPkt);
@@ -227,11 +244,17 @@ void Room::MoveObject(ObjectRef object, Protocol::C_MOVE pkt)
 {
 	const uint64 objectId = object->objectBaseInfo->object_id();
 	if (_objects.find(objectId) == _objects.end())
+	{
+		GConsoleLogger->WriteStdOut(Color::YELLOW, L"The object cannot move because it is out");
 		return;
+	}
 
 	MovementComponentRef movementComponent = object->FindComponent<MovementComponent>();
 	if (movementComponent == nullptr)
+	{
+		GConsoleLogger->WriteStdOut(Color::YELLOW, L"The object isn't movable object");
 		return;
+	}
 
 	// TODO : 이동 변화량 검사
 
@@ -272,53 +295,67 @@ void Room::FindPathToRoom(RoomRef& targetRoom, OUT xQueue<RoomBaseRef>& leavePat
 *********************/
 
 const float ConnectionRoom::MAX_PING = 500.f;
+const uint64 ConnectionRoom::MAX_PLAYER_NUM = 1000;
+const uint64 ConnectionRoom::HEART_BEAT_WAIT_MS = 5000llu;
+const uint64 ConnectionRoom::DENCITY_TICK_MS = 10000llu;
 
-void ConnectionRoom::FindDBData(GameSessionRef gameSession, int32 dbId)
+void ConnectionRoom::TryToVerification(GameSessionRef gameSession, int32 accountId, xString tokenValue)
 {
 	PlayerDataProtectorRef playerData = gameSession->playerDataProtector;
 	if (playerData->_state != PlayerDataProtector::STATE::EMPTY)
 		return;
 
-	// DB Request 전송
-	DBPlayerTaskExecutorRef playerTaskExecutor = GDBManager->GetPlayerTaskExecutor();
-	playerTaskExecutor->DoAsync(&DBPlayerTaskExecutor::GetSelectablePlayers, gameSession, dbId);
+	/* 서버 상태 검사 */
+
+	if (GetDecity() >= 0.99f)
+	{
+		Protocol::S_LOGIN loginPkt;
+		loginPkt.set_result(Protocol::LOGIN_RESULT_ERROR_FULL_SERVER);
+		SEND_S_PACKET(gameSession, loginPkt);
+		gameSession->Disconnect(L"Disconnection beacuse of busy server");
+		//GRoomManager->GetConnectionRoom()->DoTimer(2000ull, ([gameSession] { gameSession->Disconnect(L"Reserved disconnection beacuse of busy server"); }));
+
+		return;
+	}
+	activeSessionCount++;
+
+	playerData->_state = PlayerDataProtector::STATE::READY;
+	GDBManager->GetPlayerTaskExecutor()->DoAsync(&DBPlayerTaskExecutor::GetVerifiedAccount, gameSession, accountId, tokenValue);
 }
 
-void ConnectionRoom::DeliverDBData(GameSessionRef gameSession, xVector<int32> ids, xVector<xString> names, xVector<TIMESTAMP_STRUCT> dates)
+void ConnectionRoom::LoadPlayerDatas(GameSessionRef gameSession, int32 accountId, xVector<Protocol::ObjectInfo> ObjectInfos)
 {
 	PlayerDataProtectorRef playerData = gameSession->playerDataProtector;
-	if (playerData->_state != PlayerDataProtector::STATE::EMPTY)
+	if (playerData->_state != PlayerDataProtector::STATE::READY)
 		return;
 
+	/* Player 데이터를 로드해 로컬 복사 */
+
+	playerData->_accountId = accountId;
+
 	Protocol::S_LOGIN loginPkt;
-	loginPkt.set_success(true);
-
-	for (int32 i = 0; i < ids.size(); i++)
+	loginPkt.set_result(Protocol::LOGIN_RESULT_SUCCESS);
+	for (Protocol::ObjectInfo& ObjectInfo : ObjectInfos)
 	{
-		{
-			/* 캐릭터 정보 저장 (휘발성) */
+		PlayerRef playerRef = ObjectUtils::CreatedPlayer(gameSession, ObjectInfo.object_base_info().object_id());
+		playerData->_players.push_back(playerRef);
+		playerRef->playerDetailInfo->CopyFrom(ObjectInfo.player_detail_info());
 
-			PlayerRef playerRef = ObjectUtils::CreatedPlayer(gameSession, ids[0]);
-			playerData->_players.push_back(playerRef);
-			playerRef->playerDetailInfo->set_name(std::string(names[0]));
+		playerRef->posInfo->set_x(0.f);
+		playerRef->posInfo->set_y(0.f);
+		playerRef->posInfo->set_z(0.f);
+		playerRef->posInfo->set_pitch(0.f);
+		playerRef->posInfo->set_yaw(0.f);
+		playerRef->posInfo->set_roll(0.f);
 
-			// TODO : 초기 로비 위치 설정
-			playerRef->posInfo->set_x(0.f);
-			playerRef->posInfo->set_y(0.f);
-			playerRef->posInfo->set_z(0.f);
-			playerRef->posInfo->set_pitch(0.f);
-			playerRef->posInfo->set_yaw(0.f);
-			playerRef->posInfo->set_roll(0.f);
-
-			/* 긁어온 캐릭터 정보 패킷에 넣어주기 */
-
-			auto player = loginPkt.add_players();
-			player->set_object_id(playerRef->objectBaseInfo->object_id());
-			player->set_name(playerRef->playerDetailInfo->name());
-		}
+		Protocol::PlayerSelectInfo* playerSelectInfo = loginPkt.add_players();
+		playerSelectInfo->set_object_id(playerRef->objectBaseInfo->object_id());
+		playerSelectInfo->set_name(playerRef->playerDetailInfo->name());
+		playerSelectInfo->set_costume_setting(playerRef->playerDetailInfo->costume_setting());
 	}
 
 	playerData->_state = PlayerDataProtector::STATE::LOADED;
+	playerData->isVerified.store(true);
 	SEND_S_PACKET(gameSession, loginPkt);
 }
 
@@ -345,7 +382,7 @@ void ConnectionRoom::SelectPlayer(PlayerDataProtectorRef playerData, uint64 inde
 
 void ConnectionRoom::DeleteLocalData(PlayerDataProtectorRef playerData)
 {
-	if (playerData->_state == PlayerDataProtector::STATE::DELETED)
+	if (playerData->_state == PlayerDataProtector::STATE::DELETED || playerData->_state == PlayerDataProtector::STATE::EMPTY)
 		return;
 	
 	/* 순환 참조를 끊기 위해 룸의 Player Contanier의 멤버를 제거 */
@@ -353,6 +390,8 @@ void ConnectionRoom::DeleteLocalData(PlayerDataProtectorRef playerData)
 	PlayerRef currentPlayer = playerData->currentPlayer.exchange(nullptr);
 	if (currentPlayer)
 	{
+		GConsoleLogger->WriteStdOut(Color::WHITE, L"The %s player will delete", currentPlayer->playerDetailInfo->name());
+
 		if (Leave(currentPlayer) == false)
 			return;
 
@@ -362,18 +401,18 @@ void ConnectionRoom::DeleteLocalData(PlayerDataProtectorRef playerData)
 			ObjectRef currentObject = std::static_pointer_cast<Object>(currentPlayer);
 			room->DoAsync(&Room::LeaveToRoot, currentObject);
 		}
+	}
+	activeSessionCount--;
 
-		// 클라이언트에게 종료 알림
-		{
-			Protocol::S_LEAVE_GAME leaveGamePkt;
-			leaveGamePkt.set_object_id(currentPlayer->objectBaseInfo->object_id());
-			SEND_S_PACKET(currentPlayer->ownerSession, leaveGamePkt);
-		}
+	if (playerData->_accountId != 0)
+	{
+		GDBManager->GetPlayerTaskExecutor()->DoAsync(&DBPlayerTaskExecutor::ClearVerifiedAccount, playerData->_accountId);
 	}
 
 	/* 순환 참조를 끊기 위해 멤버 비우기 */ 
 
 	playerData->_players.clear();
+	playerData->isVerified.store(false);
 	playerData->_state = PlayerDataProtector::STATE::DELETED;
 }
 
@@ -414,7 +453,14 @@ void ConnectionRoom::RestartHeartBeat(GameSessionRef gameSession)
 	}
 	playerData->_isMeasuringPing = false;
 
-	this->DoTimer(500llu, &ConnectionRoom::StartHeartBeat, gameSession);
+	this->DoTimer(HEART_BEAT_WAIT_MS, &ConnectionRoom::StartHeartBeat, gameSession);
+}
+
+void ConnectionRoom::UpdateServerDencityTick()
+{
+	GDBManager->GetPlayerTaskExecutor()->DoAsync(&DBPlayerTaskExecutor::UpdateServerInfo, GetDecity());
+
+	this->DoTimer(DENCITY_TICK_MS, &ConnectionRoom::UpdateServerDencityTick);
 }
 
 void ConnectionRoom::ChangeRoomData(ObjectRef object, xStack<RoomBaseRef> enterPath)
@@ -433,10 +479,16 @@ void ConnectionRoom::ChangeRoomData(ObjectRef object, xStack<RoomBaseRef> enterP
 
 	RoomRef targetRoom = std::static_pointer_cast<Room>(enterPath._Get_container().front());
 	if (targetRoom == nullptr)
+	{
+		GConsoleLogger->WriteStdOut(Color::YELLOW, L"Player can't change room becase of no target room");
 		return;
+	}
 	RoomRef room = player->ownerRoom.exchange(std::weak_ptr<Room>(targetRoom)).lock();
 	if (room == nullptr)
+	{
+		GConsoleLogger->WriteStdOut(Color::YELLOW, L"Player can't change room becase previous room doesn't exist");
 		return;
+	}
 
 	/* 방 입장 시작 */
 
@@ -481,6 +533,11 @@ bool ConnectionRoom::Leave(ObjectRef object)
 	return true;
 }
 
+float ConnectionRoom::GetDecity()
+{
+	return std::clamp(activeSessionCount / static_cast<float>(MAX_PLAYER_NUM), 0.f, 1.f); // 0 ~ 1 사이 Dencity 비율 전송
+}
+
 /*********************
 	 GameMatchRoom
 *********************/
@@ -493,6 +550,8 @@ GameMatchRoom::GameMatchRoom(const uint32 id, const xString name) : RoomBase(), 
 	_leagueInstance = MakeXShared<LeagueInstance>();
 
 	_playerCount.store(0);
+
+	GConsoleLogger->WriteStdOut(Color::WHITE, L"New game match room is created");
 }
 
 const uint8 GameMatchRoom::GetPlayerCount()
@@ -551,6 +610,8 @@ bool GameMatchRoom::Leave(ObjectRef object)
 	{
 		_isClosure = true;
 		GRoomManager->Remove(std::static_pointer_cast<GameMatchRoom>(GetRoomBaseRef()));
+
+		GConsoleLogger->WriteStdOut(Color::WHITE, L"Game match room is empty. It will be deleted soon");
 	}
 
 	GRoomManager->GetConnectionRoom()->DoAsync(&ConnectionRoom::ChangeMatchRoomData, object, GameMatchRoomRef(nullptr));
@@ -563,6 +624,8 @@ void GameMatchRoom::StartGameMatch()
 	if (_isClosure == true)
 		return;
 	_isClosure = true;
+
+	GConsoleLogger->WriteStdOut(Color::WHITE, L"Game match room is started");
 
 	// 팀 데이터 생성
 	for (auto& object : _objects)
@@ -682,7 +745,10 @@ void GameMatchRoom::LeaveToRoot(ObjectRef object)
 	// 부모의 방도 연속해서 나가기
 	RoomBaseRef parentRoom = _parentRoom.lock();
 	if (_parentRoom.lock() == nullptr)
+	{
+		GConsoleLogger->WriteStdOut(Color::YELLOW, L"Player can't leave anymore becase of no parent room");
 		return;
+	}
 
 	parentRoom->DoAsync(&RoomBase::LeaveToRoot, object);
 }
@@ -705,7 +771,10 @@ void GameMatchRoom::LeaveAlongPath(ObjectRef object, uint8 leaveCount, xStack<Ro
 
 		RoomBaseRef nextRoom = _parentRoom.lock();
 		if (nextRoom == nullptr)
+		{
+			GConsoleLogger->WriteStdOut(Color::YELLOW, L"Player can't leave anymore becase of no parent room");
 			return;
+		}
 
 		nextRoom->DoAsync(&RoomBase::LeaveAlongPath, object, --leaveCount, enterPath);
 	}
@@ -718,6 +787,8 @@ void GameMatchRoom::EnterAlongPath(ObjectRef object, xStack<RoomBaseRef> enterPa
 		// 방 닫힘으로 인해 이동 실패 전송
 		if (object->IsPlayer() == true)
 		{
+			GConsoleLogger->WriteStdOut(Color::WHITE, L"Player can't enter anymore becase target room is closed. Alternatively, the player is moved to the lobby");
+
 			Protocol::S_CHANGE_MAP changeMapPkt;
 			changeMapPkt.set_success(false);
 			SEND_S_PACKET(std::static_pointer_cast<Player>(object)->ownerSession, changeMapPkt);

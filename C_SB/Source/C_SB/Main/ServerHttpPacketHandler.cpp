@@ -2,6 +2,9 @@
 #include "C_SB.h"
 #include "SBWebNetworkManager.h"
 
+#include "SBNetworkManager.h"
+#include "ServerPacketHandler.h"
+
 DEFINE_LOG_CATEGORY(LogHttpHandler);
 
 /*************************
@@ -9,6 +12,15 @@ DEFINE_LOG_CATEGORY(LogHttpHandler);
 *************************/
 
 const FString ServerHttpPacketHandler::s_BaseUrl = TEXT("https://localhost:5202/account");
+
+USBWebNetworkManager* const ServerHttpPacketHandler::GetWebNetworkManager()
+{
+	if (const UGameInstance* GameInstance = Utils::GetGameInstance())
+	{
+		return GameInstance->GetSubsystem<USBWebNetworkManager>();
+	}
+	return nullptr;
+}
 
 bool ServerHttpPacketHandler::DebugHttpFailPkt(FHttpRequestPtr& Request, FHttpResponsePtr& Response)
 {
@@ -34,22 +46,13 @@ bool ServerHttpPacketHandler::DebugHttpFailPkt(FHttpRequestPtr& Request, FHttpRe
 	return false;
 }
 
-USBWebNetworkManager* const ServerHttpPacketHandler::GetWebNetworkManager()
-{
-	if (const UGameInstance* GameInstance = Utils::GetGameInstance())
-	{
-		return GameInstance->GetSubsystem<USBWebNetworkManager>();
-	}
-	return nullptr;
-}
-
-void ServerHttpPacketHandler::RecvReqCheckExistsAccount(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+void ServerHttpPacketHandler::RecvReqCheckExistsAccount(FHttpRequestPtr Request, FHttpResponsePtr Response, bool WasSuccessful)
 {
 	USBWebNetworkManager* WebNetworkManager = GetWebNetworkManager();
 	if (WebNetworkManager == nullptr)
 		return;
 
-	if (bWasSuccessful == false)
+	if (WasSuccessful == false)
 	{
 #if UE_BUILD_DEVELOPMENT
 		DebugHttpFailPkt(Request, Response);
@@ -71,16 +74,16 @@ void ServerHttpPacketHandler::RecvReqCheckExistsAccount(FHttpRequestPtr Request,
 		return;
 	}
 
-	WebNetworkManager->ResponseToCheckUsableId(ResPkt);
+	WebNetworkManager->ResponseToCheckUsableName(ResPkt);
 }
 
-void ServerHttpPacketHandler::RecvReqCreateAccount(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+void ServerHttpPacketHandler::RecvReqCreateAccount(FHttpRequestPtr Request, FHttpResponsePtr Response, bool WasSuccessful)
 {
 	USBWebNetworkManager* WebNetworkManager = GetWebNetworkManager();
 	if (WebNetworkManager == nullptr)
 		return;
 
-	if (bWasSuccessful == false)
+	if (WasSuccessful == false)
 	{
 #if UE_BUILD_DEVELOPMENT
 		DebugHttpFailPkt(Request, Response);
@@ -105,13 +108,13 @@ void ServerHttpPacketHandler::RecvReqCreateAccount(FHttpRequestPtr Request, FHtt
 	WebNetworkManager->ResponseToSignUp(ResPkt);
 }
 
-void ServerHttpPacketHandler::RecvReqLoginAccount(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+void ServerHttpPacketHandler::RecvReqLoginAccount(FHttpRequestPtr Request, FHttpResponsePtr Response, bool WasSuccessful)
 {
 	USBWebNetworkManager* WebNetworkManager = GetWebNetworkManager();
 	if (WebNetworkManager == nullptr)
 		return;
 
-	if (bWasSuccessful == false)
+	if (WasSuccessful == false)
 	{
 #if UE_BUILD_DEVELOPMENT
 		DebugHttpFailPkt(Request, Response);
@@ -134,4 +137,53 @@ void ServerHttpPacketHandler::RecvReqLoginAccount(FHttpRequestPtr Request, FHttp
 	}
 
 	WebNetworkManager->ResponseToLogin(ResPkt);
+
+	USBNetworkManager* NetworkManager = ServerPacketHandler::GetNetworkManager();
+	if (NetworkManager == nullptr)
+		return;
+
+	NetworkManager->HandleReadyToConnect(ResPkt);
+}
+
+void ServerHttpPacketHandler::RecvReqLoginGoogleAccount(FHttpRequestPtr Request, FHttpResponsePtr Response, bool WasSuccessful)
+{
+	RecvReqLoginAccount(Request, Response, WasSuccessful);
+}
+
+void ServerHttpPacketHandler::RecvReqRecheckServer(FHttpRequestPtr Request, FHttpResponsePtr Response, bool WasSuccessful)
+{
+	USBWebNetworkManager* WebNetworkManager = GetWebNetworkManager();
+	if (WebNetworkManager == nullptr)
+		return;
+
+	if (WasSuccessful == false)
+	{
+#if UE_BUILD_DEVELOPMENT
+		DebugHttpFailPkt(Request, Response);
+#endif
+		WebNetworkManager->ErrorFromRecheck(TEXT("네트워크 오류"));
+		return;
+	}
+
+	Protocol::RES_RECHECK_SERVER ResPkt;
+	if (ParseBodyToPkt(Response, OUT ResPkt) == false)
+	{
+		WebNetworkManager->ErrorFromRecheck(TEXT("파싱 오류"));
+		return;
+	}
+
+	if (ResPkt.success() == false)
+	{
+		WebNetworkManager->ErrorFromRecheck(TEXT("계정 재로그인 필요"));
+		WebNetworkManager->ResponseToLogOut();
+		return;
+	}
+
+	WebNetworkManager->ResponseToRecheck(ResPkt);
+
+	USBNetworkManager* NetworkManager = ServerPacketHandler::GetNetworkManager();
+	if (NetworkManager == nullptr)
+		return;
+
+	NetworkManager->HandleRefreshServer(ResPkt);
 }

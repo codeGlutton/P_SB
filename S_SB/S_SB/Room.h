@@ -125,19 +125,21 @@ private:
 class ConnectionRoom final : public RoomBase
 {
 public:
-	ConnectionRoom() : RoomBase()
+	ConnectionRoom() : RoomBase(), activeSessionCount(0)
 	{
 	}
 
 	/* thread-unsafe (jobQ로 보호)  */
 
-	void								FindDBData(GameSessionRef gameSession, int32 dbId);
-	void								DeliverDBData(GameSessionRef gameSession, xVector<int32> ids, xVector<xString> names, xVector<TIMESTAMP_STRUCT> dates);
+	void								TryToVerification(GameSessionRef gameSession, int32 accountId, xString tokenValue);
+	void								LoadPlayerDatas(GameSessionRef gameSession, int32 accountId, xVector<Protocol::ObjectInfo> ObjectInfos);
 	void								SelectPlayer(PlayerDataProtectorRef playerData, uint64 index);
 	void								DeleteLocalData(PlayerDataProtectorRef playerData);
 
 	void								StartHeartBeat(GameSessionRef gameSession);
 	void								RestartHeartBeat(GameSessionRef gameSession);
+
+	void								UpdateServerDencityTick();
 
 	// (직접적인 호출 금지) 플레이어의 현재 방 정보를 교환 및 입장 시작
 	void								ChangeRoomData(ObjectRef object, xStack<RoomBaseRef> enterPath);
@@ -148,9 +150,20 @@ protected:
 	bool								Enter(ObjectRef object);
 	bool								Leave(ObjectRef object);
 
+	float								GetDecity();
+
+protected:
+	// 인증을 마친 세션 수 (캐릭터 선택창 인원 + 인 게임 내 인원)
+	uint64								activeSessionCount;
+
 protected:
 	// RTT 핑 연산에서 계산에 활용되지 않을 이상치 기준
 	static const float					MAX_PING;
+
+	static const uint64					MAX_PLAYER_NUM;
+
+	static const uint64					HEART_BEAT_WAIT_MS;
+	static const uint64					DENCITY_TICK_MS;
 };
 
 /*********************

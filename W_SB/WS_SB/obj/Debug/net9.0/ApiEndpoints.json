@@ -46,5 +46,37 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WS_SB.Controllers.AccountController",
+    "Method": "HandleReqLoginGoogleAccount",
+    "RelativePath": "Account/ReqLoginGoogleAccount",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pkt",
+        "Type": "Google.Protobuf.HttpProtocol.REQ_LOGIN_GOOGLE_ACCOUNT",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WS_SB.Controllers.AccountController",
+    "Method": "HandleReqRecheckServer",
+    "RelativePath": "Account/ReqRecheckServer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pkt",
+        "Type": "Google.Protobuf.HttpProtocol.REQ_RECHECK_SERVER",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

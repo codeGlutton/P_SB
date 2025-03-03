@@ -138,3 +138,16 @@ enum TeamMatchType
 	TEAM_MATCH_TYPE_PLAYOFF = 3;
 	TEAM_MATCH_TYPE_FINAL = 4;
 }
+
+///////////////
+// 패킷 결과 //
+///////////////
+
+enum LoginResult
+{
+	LOGIN_RESULT_NONE = 0;
+	LOGIN_RESULT_SUCCESS = 1;
+	LOGIN_RESULT_ERROR_FULL_SERVER = 2;
+	LOGIN_RESULT_ERROR_INVALID_TOKEN = 3;
+	LOGIN_RESULT_ERROR_ACCOUNT_EXIST = 4;
+}

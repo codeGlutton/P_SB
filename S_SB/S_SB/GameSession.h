@@ -10,17 +10,20 @@
 class PlayerDataProtector
 {
 public:
-	PlayerDataProtector() : currentPlayer(), rtt(0.f), _players(), _state(STATE::EMPTY), _startPingTime(), _isMeasuringPing(false) { }
+	PlayerDataProtector() : currentPlayer(), isVerified(false), rtt(0.f), _accountId(), _players(), _state(STATE::EMPTY), _startPingTime(), _isMeasuringPing(false) {}
 
 public:
 	std::atomic<PlayerRef>					currentPlayer;
+	std::atomic<bool>						isVerified;
 	float									rtt;
 
 private:
+	int32									_accountId;
 	xVector<PlayerRef>						_players;
 	enum STATE : uint8 
 	{
 		EMPTY,
+		READY,
 		LOADED,
 		FULL,
 		DELETED
@@ -56,4 +59,8 @@ public:
 
 public:
 	PlayerDataProtectorRef				playerDataProtector;
+
+private:
+	// Connect 후 JWT 인증 절차 제한시간
+	static const uint64					AUTH_TIMEOUT_MS;
 };

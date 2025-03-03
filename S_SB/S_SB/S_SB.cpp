@@ -17,7 +17,7 @@
 
 #include "TableRow.h"
 
-#include <sw/redis++/redis++.h>
+// #include <sw/redis++/redis++.h>
 
 enum
 {
@@ -61,15 +61,21 @@ void DoDBWorkerJob()
 
 int main()
 {
+	ClientPacketHandler::Init();
+
+	 /* Create Singleton */
+
 	GSessionManager = xnew<GameSessionManager>();
 
-	GDBManager = xnew<DBManager>();
 	GDataTable = xnew<DataTable>();
 
+	GDBManager = xnew<DBManager>();
 	GRoomManager = xnew<RoomManager>();
-	GRoomManager->Init();
 
-	ClientPacketHandler::Init();
+	/* Init Singleton */
+
+	GDBManager->Init();
+	GRoomManager->Init();
 
 #pragma region RedisTestCode
 	//try

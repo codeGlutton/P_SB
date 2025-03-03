@@ -28,8 +28,11 @@ using LockGuard				= std::lock_guard<std::mutex>;
 
 #define USING_SHARED_PTR(name) using name##Ref = std::shared_ptr<class name>
 #define USING_SHARED_PTR_IN_NAMESPACE(space, name) namespace space { USING_SHARED_PTR(name); }
+#define USING_SHARED_PTR_IN_TWO_NAMESPACE(space1, space2, name) namespace space1 { USING_SHARED_PTR_IN_NAMESPACE(space2, name) }
+
 #define USING_CONST_SHARED_PTR(name) using name##ConstRef = std::shared_ptr<const class name>
 #define USING_CONST_SHARED_PTR_IN_NAMESPACE(space, name) namespace space { USING_CONST_SHARED_PTR(name); }
+#define USING_CONST_SHARED_PTR_IN_TWO_NAMESPACE(space1, space2, name) namespace space1 { USING_CONST_SHARED_PTR_IN_NAMESPACE(space2, name); }
 
 USING_SHARED_PTR(IocpCore);
 USING_SHARED_PTR(IocpObject);

@@ -1,4 +1,4 @@
-#include "NetworkWorker.h"
+﻿#include "NetworkWorker.h"
 #include "C_SB.h"
 
 #include "Sockets.h"
@@ -6,6 +6,8 @@
 #include "Engine/Engine.h"
 
 #include "PacketSession.h"
+
+DEFINE_LOG_CATEGORY(LogNetWorker);
 
 /************************
 		RecvWorker
@@ -18,11 +20,12 @@ RecvWorker::RecvWorker(FSocket* Socket, PacketSessionRef Session) : _Socket(Sock
 
 RecvWorker::~RecvWorker()
 {
+	delete _Thread;
 }
 
 bool RecvWorker::Init()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Recv Thread Init")));
+	UE_LOG(LogNetWorker, Log, TEXT("Recv Thread Init"));
 
 	return true;
 }
@@ -61,31 +64,48 @@ bool RecvWorker::ReceivePacket(TArray<uint8>& OutPacket)
 	const int32 HeaderSize = sizeof(FPacketHeader);
 	OutPacket.AddZeroed(HeaderSize);
 
-	if (ReceiveDesiredBytes(OutPacket.GetData(), HeaderSize) == false)
+	int32 RecvHeaderSize;
+	if (ReceiveDesiredBytes(OutPacket.GetData(), HeaderSize, RecvHeaderSize) == false)
+	{
 		return false;
+	}
+	// Disconnect Pkt
+	if (RecvHeaderSize == 0)
+	{
+		OutPacket.Empty();
+		return true;
+	}
 
 	FPacketHeader* Header = reinterpret_cast<FPacketHeader*>(OutPacket.GetData());
 	{
-		UE_LOG(LogTemp, Log, TEXT("Recv Packet ID : %d, PacketSize : %d"), Header->PacketId, Header->PacketSize);
+		UE_LOG(LogNetWorker, Log, TEXT("Recv Packet ID : %d, PacketSize : %d"), Header->PacketId, Header->PacketSize);
 	}
 
 	const int32 PayloadSize = Header->PacketSize - HeaderSize;
 	OutPacket.AddZeroed(PayloadSize);
 
 	if (PayloadSize == 0)
+	{
 		return true;
+	}
 
-	if (ReceiveDesiredBytes(&OutPacket[HeaderSize], PayloadSize) == false)
+	int32 RecvPayloadSize;
+	if (ReceiveDesiredBytes(&OutPacket[HeaderSize], PayloadSize, RecvPayloadSize) == false)
+	{
 		return false;
+	}
 
 	return true;
 }
 
-bool RecvWorker::ReceiveDesiredBytes(uint8* Results, int32 Size)
+bool RecvWorker::ReceiveDesiredBytes(uint8* Results, int32 Size, OUT int32& RecvSize)
 {
 	uint32 PendingDataSize;
 	if (_Socket->HasPendingData(PendingDataSize) == false || PendingDataSize <= 0)
+	{
+		RecvSize = 0;
 		return false;
+	}
 
 	int32 Offset = 0;
 	while (Size > 0)
@@ -94,13 +114,18 @@ bool RecvWorker::ReceiveDesiredBytes(uint8* Results, int32 Size)
 		_Socket->Recv(Results + Offset, Size, OUT NumRead);
 		check(NumRead <= Size);
 
+		// Disconnect Pkt
 		if (NumRead <= 0)
-			return false;
+		{
+			RecvSize = 0;
+			return true;
+		}
 
 		Offset += NumRead;
 		Size -= NumRead;
 	}
 
+	RecvSize = Offset;
 	return true;
 }
 
@@ -115,11 +140,12 @@ SendWorker::SendWorker(FSocket* Socket, PacketSessionRef Session) : _Socket(Sock
 
 SendWorker::~SendWorker()
 {
+	delete _Thread;
 }
 
 bool SendWorker::Init()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Send Thread Init")));
+	UE_LOG(LogNetWorker, Log, TEXT("Send Thread Init"));
 
 	return true;
 }

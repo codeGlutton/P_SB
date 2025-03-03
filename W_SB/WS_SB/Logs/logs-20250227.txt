@@ -1,0 +1,6 @@
+2025-02-27 22:59:29.249 +09:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-02-27 22:59:29.431 +09:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Staging
+2025-02-27 22:59:29.436 +09:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\vsProjs\P_SB\W_SB\WS_SB
+2025-02-27 23:02:54.153 +09:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-02-27 23:02:54.224 +09:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Staging
+2025-02-27 23:02:54.228 +09:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\vsProjs\P_SB\W_SB\WS_SB

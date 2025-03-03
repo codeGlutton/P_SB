@@ -27,9 +27,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="CopyList\" />
     <Folder Include="Templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CopyList\ByteConverters.h" />
     <Content Include="Templates\PacketHandler.h">
       <SubType>Code</SubType>
     </Content>

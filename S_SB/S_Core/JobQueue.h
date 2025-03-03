@@ -21,10 +21,10 @@ public:
 		Push(ObjectPool<Job>::MakeXShared(owner, memFunc));
 	}
 	template<typename T, typename Ret, typename... Args>
-	void DoAsync(Ret(T::* memFunc)(Args...), Args... args)
+	void DoAsync(Ret(T::* memFunc)(Args...), const Args&... args)
 	{
 		std::shared_ptr<T> owner = std::static_pointer_cast<T>(shared_from_this());
-		Push(ObjectPool<Job>::MakeXShared(owner, memFunc, std::forward<Args>(args)...));
+		Push(ObjectPool<Job>::MakeXShared(owner, memFunc, args...));
 	}
 	template<typename T, typename Ret, typename... Args>
 	void DoAsync(Ret(T::* memFunc)(Args...), Args&&... args)
@@ -49,10 +49,10 @@ public:
 		GJobTimer->Reserve(timeAfter, shared_from_this(), job);
 	}
 	template<typename T, typename Ret, typename... Args>
-	void DoTimer(uint64 timeAfter, Ret(T::* memFunc)(Args...), Args... args)
+	void DoTimer(uint64 timeAfter, Ret(T::* memFunc)(Args...), const Args&... args)
 	{
 		std::shared_ptr<T> owner = std::static_pointer_cast<T>(shared_from_this());
-		JobRef job = ObjectPool<Job>::MakeXShared(owner, memFunc, std::forward<Args>(args)...);
+		JobRef job = ObjectPool<Job>::MakeXShared(owner, memFunc, args...);
 		GJobTimer->Reserve(timeAfter, shared_from_this(), job);
 	}
 	template<typename T, typename Ret, typename... Args>

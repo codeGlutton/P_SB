@@ -1,8 +1,10 @@
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "Types.h"
 #include "Containers/Queue.h"
+
+namespace Protocol { class ServerSelectInfo; }
 
 /************************
 	   FPacketHeader
@@ -36,25 +38,39 @@ struct C_SB_API FPacketHeader
 class C_SB_API PacketSession : public TSharedFromThis<PacketSession>
 {
 public:
-	PacketSession(class USBNetworkManager* Owner, class FSocket* Socket);
+	PacketSession();
 	virtual ~PacketSession();
 
 public:
-	void							HandleRecvPackets();
+	void								HandleRecvPackets();
 
-	void							SendPacket(SendBufferRef SendBuffer);
+	void								SendPacket(SendBufferRef SendBuffer);
 
-	void							Run();
-	void							Disconnect();
+	bool								Connect(Protocol::ServerSelectInfo& ServerInfo, OUT FString& SocketError);
+	void								Run();
+	void								Disconnect();
 
-	virtual void					OnConnected();
+	const Protocol::ServerSelectInfo&	GetCurrentServerInfo();
 
 public:
-	class USBNetworkManager*		Owner;
-	class FSocket*					Socket;
-	RecvWorkerRef					RecvWorkerThread;
-	SendWorkerRef					SendWorkerThread;
-	
-	TQueue<TArray<uint8>>			RecvPacketQueue;
-	TQueue<SendBufferRef>			SendPacketQueue;
+	float								Rtt;
+
+	TQueue<TArray<uint8>>				RecvPacketQueue;
+	TQueue<SendBufferRef>				SendPacketQueue;
+
+	enum EState : uint8
+	{
+		EMPTY,
+		READY,
+		CONNECTED,
+		VERIFIED,
+		PLAYED
+	}									State;
+
+private:
+	Protocol::ServerSelectInfo*			_CurServerInfo;
+
+	class FSocket*						_Socket;
+	RecvWorkerRef						_RecvWorkerThread;
+	SendWorkerRef						_SendWorkerThread;
 };

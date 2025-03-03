@@ -1,13 +1,9 @@
-﻿using Google.Protobuf;
-using Google.Protobuf.HttpProtocol;
-using Google.Protobuf.Protocol;
-using Google.Protobuf.Struct;
-using Microsoft.AspNetCore.Http;
+﻿using Google.Protobuf.HttpProtocol;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using StackExchange.Redis;
-using System.Net;
-using WS_SB.DB;
+using System.Text;
+using System.Web;
+using WS_SB.Models;
+using WS_SB.Services;
 
 namespace WS_SB.Controllers
 {
@@ -15,92 +11,124 @@ namespace WS_SB.Controllers
     [ApiController]
     public class AccountController : BaseProtobufController
     {
-        private readonly ApplicationDbContext _context;
+        /* Dependency Injection */
 
-        private readonly ILogger _logger;
-        private readonly IConnectionMultiplexer _cache;
+        private readonly AccountService _accountService;
 
-        public AccountController(ApplicationDbContext context, ILoggerFactory loggerFactory, IConnectionMultiplexer cache)
+        public AccountController(AccountService accountService)
         {
-            _context = context;
-            _logger = loggerFactory.CreateLogger("Account");
-            _cache = cache;
+            _accountService = accountService;
         }
 
+        /* Http 함수 */
+
         [HttpPost("ReqCheckExistsAccount")]
-        public override IActionResult HandleReqCheckExistsAccount([FromBody] REQ_CHECK_EXISTS_ACCOUNT pkt)
+        public override async Task<IActionResult> HandleReqCheckExistsAccount([FromBody] REQ_CHECK_EXISTS_ACCOUNT pkt)
         {
             var res = new RES_CHECK_EXISTS_ACCOUNT();
 
-            AccountDB? account = _context.Accounts
-                                    .AsNoTracking()
-                                    .Where(row => row.AccountName == pkt.AccountName)
-                                    .FirstOrDefault();
+            /* 패킷 검증 */
 
-            if (account == null)
+            if (_accountService.ValidateLocalSignUpInfo(pkt.AccountName) == false)
             {
-                res.Success = true;
-            }
-            else
-            {
-                _logger.LogTrace("{0} account was already created", account.AccountName);
                 res.Success = false;
+                return Ok(res);
             }
 
+            res.Success = !(await _accountService.IsExistLocalAccount(pkt.AccountName));
             return Ok(res);
         }
 
         [HttpPost("ReqCreateAccount")]
-        public override IActionResult HandleReqCreateAccount([FromBody] REQ_CREATE_ACCOUNT pkt)
+        public override async Task<IActionResult> HandleReqCreateAccount([FromBody] REQ_CREATE_ACCOUNT pkt)
         {
             var res = new RES_CREATE_ACCOUNT();
 
-            AccountDB? account = _context.Accounts
-                                    .AsNoTracking()
-                                    .Where(row => row.AccountName == pkt.AccountName)
-                                    .FirstOrDefault();
+            /* 패킷 검증 */
 
-            if (account == null)
+            if (_accountService.ValidateLocalSignUpInfo(pkt.AccountName, pkt.Password) == false)
             {
-                _context.Accounts.Add(new AccountDB()
-                {
-                    AccountName = pkt.AccountName,
-                    Password = pkt.Password
-                });
-
-                res.Success = _context.SaveChangesEx();
-            }
-            else
-            {
-                _logger.LogTrace("{0} account was already created", account.AccountName);
                 res.Success = false;
+                return Ok(res);
             }
 
+            res.Success = await _accountService.CreateLocalAccount(pkt.AccountName, pkt.Password);
             return Ok(res);
         }
 
         [HttpPost("ReqLoginAccount")]
-        public override IActionResult HandleReqLoginAccount([FromBody] REQ_LOGIN_ACCOUNT pkt)
+        public override async Task<IActionResult> HandleReqLoginAccount([FromBody] REQ_LOGIN_ACCOUNT pkt)
         {
             var res = new RES_LOGIN_ACCOUNT();
 
-            AccountDB? account = _context.Accounts
-                                    .AsNoTracking()
-                                    .Where(row => row.AccountName == pkt.AccountName && row.Password == pkt.Password)
-                                    .FirstOrDefault();
+            /* 패킷 검증 */
 
-            if (account == null)
+            if (_accountService.ValidateLocalSignUpInfo(pkt.AccountName, pkt.Password) == false)
             {
-                _logger.LogTrace("Invaild login");
                 res.Success = false;
+                return Ok(res);
             }
-            else
+
+            /* 계정 DB 비교 */
+
+            AccountLoginData accountLoginData = await _accountService.LoginAccount(pkt.AccountName, pkt.Password);
+            if (accountLoginData == null)
             {
-                res.Success = true;
-
-                res.ServerList.Add(new ServerSelectInfo { Name = "TestName", Ip = "127.0.0.1", ClowdedLevel = 0 });
+                res.Success = false;
+                return Ok(res);
             }
 
+            res.AccountId = accountLoginData.AccountId;
+            res.TokenValue = accountLoginData.TokenValue;
+            if (accountLoginData.ServerList != null)
+            {
+                res.ServerList.AddRange(accountLoginData.ServerList);
+            }
+            res.Success = true;
+            return Ok(res);
+        }
+
+        [HttpPost("ReqLoginGoogleAccount")]
+        public override async Task<IActionResult> HandleReqLoginGoogleAccount([FromBody] REQ_LOGIN_GOOGLE_ACCOUNT pkt)
+        {
+            var res = new RES_LOGIN_ACCOUNT();
+            string authCode = HttpUtility.UrlDecode(pkt.AuthCode);
+
+            /* 구글 계정 확인 */
+
+            AccountLoginData accountLoginData = await _accountService.LoginGoogleAccount(authCode);
+            if (accountLoginData == null)
+            {
+                res.Success = false;
+                return Ok(res);
+            }
+
+            res.AccountId = accountLoginData.AccountId;
+            res.TokenValue = accountLoginData.TokenValue;
+            if (accountLoginData.ServerList != null)
+            {
+                res.ServerList.AddRange(accountLoginData.ServerList);
+            }
+            res.Success = true;
+            return Ok(res);
+        }
+
+        [HttpPost("ReqRecheckServer")]
+        public override async Task<IActionResult> HandleReqRecheckServer([FromBody] REQ_RECHECK_SERVER pkt)
+        {
+            var res = new RES_RECHECK_SERVER();
+
+            if (_accountService.ValidateToken(pkt.AccountId, pkt.TokenValue) == true)
+            {
+                var serverList = await _accountService.GetServerList();
+                if (serverList != null)
+                {
+                    res.ServerList.AddRange(serverList); 
+                }
+                res.Success = true;
+                return Ok(res);
+            }
+            res.Success = false;
             return Ok(res);
         }
     }

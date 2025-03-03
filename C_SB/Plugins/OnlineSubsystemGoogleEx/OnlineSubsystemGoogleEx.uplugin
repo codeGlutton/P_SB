@@ -1,0 +1,29 @@
+﻿{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "OnlineSubsystemGoogleEx",
+	"Description": "PKCE method google online subSystem for win64",
+	"Category": "Online Platform",
+	"CreatedBy": "hj mo",
+	"CreatedByURL": "",
+	"EnabledByDefault": false,
+	"CanContainContent": true,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "OnlineSubsystemGoogleEx",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [
+				"Win64"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "OnlineSubsystem",
+			"Enabled": true
+		}
+	]
+}

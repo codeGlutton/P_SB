@@ -3,6 +3,10 @@
 #include "CoreMinimal.h"
 #include "Wrappers.generated.h"
 
+/************************
+   FRegexPatternWrapper
+*************************/
+
 USTRUCT(BlueprintType)
 struct FRegexPatternWrapper
 {

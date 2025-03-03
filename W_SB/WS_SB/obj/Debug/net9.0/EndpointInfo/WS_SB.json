@@ -4,6 +4,269 @@
     "title": "WS_SB | v1",
     "version": "1.0.0"
   },
-  "paths": { },
-  "components": { }
+  "paths": {
+    "/Account/Test": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Account/ReqCheckExistsAccount": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_CHECK_EXISTS_ACCOUNT"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_CHECK_EXISTS_ACCOUNT"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_CHECK_EXISTS_ACCOUNT"
+              }
+            },
+            "application/x-protobuf": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_CHECK_EXISTS_ACCOUNT"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Account/ReqCreateAccount": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_CREATE_ACCOUNT"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_CREATE_ACCOUNT"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_CREATE_ACCOUNT"
+              }
+            },
+            "application/x-protobuf": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_CREATE_ACCOUNT"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Account/ReqLoginAccount": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_LOGIN_ACCOUNT"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_LOGIN_ACCOUNT"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_LOGIN_ACCOUNT"
+              }
+            },
+            "application/x-protobuf": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_LOGIN_ACCOUNT"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Account/ReqLoginGoogleAccount": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_LOGIN_GOOGLE_ACCOUNT"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_LOGIN_GOOGLE_ACCOUNT"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_LOGIN_GOOGLE_ACCOUNT"
+              }
+            },
+            "application/x-protobuf": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_LOGIN_GOOGLE_ACCOUNT"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Account/ReqRecheckServer": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_RECHECK_SERVER"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_RECHECK_SERVER"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_RECHECK_SERVER"
+              }
+            },
+            "application/x-protobuf": {
+              "schema": {
+                "$ref": "#/components/schemas/REQ_RECHECK_SERVER"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "REQ_CHECK_EXISTS_ACCOUNT": {
+        "type": "object",
+        "properties": {
+          "accountName": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "REQ_CREATE_ACCOUNT": {
+        "type": "object",
+        "properties": {
+          "accountName": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "REQ_LOGIN_ACCOUNT": {
+        "type": "object",
+        "properties": {
+          "accountName": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "REQ_LOGIN_GOOGLE_ACCOUNT": {
+        "type": "object",
+        "properties": {
+          "authCode": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "REQ_RECHECK_SERVER": {
+        "type": "object",
+        "properties": {
+          "accountFullId": {
+            "type": "string",
+            "nullable": true
+          },
+          "tokenValue": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Account"
+    }
+  ]
 }

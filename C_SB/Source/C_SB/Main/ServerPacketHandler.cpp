@@ -5,6 +5,15 @@
 #include "SBNetworkManager.h"
 #include "PacketSession.h"
 
+#include "SBWebNetworkManager.h"
+#include "ServerHttpPacketHandler.h"
+
+DEFINE_LOG_CATEGORY(LogTcpHandler);
+
+/*************************
+	ServerPacketHandler
+*************************/
+
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
 
 bool Handle_INVALID(PacketSessionRef& Session, BYTE* Buffer, int32 Len)
@@ -16,52 +25,48 @@ bool Handle_INVALID(PacketSessionRef& Session, BYTE* Buffer, int32 Len)
 
 bool Handle_S_PING(PacketSessionRef& Session, Protocol::S_PING& Pkt)
 {
-	if (auto* GameNetworkManager = Session->Owner)
-	{
-		GameNetworkManager->Rtt = Pkt.rtt();
-	}
+	USBNetworkManager* GameNetworkManager = ServerPacketHandler::GetNetworkManager();
+	if (GameNetworkManager == nullptr)
+		return false;
 
-	Protocol::C_PING PingPkt;
-	SEND_C_PACKET(Session, PingPkt);
+	GameNetworkManager->HandlePingPong(Pkt);
 
 	return true;
 }
 
 bool Handle_S_LOGIN(PacketSessionRef& Session, Protocol::S_LOGIN& Pkt)
 {
-	if (Pkt.success() == false)
-	{
-		// TODO : 로그인 실패 에러처리
-
+	USBNetworkManager* GameNetworkManager = ServerPacketHandler::GetNetworkManager();
+	if (GameNetworkManager == nullptr)
 		return false;
-	}
 
-	// 캐릭터 없으면 생성창 이동
-	if (Pkt.players().size() == 0)
+	GameNetworkManager->HandleLogin(Pkt);
+
+	USBWebNetworkManager* WebNetworkManager = ServerHttpPacketHandler::GetWebNetworkManager();
+	if (WebNetworkManager == nullptr)
+		return false;
+
+	if (Pkt.result() == Protocol::LOGIN_RESULT_ERROR_FULL_SERVER)
 	{
-		// TODO : 생성창
+		int32 AccountId;
+		std::string TokenValue;
+		GameNetworkManager->GetLoginInfo(AccountId, TokenValue);
+		WebNetworkManager->RequestToRecheckServer(AccountId, TokenValue);
 	}
-
-	for (auto& Player : Pkt.players())
+	else if (Pkt.result() == Protocol::LOGIN_RESULT_ERROR_INVALID_TOKEN || Pkt.result() == Protocol::LOGIN_RESULT_ERROR_ACCOUNT_EXIST)
 	{
-		FString NameUTF16;
-		Utils::UTF8To16(Player.name(), NameUTF16);
-
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
-			FString::Printf(TEXT("OBJ_ID[%llu] Name[%s]\n"), Player.object_id(), *NameUTF16));
+		WebNetworkManager->ResponseToLogOut();
 	}
-
-	// (임시) 캐릭터 0번 선택
-	Protocol::C_ENTER_GAME EnterGamePkt;
-	EnterGamePkt.set_player_index(0ull);
-
-	SEND_C_PACKET(Session, EnterGamePkt);
 
 	return true;
 }
 
 bool Handle_S_CHANGE_MAP(PacketSessionRef& Session, Protocol::S_CHANGE_MAP& Pkt)
 {
+	USBNetworkManager* GameNetworkManager = ServerPacketHandler::GetNetworkManager();
+	if (GameNetworkManager == nullptr)
+		return false;
+
 	if (Pkt.success() == false)
 	{
 		// TODO : 맵 이동 에러 처리
@@ -69,42 +74,44 @@ bool Handle_S_CHANGE_MAP(PacketSessionRef& Session, Protocol::S_CHANGE_MAP& Pkt)
 		return false;
 	}
 
-	if (auto* GameNetworkManager = Session->Owner)
-	{
-		// TODO: NextMapId 로 이동
-		// 방 이동 함수();
-		GameNetworkManager->HandleSpawn(Pkt);
-	}
+
+	// TODO: NextMapId 로 이동
+	// 방 이동 함수();
+	GameNetworkManager->HandleSpawn(Pkt);
+
 
 	return true;
 }
 
 bool Handle_S_LEAVE_GAME(PacketSessionRef& Session, Protocol::S_LEAVE_GAME& Pkt)
 {
-	if (auto* GameNetworkManager = Session->Owner)
-	{
-		// TODO : 메인 메뉴 혹은 게임 종료
-	}
+	USBNetworkManager* GameNetworkManager = ServerPacketHandler::GetNetworkManager();
+	if (GameNetworkManager == nullptr)
+		return false;
+
+	GameNetworkManager->HandleLeave();
 
 	return true;
 }
 
 bool Handle_S_SPAWN(PacketSessionRef& Session, Protocol::S_SPAWN& Pkt)
 {
-	if (auto* GameNetworkManager = Session->Owner)
-	{
-		GameNetworkManager->HandleSpawn(Pkt);
-	}
+	USBNetworkManager* GameNetworkManager = ServerPacketHandler::GetNetworkManager();
+	if (GameNetworkManager == nullptr)
+		return false;
+
+	GameNetworkManager->HandleSpawn(Pkt);
 
 	return true;
 }
 
 bool Handle_S_DESPAWN(PacketSessionRef& Session, Protocol::S_DESPAWN& Pkt)
 {
-	if (auto* GameNetworkManager = Session->Owner)
-	{
-		GameNetworkManager->HandleDespawn(Pkt);
-	}
+	USBNetworkManager* GameNetworkManager = ServerPacketHandler::GetNetworkManager();
+	if (GameNetworkManager == nullptr)
+		return false;
+
+	GameNetworkManager->HandleDespawn(Pkt);
 
 	return true;
 }
@@ -131,10 +138,11 @@ bool Handle_S_UPDATE_TEAM_MATCH(PacketSessionRef& session, Protocol::S_UPDATE_TE
 
 bool Handle_S_MOVE(PacketSessionRef& Session, Protocol::S_MOVE& Pkt)
 {
-	if (auto* GameNetworkManager = Session->Owner)
-	{
-		GameNetworkManager->HandleMove(Pkt);
-	}
+	USBNetworkManager* GameNetworkManager = ServerPacketHandler::GetNetworkManager();
+	if (GameNetworkManager == nullptr)
+		return false;
+
+	GameNetworkManager->HandleMove(Pkt);
 
 	return true;
 }
@@ -143,4 +151,13 @@ bool Handle_S_CHAT(PacketSessionRef& Session, Protocol::S_CHAT& Pkt)
 {
 	std::cout << Pkt.msg() << std::endl;
 	return true;
+}
+
+USBNetworkManager* const ServerPacketHandler::GetNetworkManager()
+{
+	if (const UGameInstance* GameInstance = Utils::GetGameInstance())
+	{
+		return GameInstance->GetSubsystem<USBNetworkManager>();
+	}
+	return nullptr;
 }

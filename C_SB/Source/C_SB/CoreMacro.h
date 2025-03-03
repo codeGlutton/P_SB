@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 
@@ -47,3 +47,5 @@
 	if (session)														\
 		session->SendPacket(sendBuffer);								\
 }
+
+#define SEND_REQ_PACKET(pkt)	ServerHttpPacketHandler::SendPkt(pkt)

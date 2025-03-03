@@ -31,6 +31,7 @@ public:
 	/* 타임 스탬프 */
 
 	static uint64						MakeTimeStamp();
-
+	
+	static UWorld* const				GetWorld();
 	static UGameInstance* const			GetGameInstance();
 };

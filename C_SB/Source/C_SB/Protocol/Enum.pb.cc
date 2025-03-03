@@ -22,7 +22,7 @@ namespace _pbi = _pb::internal;
 
 namespace Protocol {
 }  // namespace Protocol
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_Enum_2eproto[12];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_Enum_2eproto[13];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_Enum_2eproto = nullptr;
 const uint32_t TableStruct_Enum_2eproto::offsets[1] = {};
 static constexpr ::_pbi::MigrationSchema* schemas = nullptr;
@@ -68,15 +68,20 @@ const char descriptor_table_protodef_Enum_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "NE\020\000*\227\001\n\rTeamMatchType\022\030\n\024TEAM_MATCH_TYP"
   "E_NONE\020\000\022\032\n\026TEAM_MATCH_TYPE_SEASON\020\001\022\030\n\024"
   "TEAM_MATCH_TYPE_FREE\020\002\022\033\n\027TEAM_MATCH_TYP"
-  "E_PLAYOFF\020\003\022\031\n\025TEAM_MATCH_TYPE_FINAL\020\004B\027"
-  "\252\002\024Google.Protobuf.Enumb\006proto3"
+  "E_PLAYOFF\020\003\022\031\n\025TEAM_MATCH_TYPE_FINAL\020\004*\256"
+  "\001\n\013LoginResult\022\025\n\021LOGIN_RESULT_NONE\020\000\022\030\n"
+  "\024LOGIN_RESULT_SUCCESS\020\001\022\"\n\036LOGIN_RESULT_"
+  "ERROR_FULL_SERVER\020\002\022$\n LOGIN_RESULT_ERRO"
+  "R_INVALID_TOKEN\020\003\022$\n LOGIN_RESULT_ERROR_"
+  "ACCOUNT_EXIST\020\004B\027\252\002\024Google.Protobuf.Enum"
+  "b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Enum_2eproto_deps[1] = {
   &::descriptor_table_google_2fprotobuf_2ftimestamp_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_Enum_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Enum_2eproto = {
-    false, false, 1631, descriptor_table_protodef_Enum_2eproto,
+    false, false, 1808, descriptor_table_protodef_Enum_2eproto,
     "Enum.proto",
     &descriptor_table_Enum_2eproto_once, descriptor_table_Enum_2eproto_deps, 1, 0,
     schemas, file_default_instances, TableStruct_Enum_2eproto::offsets,
@@ -280,6 +285,23 @@ const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TeamMatchType_descriptor() {
   return file_level_enum_descriptors_Enum_2eproto[11];
 }
 bool TeamMatchType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* LoginResult_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Enum_2eproto);
+  return file_level_enum_descriptors_Enum_2eproto[12];
+}
+bool LoginResult_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:

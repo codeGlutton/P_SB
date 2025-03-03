@@ -88,10 +88,25 @@ struct REQ_LOGIN_ACCOUNTDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 REQ_LOGIN_ACCOUNTDefaultTypeInternal _REQ_LOGIN_ACCOUNT_default_instance_;
+PROTOBUF_CONSTEXPR REQ_LOGIN_GOOGLE_ACCOUNT::REQ_LOGIN_GOOGLE_ACCOUNT(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.auth_code_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct REQ_LOGIN_GOOGLE_ACCOUNTDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR REQ_LOGIN_GOOGLE_ACCOUNTDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~REQ_LOGIN_GOOGLE_ACCOUNTDefaultTypeInternal() {}
+  union {
+    REQ_LOGIN_GOOGLE_ACCOUNT _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 REQ_LOGIN_GOOGLE_ACCOUNTDefaultTypeInternal _REQ_LOGIN_GOOGLE_ACCOUNT_default_instance_;
 PROTOBUF_CONSTEXPR RES_LOGIN_ACCOUNT::RES_LOGIN_ACCOUNT(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.server_list_)*/{}
+  , /*decltype(_impl_.token_value_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.success_)*/false
+  , /*decltype(_impl_.account_id_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct RES_LOGIN_ACCOUNTDefaultTypeInternal {
   PROTOBUF_CONSTEXPR RES_LOGIN_ACCOUNTDefaultTypeInternal()
@@ -102,8 +117,36 @@ struct RES_LOGIN_ACCOUNTDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RES_LOGIN_ACCOUNTDefaultTypeInternal _RES_LOGIN_ACCOUNT_default_instance_;
+PROTOBUF_CONSTEXPR REQ_RECHECK_SERVER::REQ_RECHECK_SERVER(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.token_value_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.account_id_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct REQ_RECHECK_SERVERDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR REQ_RECHECK_SERVERDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~REQ_RECHECK_SERVERDefaultTypeInternal() {}
+  union {
+    REQ_RECHECK_SERVER _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 REQ_RECHECK_SERVERDefaultTypeInternal _REQ_RECHECK_SERVER_default_instance_;
+PROTOBUF_CONSTEXPR RES_RECHECK_SERVER::RES_RECHECK_SERVER(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.server_list_)*/{}
+  , /*decltype(_impl_.success_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct RES_RECHECK_SERVERDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RES_RECHECK_SERVERDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RES_RECHECK_SERVERDefaultTypeInternal() {}
+  union {
+    RES_RECHECK_SERVER _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RES_RECHECK_SERVERDefaultTypeInternal _RES_RECHECK_SERVER_default_instance_;
 }  // namespace Protocol
-static ::_pb::Metadata file_level_metadata_HttpProtocol_2eproto[6];
+static ::_pb::Metadata file_level_metadata_HttpProtocol_2eproto[9];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_HttpProtocol_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_HttpProtocol_2eproto = nullptr;
 
@@ -146,13 +189,38 @@ const uint32_t TableStruct_HttpProtocol_2eproto::offsets[] PROTOBUF_SECTION_VARI
   PROTOBUF_FIELD_OFFSET(::Protocol::REQ_LOGIN_ACCOUNT, _impl_.account_name_),
   PROTOBUF_FIELD_OFFSET(::Protocol::REQ_LOGIN_ACCOUNT, _impl_.password_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::REQ_LOGIN_GOOGLE_ACCOUNT, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::REQ_LOGIN_GOOGLE_ACCOUNT, _impl_.auth_code_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::RES_LOGIN_ACCOUNT, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protocol::RES_LOGIN_ACCOUNT, _impl_.success_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::RES_LOGIN_ACCOUNT, _impl_.account_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::RES_LOGIN_ACCOUNT, _impl_.token_value_),
   PROTOBUF_FIELD_OFFSET(::Protocol::RES_LOGIN_ACCOUNT, _impl_.server_list_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::REQ_RECHECK_SERVER, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::REQ_RECHECK_SERVER, _impl_.account_id_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::REQ_RECHECK_SERVER, _impl_.token_value_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protocol::RES_RECHECK_SERVER, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protocol::RES_RECHECK_SERVER, _impl_.success_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::RES_RECHECK_SERVER, _impl_.server_list_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::REQ_CHECK_EXISTS_ACCOUNT)},
@@ -160,7 +228,10 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 14, -1, -1, sizeof(::Protocol::REQ_CREATE_ACCOUNT)},
   { 22, -1, -1, sizeof(::Protocol::RES_CREATE_ACCOUNT)},
   { 29, -1, -1, sizeof(::Protocol::REQ_LOGIN_ACCOUNT)},
-  { 37, -1, -1, sizeof(::Protocol::RES_LOGIN_ACCOUNT)},
+  { 37, -1, -1, sizeof(::Protocol::REQ_LOGIN_GOOGLE_ACCOUNT)},
+  { 44, -1, -1, sizeof(::Protocol::RES_LOGIN_ACCOUNT)},
+  { 54, -1, -1, sizeof(::Protocol::REQ_RECHECK_SERVER)},
+  { 62, -1, -1, sizeof(::Protocol::RES_RECHECK_SERVER)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -169,7 +240,10 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::Protocol::_REQ_CREATE_ACCOUNT_default_instance_._instance,
   &::Protocol::_RES_CREATE_ACCOUNT_default_instance_._instance,
   &::Protocol::_REQ_LOGIN_ACCOUNT_default_instance_._instance,
+  &::Protocol::_REQ_LOGIN_GOOGLE_ACCOUNT_default_instance_._instance,
   &::Protocol::_RES_LOGIN_ACCOUNT_default_instance_._instance,
+  &::Protocol::_REQ_RECHECK_SERVER_default_instance_._instance,
+  &::Protocol::_RES_RECHECK_SERVER_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_HttpProtocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -181,10 +255,16 @@ const char descriptor_table_protodef_HttpProtocol_2eproto[] PROTOBUF_SECTION_VAR
   "CCOUNT\022\024\n\014account_name\030\001 \001(\t\022\020\n\010password"
   "\030\002 \001(\t\"%\n\022RES_CREATE_ACCOUNT\022\017\n\007success\030"
   "\001 \001(\010\";\n\021REQ_LOGIN_ACCOUNT\022\024\n\014account_na"
-  "me\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"U\n\021RES_LOGIN_"
-  "ACCOUNT\022\017\n\007success\030\001 \001(\010\022/\n\013server_list\030"
-  "\002 \003(\0132\032.Protocol.ServerSelectInfoB\037\252\002\034Go"
-  "ogle.Protobuf.HttpProtocolb\006proto3"
+  "me\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"-\n\030REQ_LOGIN_"
+  "GOOGLE_ACCOUNT\022\021\n\tauth_code\030\001 \001(\t\"~\n\021RES"
+  "_LOGIN_ACCOUNT\022\017\n\007success\030\001 \001(\010\022\022\n\naccou"
+  "nt_id\030\002 \001(\005\022\023\n\013token_value\030\003 \001(\t\022/\n\013serv"
+  "er_list\030\004 \003(\0132\032.Protocol.ServerSelectInf"
+  "o\"=\n\022REQ_RECHECK_SERVER\022\022\n\naccount_id\030\001 "
+  "\001(\005\022\023\n\013token_value\030\002 \001(\t\"V\n\022RES_RECHECK_"
+  "SERVER\022\017\n\007success\030\001 \001(\010\022/\n\013server_list\030\002"
+  " \003(\0132\032.Protocol.ServerSelectInfoB\037\252\002\034Goo"
+  "gle.Protobuf.HttpProtocolb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_HttpProtocol_2eproto_deps[3] = {
   &::descriptor_table_Enum_2eproto,
@@ -193,9 +273,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_HttpProtocol_2eprot
 };
 static ::_pbi::once_flag descriptor_table_HttpProtocol_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_HttpProtocol_2eproto = {
-    false, false, 474, descriptor_table_protodef_HttpProtocol_2eproto,
+    false, false, 713, descriptor_table_protodef_HttpProtocol_2eproto,
     "HttpProtocol.proto",
-    &descriptor_table_HttpProtocol_2eproto_once, descriptor_table_HttpProtocol_2eproto_deps, 3, 6,
+    &descriptor_table_HttpProtocol_2eproto_once, descriptor_table_HttpProtocol_2eproto_deps, 3, 9,
     schemas, file_default_instances, TableStruct_HttpProtocol_2eproto::offsets,
     file_level_metadata_HttpProtocol_2eproto, file_level_enum_descriptors_HttpProtocol_2eproto,
     file_level_service_descriptors_HttpProtocol_2eproto,
@@ -1275,6 +1355,209 @@ void REQ_LOGIN_ACCOUNT::InternalSwap(REQ_LOGIN_ACCOUNT* other) {
 
 // ===================================================================
 
+class REQ_LOGIN_GOOGLE_ACCOUNT::_Internal {
+ public:
+};
+
+REQ_LOGIN_GOOGLE_ACCOUNT::REQ_LOGIN_GOOGLE_ACCOUNT(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT)
+}
+REQ_LOGIN_GOOGLE_ACCOUNT::REQ_LOGIN_GOOGLE_ACCOUNT(const REQ_LOGIN_GOOGLE_ACCOUNT& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  REQ_LOGIN_GOOGLE_ACCOUNT* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.auth_code_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.auth_code_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.auth_code_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_auth_code().empty()) {
+    _this->_impl_.auth_code_.Set(from._internal_auth_code(), 
+      _this->GetArenaForAllocation());
+  }
+  // @@protoc_insertion_point(copy_constructor:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT)
+}
+
+inline void REQ_LOGIN_GOOGLE_ACCOUNT::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.auth_code_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.auth_code_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.auth_code_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+REQ_LOGIN_GOOGLE_ACCOUNT::~REQ_LOGIN_GOOGLE_ACCOUNT() {
+  // @@protoc_insertion_point(destructor:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void REQ_LOGIN_GOOGLE_ACCOUNT::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.auth_code_.Destroy();
+}
+
+void REQ_LOGIN_GOOGLE_ACCOUNT::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void REQ_LOGIN_GOOGLE_ACCOUNT::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.auth_code_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* REQ_LOGIN_GOOGLE_ACCOUNT::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string auth_code = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_auth_code();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "Protocol.REQ_LOGIN_GOOGLE_ACCOUNT.auth_code"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* REQ_LOGIN_GOOGLE_ACCOUNT::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string auth_code = 1;
+  if (!this->_internal_auth_code().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_auth_code().data(), static_cast<int>(this->_internal_auth_code().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "Protocol.REQ_LOGIN_GOOGLE_ACCOUNT.auth_code");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_auth_code(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT)
+  return target;
+}
+
+size_t REQ_LOGIN_GOOGLE_ACCOUNT::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string auth_code = 1;
+  if (!this->_internal_auth_code().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_auth_code());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData REQ_LOGIN_GOOGLE_ACCOUNT::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    REQ_LOGIN_GOOGLE_ACCOUNT::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*REQ_LOGIN_GOOGLE_ACCOUNT::GetClassData() const { return &_class_data_; }
+
+
+void REQ_LOGIN_GOOGLE_ACCOUNT::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<REQ_LOGIN_GOOGLE_ACCOUNT*>(&to_msg);
+  auto& from = static_cast<const REQ_LOGIN_GOOGLE_ACCOUNT&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_auth_code().empty()) {
+    _this->_internal_set_auth_code(from._internal_auth_code());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void REQ_LOGIN_GOOGLE_ACCOUNT::CopyFrom(const REQ_LOGIN_GOOGLE_ACCOUNT& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.REQ_LOGIN_GOOGLE_ACCOUNT)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool REQ_LOGIN_GOOGLE_ACCOUNT::IsInitialized() const {
+  return true;
+}
+
+void REQ_LOGIN_GOOGLE_ACCOUNT::InternalSwap(REQ_LOGIN_GOOGLE_ACCOUNT* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.auth_code_, lhs_arena,
+      &other->_impl_.auth_code_, rhs_arena
+  );
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata REQ_LOGIN_GOOGLE_ACCOUNT::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_HttpProtocol_2eproto_getter, &descriptor_table_HttpProtocol_2eproto_once,
+      file_level_metadata_HttpProtocol_2eproto[5]);
+}
+
+// ===================================================================
+
 class RES_LOGIN_ACCOUNT::_Internal {
  public:
 };
@@ -1293,11 +1576,23 @@ RES_LOGIN_ACCOUNT::RES_LOGIN_ACCOUNT(const RES_LOGIN_ACCOUNT& from)
   RES_LOGIN_ACCOUNT* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.server_list_){from._impl_.server_list_}
+    , decltype(_impl_.token_value_){}
     , decltype(_impl_.success_){}
+    , decltype(_impl_.account_id_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.success_ = from._impl_.success_;
+  _impl_.token_value_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.token_value_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_token_value().empty()) {
+    _this->_impl_.token_value_.Set(from._internal_token_value(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.success_, &from._impl_.success_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.account_id_) -
+    reinterpret_cast<char*>(&_impl_.success_)) + sizeof(_impl_.account_id_));
   // @@protoc_insertion_point(copy_constructor:Protocol.RES_LOGIN_ACCOUNT)
 }
 
@@ -1307,9 +1602,15 @@ inline void RES_LOGIN_ACCOUNT::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.server_list_){arena}
+    , decltype(_impl_.token_value_){}
     , decltype(_impl_.success_){false}
+    , decltype(_impl_.account_id_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
+  _impl_.token_value_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.token_value_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 RES_LOGIN_ACCOUNT::~RES_LOGIN_ACCOUNT() {
@@ -1324,6 +1625,7 @@ RES_LOGIN_ACCOUNT::~RES_LOGIN_ACCOUNT() {
 inline void RES_LOGIN_ACCOUNT::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.server_list_.~RepeatedPtrField();
+  _impl_.token_value_.Destroy();
 }
 
 void RES_LOGIN_ACCOUNT::SetCachedSize(int size) const {
@@ -1337,11 +1639,522 @@ void RES_LOGIN_ACCOUNT::Clear() {
   (void) cached_has_bits;
 
   _impl_.server_list_.Clear();
-  _impl_.success_ = false;
+  _impl_.token_value_.ClearToEmpty();
+  ::memset(&_impl_.success_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.account_id_) -
+      reinterpret_cast<char*>(&_impl_.success_)) + sizeof(_impl_.account_id_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* RES_LOGIN_ACCOUNT::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool success = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 account_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.account_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string token_value = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_token_value();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "Protocol.RES_LOGIN_ACCOUNT.token_value"));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .Protocol.ServerSelectInfo server_list = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_server_list(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* RES_LOGIN_ACCOUNT::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.RES_LOGIN_ACCOUNT)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
+  }
+
+  // int32 account_id = 2;
+  if (this->_internal_account_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_account_id(), target);
+  }
+
+  // string token_value = 3;
+  if (!this->_internal_token_value().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_token_value().data(), static_cast<int>(this->_internal_token_value().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "Protocol.RES_LOGIN_ACCOUNT.token_value");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_token_value(), target);
+  }
+
+  // repeated .Protocol.ServerSelectInfo server_list = 4;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_server_list_size()); i < n; i++) {
+    const auto& repfield = this->_internal_server_list(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(4, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.RES_LOGIN_ACCOUNT)
+  return target;
+}
+
+size_t RES_LOGIN_ACCOUNT::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.RES_LOGIN_ACCOUNT)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .Protocol.ServerSelectInfo server_list = 4;
+  total_size += 1UL * this->_internal_server_list_size();
+  for (const auto& msg : this->_impl_.server_list_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // string token_value = 3;
+  if (!this->_internal_token_value().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_token_value());
+  }
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // int32 account_id = 2;
+  if (this->_internal_account_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_account_id());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData RES_LOGIN_ACCOUNT::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    RES_LOGIN_ACCOUNT::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*RES_LOGIN_ACCOUNT::GetClassData() const { return &_class_data_; }
+
+
+void RES_LOGIN_ACCOUNT::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<RES_LOGIN_ACCOUNT*>(&to_msg);
+  auto& from = static_cast<const RES_LOGIN_ACCOUNT&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.RES_LOGIN_ACCOUNT)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.server_list_.MergeFrom(from._impl_.server_list_);
+  if (!from._internal_token_value().empty()) {
+    _this->_internal_set_token_value(from._internal_token_value());
+  }
+  if (from._internal_success() != 0) {
+    _this->_internal_set_success(from._internal_success());
+  }
+  if (from._internal_account_id() != 0) {
+    _this->_internal_set_account_id(from._internal_account_id());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void RES_LOGIN_ACCOUNT::CopyFrom(const RES_LOGIN_ACCOUNT& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.RES_LOGIN_ACCOUNT)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool RES_LOGIN_ACCOUNT::IsInitialized() const {
+  return true;
+}
+
+void RES_LOGIN_ACCOUNT::InternalSwap(RES_LOGIN_ACCOUNT* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.server_list_.InternalSwap(&other->_impl_.server_list_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.token_value_, lhs_arena,
+      &other->_impl_.token_value_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(RES_LOGIN_ACCOUNT, _impl_.account_id_)
+      + sizeof(RES_LOGIN_ACCOUNT::_impl_.account_id_)
+      - PROTOBUF_FIELD_OFFSET(RES_LOGIN_ACCOUNT, _impl_.success_)>(
+          reinterpret_cast<char*>(&_impl_.success_),
+          reinterpret_cast<char*>(&other->_impl_.success_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata RES_LOGIN_ACCOUNT::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_HttpProtocol_2eproto_getter, &descriptor_table_HttpProtocol_2eproto_once,
+      file_level_metadata_HttpProtocol_2eproto[6]);
+}
+
+// ===================================================================
+
+class REQ_RECHECK_SERVER::_Internal {
+ public:
+};
+
+REQ_RECHECK_SERVER::REQ_RECHECK_SERVER(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protocol.REQ_RECHECK_SERVER)
+}
+REQ_RECHECK_SERVER::REQ_RECHECK_SERVER(const REQ_RECHECK_SERVER& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  REQ_RECHECK_SERVER* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.token_value_){}
+    , decltype(_impl_.account_id_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.token_value_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.token_value_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_token_value().empty()) {
+    _this->_impl_.token_value_.Set(from._internal_token_value(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.account_id_ = from._impl_.account_id_;
+  // @@protoc_insertion_point(copy_constructor:Protocol.REQ_RECHECK_SERVER)
+}
+
+inline void REQ_RECHECK_SERVER::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.token_value_){}
+    , decltype(_impl_.account_id_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.token_value_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.token_value_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+REQ_RECHECK_SERVER::~REQ_RECHECK_SERVER() {
+  // @@protoc_insertion_point(destructor:Protocol.REQ_RECHECK_SERVER)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void REQ_RECHECK_SERVER::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.token_value_.Destroy();
+}
+
+void REQ_RECHECK_SERVER::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void REQ_RECHECK_SERVER::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.REQ_RECHECK_SERVER)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.token_value_.ClearToEmpty();
+  _impl_.account_id_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* REQ_RECHECK_SERVER::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 account_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.account_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string token_value = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_token_value();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "Protocol.REQ_RECHECK_SERVER.token_value"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* REQ_RECHECK_SERVER::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.REQ_RECHECK_SERVER)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 account_id = 1;
+  if (this->_internal_account_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_account_id(), target);
+  }
+
+  // string token_value = 2;
+  if (!this->_internal_token_value().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_token_value().data(), static_cast<int>(this->_internal_token_value().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "Protocol.REQ_RECHECK_SERVER.token_value");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_token_value(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.REQ_RECHECK_SERVER)
+  return target;
+}
+
+size_t REQ_RECHECK_SERVER::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.REQ_RECHECK_SERVER)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string token_value = 2;
+  if (!this->_internal_token_value().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_token_value());
+  }
+
+  // int32 account_id = 1;
+  if (this->_internal_account_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_account_id());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData REQ_RECHECK_SERVER::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    REQ_RECHECK_SERVER::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*REQ_RECHECK_SERVER::GetClassData() const { return &_class_data_; }
+
+
+void REQ_RECHECK_SERVER::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<REQ_RECHECK_SERVER*>(&to_msg);
+  auto& from = static_cast<const REQ_RECHECK_SERVER&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.REQ_RECHECK_SERVER)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_token_value().empty()) {
+    _this->_internal_set_token_value(from._internal_token_value());
+  }
+  if (from._internal_account_id() != 0) {
+    _this->_internal_set_account_id(from._internal_account_id());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void REQ_RECHECK_SERVER::CopyFrom(const REQ_RECHECK_SERVER& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.REQ_RECHECK_SERVER)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool REQ_RECHECK_SERVER::IsInitialized() const {
+  return true;
+}
+
+void REQ_RECHECK_SERVER::InternalSwap(REQ_RECHECK_SERVER* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.token_value_, lhs_arena,
+      &other->_impl_.token_value_, rhs_arena
+  );
+  swap(_impl_.account_id_, other->_impl_.account_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata REQ_RECHECK_SERVER::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_HttpProtocol_2eproto_getter, &descriptor_table_HttpProtocol_2eproto_once,
+      file_level_metadata_HttpProtocol_2eproto[7]);
+}
+
+// ===================================================================
+
+class RES_RECHECK_SERVER::_Internal {
+ public:
+};
+
+void RES_RECHECK_SERVER::clear_server_list() {
+  _impl_.server_list_.Clear();
+}
+RES_RECHECK_SERVER::RES_RECHECK_SERVER(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protocol.RES_RECHECK_SERVER)
+}
+RES_RECHECK_SERVER::RES_RECHECK_SERVER(const RES_RECHECK_SERVER& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  RES_RECHECK_SERVER* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.server_list_){from._impl_.server_list_}
+    , decltype(_impl_.success_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.success_ = from._impl_.success_;
+  // @@protoc_insertion_point(copy_constructor:Protocol.RES_RECHECK_SERVER)
+}
+
+inline void RES_RECHECK_SERVER::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.server_list_){arena}
+    , decltype(_impl_.success_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+RES_RECHECK_SERVER::~RES_RECHECK_SERVER() {
+  // @@protoc_insertion_point(destructor:Protocol.RES_RECHECK_SERVER)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void RES_RECHECK_SERVER::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.server_list_.~RepeatedPtrField();
+}
+
+void RES_RECHECK_SERVER::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void RES_RECHECK_SERVER::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.RES_RECHECK_SERVER)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.server_list_.Clear();
+  _impl_.success_ = false;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* RES_RECHECK_SERVER::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
@@ -1391,9 +2204,9 @@ failure:
 #undef CHK_
 }
 
-uint8_t* RES_LOGIN_ACCOUNT::_InternalSerialize(
+uint8_t* RES_RECHECK_SERVER::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Protocol.RES_LOGIN_ACCOUNT)
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.RES_RECHECK_SERVER)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -1415,12 +2228,12 @@ uint8_t* RES_LOGIN_ACCOUNT::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Protocol.RES_LOGIN_ACCOUNT)
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.RES_RECHECK_SERVER)
   return target;
 }
 
-size_t RES_LOGIN_ACCOUNT::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Protocol.RES_LOGIN_ACCOUNT)
+size_t RES_RECHECK_SERVER::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.RES_RECHECK_SERVER)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -1442,17 +2255,17 @@ size_t RES_LOGIN_ACCOUNT::ByteSizeLong() const {
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData RES_LOGIN_ACCOUNT::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData RES_RECHECK_SERVER::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    RES_LOGIN_ACCOUNT::MergeImpl
+    RES_RECHECK_SERVER::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*RES_LOGIN_ACCOUNT::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*RES_RECHECK_SERVER::GetClassData() const { return &_class_data_; }
 
 
-void RES_LOGIN_ACCOUNT::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<RES_LOGIN_ACCOUNT*>(&to_msg);
-  auto& from = static_cast<const RES_LOGIN_ACCOUNT&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.RES_LOGIN_ACCOUNT)
+void RES_RECHECK_SERVER::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<RES_RECHECK_SERVER*>(&to_msg);
+  auto& from = static_cast<const RES_RECHECK_SERVER&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.RES_RECHECK_SERVER)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1464,28 +2277,28 @@ void RES_LOGIN_ACCOUNT::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, cons
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void RES_LOGIN_ACCOUNT::CopyFrom(const RES_LOGIN_ACCOUNT& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.RES_LOGIN_ACCOUNT)
+void RES_RECHECK_SERVER::CopyFrom(const RES_RECHECK_SERVER& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.RES_RECHECK_SERVER)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool RES_LOGIN_ACCOUNT::IsInitialized() const {
+bool RES_RECHECK_SERVER::IsInitialized() const {
   return true;
 }
 
-void RES_LOGIN_ACCOUNT::InternalSwap(RES_LOGIN_ACCOUNT* other) {
+void RES_RECHECK_SERVER::InternalSwap(RES_RECHECK_SERVER* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.server_list_.InternalSwap(&other->_impl_.server_list_);
   swap(_impl_.success_, other->_impl_.success_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata RES_LOGIN_ACCOUNT::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata RES_RECHECK_SERVER::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_HttpProtocol_2eproto_getter, &descriptor_table_HttpProtocol_2eproto_once,
-      file_level_metadata_HttpProtocol_2eproto[5]);
+      file_level_metadata_HttpProtocol_2eproto[8]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -1511,9 +2324,21 @@ template<> PROTOBUF_NOINLINE ::Protocol::REQ_LOGIN_ACCOUNT*
 Arena::CreateMaybeMessage< ::Protocol::REQ_LOGIN_ACCOUNT >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::REQ_LOGIN_ACCOUNT >(arena);
 }
+template<> PROTOBUF_NOINLINE ::Protocol::REQ_LOGIN_GOOGLE_ACCOUNT*
+Arena::CreateMaybeMessage< ::Protocol::REQ_LOGIN_GOOGLE_ACCOUNT >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::REQ_LOGIN_GOOGLE_ACCOUNT >(arena);
+}
 template<> PROTOBUF_NOINLINE ::Protocol::RES_LOGIN_ACCOUNT*
 Arena::CreateMaybeMessage< ::Protocol::RES_LOGIN_ACCOUNT >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::RES_LOGIN_ACCOUNT >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::REQ_RECHECK_SERVER*
+Arena::CreateMaybeMessage< ::Protocol::REQ_RECHECK_SERVER >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::REQ_RECHECK_SERVER >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protocol::RES_RECHECK_SERVER*
+Arena::CreateMaybeMessage< ::Protocol::RES_RECHECK_SERVER >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::RES_RECHECK_SERVER >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

@@ -1,0 +1,11 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.OnlineSubsystemGoogleEx.cpp.obj": [
+			"OnlineExternalUIGoogleEx.cpp.obj",
+			"OnlineIdentityGoogleEx.cpp.obj",
+			"OnlineSubsystemGoogleEx.cpp.obj",
+			"OnlineSubsystemGoogleExModule.cpp.obj"
+		]
+	}
+}
