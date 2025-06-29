@@ -13,62 +13,55 @@ namespace WS_SB.DB
     public class RegisterDB
     {
         [Column("Id")]
-        public int                          RegisterDBId { get; set; }
+        public int                              RegisterDBId { get; set; }
 
         [MaxLength(40)]
-        public string                       Name { get; set; }
+        public string                           Name { get; set; }
 
         [MaxLength(40)]
-        public string                       Password { get; set; }
+        public string                           Password { get; set; }
 
-        public AccountDB                    Account { get; set; }
+        public AccountDB                        Account { get; set; }
     }
 
     [Table("Account")]
     public class AccountDB
     {
         [Column("Id")]
-        public int                          AccountDBId { get; set; }
+        public int                              AccountDBId { get; set; }
 
         [Column("SnsType")]
-        public SnsType                      AccountSnsType { get; set; }
+        public SnsType                          AccountSnsType { get; set; }
 
         [Column("SnsSub")]
-        public string                       AccountSnsSub { get; set; }
+        public string                           AccountSnsSub { get; set; }
 
-        public int?                         RegisterDBId { get; set; }
+        public int?                             RegisterDBId { get; set; }
 
-        public RegisterDB?                  Register { get; set; }
+        public RegisterDB?                      Register { get; set; }
 
-        public virtual ICollection<UserDB>  Users { get; set; }
+        public virtual ICollection<PlayerDB>    Players { get; set; }
     }
 
-    [Table("User")]
-    public class UserDB
+    [Table("Player")]
+    public class PlayerDB
     {
         [Column("Id")]
-        public int                          UserDBId { get; set; }
+        public int                              PlayerDBId { get; set; }
+
+        public int                              AssetTableId { get; set; } = 0;
 
         [MaxLength(40)]
-        public string                       UserName { get; set; }
+        public string?                          Name { get; set; }
 
-        public int                          CostumeSetting { get; set; } = 0;
+        [DataType(DataType.Date)]
+        [Column(TypeName = "date")]
+        public DateTime                         CreatedTime { get; set; } = DateTime.UtcNow;
 
-        public int                          AccountDBId { get; set; }
+        public int                              CostumeSetting { get; set; } = 0;
 
-        public virtual RankingDB            Ranking { get; set; }
-    }
+        public int                              Score { get; set; } = 0;
 
-    [Table("Ranking")]
-    public class RankingDB
-    {
-        [Column("Id")]
-        public int                          RankingDBId { get; set; }
-
-        public int                          Score { get; set; } = 0;
-
-        public virtual UserDB               User { get; set; }
-
-        public int                          UserDBId { get; set; }
+        public int                              AccountDBId { get; set; }
     }
 }

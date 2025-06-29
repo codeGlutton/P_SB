@@ -40,23 +40,66 @@ bool Handle_S_LOGIN(PacketSessionRef& Session, Protocol::S_LOGIN& Pkt)
 	if (GameNetworkManager == nullptr)
 		return false;
 
-	GameNetworkManager->HandleLogin(Pkt);
-
 	USBWebNetworkManager* WebNetworkManager = ServerHttpPacketHandler::GetWebNetworkManager();
 	if (WebNetworkManager == nullptr)
 		return false;
 
-	if (Pkt.result() == Protocol::LOGIN_RESULT_ERROR_FULL_SERVER)
+	switch (Pkt.result())
 	{
-		int32 AccountId;
-		std::string TokenValue;
-		GameNetworkManager->GetLoginInfo(AccountId, TokenValue);
-		WebNetworkManager->RequestToRecheckServer(AccountId, TokenValue);
+	case Protocol::LOGIN_RESULT_SUCCESS:
+	{
+		GameNetworkManager->HandleLogin(Pkt);
+		break;
 	}
-	else if (Pkt.result() == Protocol::LOGIN_RESULT_ERROR_INVALID_TOKEN || Pkt.result() == Protocol::LOGIN_RESULT_ERROR_ACCOUNT_EXIST)
+	case Protocol::LOGIN_RESULT_ERROR_FULL_SERVER:
 	{
+		GameNetworkManager->ErrorFromLoginPkt(TEXT("서버 인원 초과"));
+		WebNetworkManager->RequestToRecheckServer();
+		break;
+	}
+	case Protocol::LOGIN_RESULT_ERROR_INVALID_TOKEN:
+	{
+		GameNetworkManager->ErrorFromLoginPkt(TEXT("잘못된 토큰"), true);
 		WebNetworkManager->ResponseToLogOut();
+		break;
 	}
+	case Protocol::LOGIN_RESULT_ERROR_ACCOUNT_EXIST:
+	{
+		GameNetworkManager->ErrorFromLoginPkt(TEXT("중복 로그인"), true);
+		WebNetworkManager->ResponseToLogOut();
+		break;
+	}
+	}
+
+	return true;
+}
+
+bool Handle_S_CREATE_PLAYER(PacketSessionRef& session, Protocol::S_CREATE_PLAYER& pkt)
+{
+	USBNetworkManager* GameNetworkManager = ServerPacketHandler::GetNetworkManager();
+	if (GameNetworkManager == nullptr)
+		return false;
+
+	if (pkt.success() == false)
+	{
+		GameNetworkManager->ErrorFromCreatePkt(TEXT("잘못된 패킷"));
+	}
+	GameNetworkManager->HandleChangePlayer(pkt);
+
+	return true;
+}
+
+bool Handle_S_DELETE_PLAYER(PacketSessionRef& session, Protocol::S_DELETE_PLAYER& pkt)
+{
+	USBNetworkManager* GameNetworkManager = ServerPacketHandler::GetNetworkManager();
+	if (GameNetworkManager == nullptr)
+		return false;
+
+	if (pkt.success() == false)
+	{
+		GameNetworkManager->ErrorFromDeletePkt(TEXT("잘못된 패킷"));
+	}
+	GameNetworkManager->HandleChangePlayer(pkt);
 
 	return true;
 }
@@ -73,12 +116,9 @@ bool Handle_S_CHANGE_MAP(PacketSessionRef& Session, Protocol::S_CHANGE_MAP& Pkt)
 
 		return false;
 	}
-
-
 	// TODO: NextMapId 로 이동
 	// 방 이동 함수();
 	GameNetworkManager->HandleSpawn(Pkt);
-
 
 	return true;
 }

@@ -9,9 +9,9 @@ public class C_SB : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" , "Sockets", "Networking", "EnhancedInput", "Niagara", "AIModule" , "NavigationSystem" , "UMG" });
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" , "Sockets", "Networking", "EnhancedInput", "Niagara", "AIModule" , "NavigationSystem" , "UMG" , "ModelViewViewModel" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "ProtobufCore" , "HTTP", "OnlineSubsystem" , "LoginFlow", "OnlineSubsystemUtils" , "Slate" , "SlateCore" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "ProtobufCore" , "HTTP", "OnlineSubsystem" , "LoginFlow", "OnlineSubsystemUtils" , "Slate" , "SlateCore" , "SkeletalMerging" });
 
         if (Target.Platform == UnrealTargetPlatform.Win64)
         {
@@ -29,7 +29,8 @@ public class C_SB : ModuleRules
             "C_SB/Lock",
             "C_SB/Container",
             "C_SB/DataTable",
-            "C_SB/UI"
+            "C_SB/UI",
+            "C_SB/ViewModel"
         });
     }
 }

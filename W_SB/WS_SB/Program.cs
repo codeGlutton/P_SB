@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 using System.Text;
 using WS_SB.DB;
@@ -20,12 +22,30 @@ else
 }
 builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
 
+// JWT 인증 설정
+var jwtPassword = builder.Configuration.GetSection("Authentication")?["JwtPass"] ?? throw new InvalidOperationException("Authentication string 'JwtPass' not found.");
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateLifetime = true,
+        ValidateAudience = false,
+        ValidateIssuer = false,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtPassword))
+    };
+});
+
 /* 콘테이너에 서비스 추가 */
 
 // DB 연동
 var sqlConnectionString = builder.Configuration.GetConnectionString("AccountConnection") ?? throw new InvalidOperationException("Connection string 'MSSQL DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(sqlConnectionString));
+builder.Services.AddDbContextFactory<ApplicationDbContext>(
+        options => options.UseSqlServer(sqlConnectionString));
 
 // Redis 연동
 var redisConnectionString = builder.Configuration.GetConnectionString("CacheConnection") ?? throw new InvalidOperationException("Connection string 'Redis DefaultConnection' not found.");
@@ -33,11 +53,12 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
     ConnectionMultiplexer.Connect(redisConnectionString));
 
 // 호스트 백그라운드
+builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<LocalCacheService>();
 builder.Services.AddHostedService<HostTimerService>();
 
 // 계정 로그인
-builder.Services.AddSingleton<JwtTokenService>();
+builder.Services.AddSingleton<JwtTokenFactory>();
 builder.Services.AddSingleton<LocalAccountService>();
 builder.Services.AddSingleton<GoogleService>();
 builder.Services.AddScoped<AccountService>();
@@ -63,7 +84,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// app.UseAuthentication();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

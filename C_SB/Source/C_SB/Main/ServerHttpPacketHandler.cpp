@@ -22,7 +22,7 @@ USBWebNetworkManager* const ServerHttpPacketHandler::GetWebNetworkManager()
 	return nullptr;
 }
 
-bool ServerHttpPacketHandler::DebugHttpFailPkt(FHttpRequestPtr& Request, FHttpResponsePtr& Response)
+bool ServerHttpPacketHandler::DebugHttpFailPkt(const FHttpRequestPtr& Request, const FHttpResponsePtr& Response)
 {
 	if (Request == nullptr || Request->DoesSharedInstanceExist() == false)
 	{
@@ -52,25 +52,16 @@ void ServerHttpPacketHandler::RecvReqCheckExistsAccount(FHttpRequestPtr Request,
 	if (WebNetworkManager == nullptr)
 		return;
 
-	if (WasSuccessful == false)
-	{
-#if UE_BUILD_DEVELOPMENT
-		DebugHttpFailPkt(Request, Response);
-#endif
-		WebNetworkManager->ErrorFromCheckUsableId(TEXT("네트워크 오류"));
-		return;
-	}
-
 	Protocol::RES_CHECK_EXISTS_ACCOUNT ResPkt;
-	if (ParseBodyToPkt(Response, OUT ResPkt) == false)
+	FString ErrStr;
+	if (PreprocessHttpRecv(Request, Response, WasSuccessful, OUT ResPkt, OUT ErrStr) == false)
 	{
-		WebNetworkManager->ErrorFromCheckUsableId(TEXT("파싱 오류"));
+		WebNetworkManager->ErrorFromCheckUsableName(ErrStr);
 		return;
 	}
-
 	if (ResPkt.success() == false)
 	{
-		WebNetworkManager->ErrorFromCheckUsableId(TEXT("존재하거나 불가능한 ID"));
+		WebNetworkManager->ErrorFromCheckUsableName(TEXT("존재하거나 불가능한 ID"));
 		return;
 	}
 
@@ -83,25 +74,16 @@ void ServerHttpPacketHandler::RecvReqCreateAccount(FHttpRequestPtr Request, FHtt
 	if (WebNetworkManager == nullptr)
 		return;
 
-	if (WasSuccessful == false)
-	{
-#if UE_BUILD_DEVELOPMENT
-		DebugHttpFailPkt(Request, Response);
-#endif
-		WebNetworkManager->ErrorFromSignUp(TEXT("네트워크 오류"));
-		return;
-	}
-
 	Protocol::RES_CREATE_ACCOUNT ResPkt;
-	if (ParseBodyToPkt(Response, OUT ResPkt) == false)
+	FString ErrStr;
+	if (PreprocessHttpRecv(Request, Response, WasSuccessful, OUT ResPkt, OUT ErrStr) == false)
 	{
-		WebNetworkManager->ErrorFromSignUp(TEXT("파싱 오류"));
+		WebNetworkManager->ErrorFromSignUp(ErrStr);
 		return;
 	}
-
 	if (ResPkt.success() == false)
 	{
-		WebNetworkManager->ErrorFromCheckUsableId(TEXT("부적절한 회원정보"));
+		WebNetworkManager->ErrorFromSignUp(TEXT("부적절한 회원정보"));
 		return;
 	}
 
@@ -114,25 +96,16 @@ void ServerHttpPacketHandler::RecvReqLoginAccount(FHttpRequestPtr Request, FHttp
 	if (WebNetworkManager == nullptr)
 		return;
 
-	if (WasSuccessful == false)
-	{
-#if UE_BUILD_DEVELOPMENT
-		DebugHttpFailPkt(Request, Response);
-#endif
-		WebNetworkManager->ErrorFromLogin(TEXT("네트워크 오류"));
-		return;
-	}
-
 	Protocol::RES_LOGIN_ACCOUNT ResPkt;
-	if (ParseBodyToPkt(Response, OUT ResPkt) == false)
+	FString ErrStr;
+	if (PreprocessHttpRecv(Request, Response, WasSuccessful, OUT ResPkt, OUT ErrStr) == false)
 	{
-		WebNetworkManager->ErrorFromLogin(TEXT("파싱 오류"));
+		WebNetworkManager->ErrorFromLogin(ErrStr);
 		return;
 	}
-
 	if (ResPkt.success() == false)
 	{
-		WebNetworkManager->ErrorFromCheckUsableId(TEXT("존재하지 않는 회원"));
+		WebNetworkManager->ErrorFromLogin(TEXT("존재하지 않는 회원"));
 		return;
 	}
 
@@ -150,40 +123,51 @@ void ServerHttpPacketHandler::RecvReqLoginGoogleAccount(FHttpRequestPtr Request,
 	RecvReqLoginAccount(Request, Response, WasSuccessful);
 }
 
+void ServerHttpPacketHandler::RecvReqConnectGameServer(FHttpRequestPtr Request, FHttpResponsePtr Response, bool WasSuccessful)
+{
+	USBWebNetworkManager* WebNetworkManager = GetWebNetworkManager();
+	if (WebNetworkManager == nullptr)
+		return;
+
+	Protocol::RES_CONNECT_GAME_SERVER ResPkt;
+	FString ErrStr;
+	if (PreprocessHttpRecv(Request, Response, WasSuccessful, OUT ResPkt, OUT ErrStr) == false)
+	{
+		WebNetworkManager->ErrorFromConnectGameServer(ErrStr);
+		return;
+	}
+	if (ResPkt.success() == false)
+	{
+		WebNetworkManager->ErrorFromConnectGameServer(TEXT("계정 재로그인 필요"));
+		WebNetworkManager->ResponseToLogOut();
+		return;
+	}
+	WebNetworkManager->ResponseToConnectGameServer(ResPkt);
+
+	USBNetworkManager* NetworkManager = ServerPacketHandler::GetNetworkManager();
+	if (NetworkManager == nullptr)
+		return;
+	NetworkManager->ConnectToGameServer(ResPkt.server_info());
+}
+
 void ServerHttpPacketHandler::RecvReqRecheckServer(FHttpRequestPtr Request, FHttpResponsePtr Response, bool WasSuccessful)
 {
 	USBWebNetworkManager* WebNetworkManager = GetWebNetworkManager();
 	if (WebNetworkManager == nullptr)
 		return;
 
-	if (WasSuccessful == false)
-	{
-#if UE_BUILD_DEVELOPMENT
-		DebugHttpFailPkt(Request, Response);
-#endif
-		WebNetworkManager->ErrorFromRecheck(TEXT("네트워크 오류"));
-		return;
-	}
-
 	Protocol::RES_RECHECK_SERVER ResPkt;
-	if (ParseBodyToPkt(Response, OUT ResPkt) == false)
+	FString ErrStr;
+	if (PreprocessHttpRecv(Request, Response, WasSuccessful, OUT ResPkt, OUT ErrStr) == false)
 	{
-		WebNetworkManager->ErrorFromRecheck(TEXT("파싱 오류"));
+		WebNetworkManager->ErrorFromRecheck(ErrStr);
 		return;
 	}
-
 	if (ResPkt.success() == false)
 	{
 		WebNetworkManager->ErrorFromRecheck(TEXT("계정 재로그인 필요"));
 		WebNetworkManager->ResponseToLogOut();
 		return;
 	}
-
 	WebNetworkManager->ResponseToRecheck(ResPkt);
-
-	USBNetworkManager* NetworkManager = ServerPacketHandler::GetNetworkManager();
-	if (NetworkManager == nullptr)
-		return;
-
-	NetworkManager->HandleRefreshServer(ResPkt);
 }

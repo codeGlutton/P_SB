@@ -36,12 +36,34 @@ message S_LOGIN
 	LoginResult result = 1;
 	// 클라이언트 소유 캐릭터들
 	repeated PlayerSelectInfo players = 2;
-} 
+}
+
+message C_CREATE_PLAYER
+{
+	PlayerSelectInfo new_player = 1;
+}
+
+message S_CREATE_PLAYER
+{
+	bool success = 1;
+	repeated PlayerSelectInfo players = 2;
+}
+
+message C_DELETE_PLAYER
+{
+	int32 player_db_id = 1;
+}
+
+message S_DELETE_PLAYER
+{
+	bool success = 1;
+	repeated PlayerSelectInfo players = 2;
+}
 
 // 캐릭터 선택 후 입장
 message C_ENTER_GAME
 {
-	uint64 player_index = 1;
+	int32 player_db_id = 1;
 }
 
 // 방 이동 요청 및 서버에서 적용

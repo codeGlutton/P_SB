@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Common\Protobuf\bin\CopyList\ByteConverters.h" />
     <ClInclude Include="Athlete.h" />
     <ClInclude Include="AthleteInstance.h" />
     <ClInclude Include="ByteConverters.h" />
@@ -110,6 +111,7 @@
     <None Include="..\Common\Protobuf\bin\RedisProtocol.proto" />
     <None Include="..\Common\Protobuf\bin\Struct.proto" />
     <None Include="DataTable\AthleteTable.csv" />
+    <None Include="DataTable\ManagerCostumeTable.csv" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="GameDB.xml" />

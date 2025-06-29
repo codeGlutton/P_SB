@@ -13,19 +13,30 @@ option csharp_namespace = "Google.Protobuf.Struct";
 // 플레이어블 서버 초기 선택에 필요한 부분적 정보
 message ServerSelectInfo
 {
-	uint32 id = 1;
+	uint32 server_id = 1;
 	string name = 2;
-	string ip_address = 3;
-	string port = 4;
-	float density = 5;
+	float density = 3;
+}
+
+// 선택한 서버 정보
+message ServerInfo
+{
+	uint32 server_id = 1;
+	string name = 2;
+	float density = 3;
+	string ip_address = 4;
+	string port = 5;
 }
 
 // 플레이어블 캐릭터 초기 선택에 필요한 부분적 정보
 message PlayerSelectInfo
 {
-	uint64 object_id = 1;
-	string name = 2;
-	uint32 costume_setting = 3;
+	int32 player_db_id = 1;
+	int32 player_table_id = 2;
+	string name = 3;
+	uint32 costume_setting = 4;
+	int32 rank_score = 5;
+	google.protobuf.Timestamp created_time = 6;
 }
 
 /////////////
@@ -163,6 +174,8 @@ message PlayerDetailInfo
 {
 	string name = 1;
 	uint32 costume_setting = 2;
+	int32 rank_score = 3;
+	google.protobuf.Timestamp created_time = 4;
 }
 
 message ObjectInfo

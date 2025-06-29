@@ -1,6 +1,7 @@
 #pragma once
 #include "Session.h"
 #include "Player.h"
+#include "RedisProtocol.pb.h"
 #include <chrono>
 
 /************************
@@ -10,7 +11,7 @@
 class PlayerDataProtector
 {
 public:
-	PlayerDataProtector() : currentPlayer(), isVerified(false), rtt(0.f), _accountId(), _players(), _state(STATE::EMPTY), _startPingTime(), _isMeasuringPing(false) {}
+	PlayerDataProtector() : currentPlayer(), isVerified(false), rtt(0.f), _accountId(), _otherPlayers(), _state(STATE::EMPTY), _startPingTime(), _isMeasuringPing(false) {}
 
 public:
 	std::atomic<PlayerRef>					currentPlayer;
@@ -19,7 +20,7 @@ public:
 
 private:
 	int32									_accountId;
-	xVector<PlayerRef>						_players;
+	xVector<Protocol::R_PLAYER_DATA>		_otherPlayers;
 	enum STATE : uint8 
 	{
 		EMPTY,

@@ -17,7 +17,8 @@
 
 PacketSession::PacketSession() : State(EState::READY)
 {
-	_CurServerInfo = xnew<Protocol::ServerSelectInfo>();
+	_CurServerInfo = xnew<Protocol::ServerInfo>();
+	_LoginPkt = xnew<Protocol::C_LOGIN>();
 	_Socket = nullptr;
 }
 
@@ -27,6 +28,8 @@ PacketSession::~PacketSession()
 
 	xdelete(_CurServerInfo);
 	_CurServerInfo = nullptr;
+	xdelete(_LoginPkt);
+	_LoginPkt = nullptr;
 }
 
 void PacketSession::HandleRecvPackets()
@@ -55,7 +58,7 @@ void PacketSession::SendPacket(SendBufferRef SendBuffer)
 	SendPacketQueue.Enqueue(SendBuffer);
 }
 
-bool PacketSession::Connect(Protocol::ServerSelectInfo& ServerInfo, OUT FString& SocketError)
+bool PacketSession::Connect(const Protocol::ServerInfo& ServerInfo, OUT FString& SocketError)
 {
 	if (State != EState::READY)
 	{
@@ -140,7 +143,17 @@ void PacketSession::Disconnect()
 	State = EState::READY;
 }
 
-const Protocol::ServerSelectInfo& PacketSession::GetCurrentServerInfo()
+const Protocol::ServerInfo& PacketSession::GetCurrentServerInfo()
 {
 	return *_CurServerInfo;
+}
+
+const Protocol::C_LOGIN& PacketSession::GetLoginPkt()
+{
+	return *_LoginPkt;
+}
+
+Protocol::C_LOGIN* PacketSession::GetMutableLoginPkt()
+{
+	return _LoginPkt;
 }

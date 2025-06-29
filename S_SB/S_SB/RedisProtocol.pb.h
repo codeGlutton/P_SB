@@ -51,185 +51,21 @@ namespace Protocol {
 class R_ACCOUNT_DATA;
 struct R_ACCOUNT_DATADefaultTypeInternal;
 extern R_ACCOUNT_DATADefaultTypeInternal _R_ACCOUNT_DATA_default_instance_;
+class R_PLAYER_DATA;
+struct R_PLAYER_DATADefaultTypeInternal;
+extern R_PLAYER_DATADefaultTypeInternal _R_PLAYER_DATA_default_instance_;
 class R_SERVER_DATA;
 struct R_SERVER_DATADefaultTypeInternal;
 extern R_SERVER_DATADefaultTypeInternal _R_SERVER_DATA_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::R_ACCOUNT_DATA* Arena::CreateMaybeMessage<::Protocol::R_ACCOUNT_DATA>(Arena*);
+template<> ::Protocol::R_PLAYER_DATA* Arena::CreateMaybeMessage<::Protocol::R_PLAYER_DATA>(Arena*);
 template<> ::Protocol::R_SERVER_DATA* Arena::CreateMaybeMessage<::Protocol::R_SERVER_DATA>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
 // ===================================================================
-
-class R_ACCOUNT_DATA final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.R_ACCOUNT_DATA) */ {
- public:
-  inline R_ACCOUNT_DATA() : R_ACCOUNT_DATA(nullptr) {}
-  ~R_ACCOUNT_DATA() override;
-  explicit PROTOBUF_CONSTEXPR R_ACCOUNT_DATA(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  R_ACCOUNT_DATA(const R_ACCOUNT_DATA& from);
-  R_ACCOUNT_DATA(R_ACCOUNT_DATA&& from) noexcept
-    : R_ACCOUNT_DATA() {
-    *this = ::std::move(from);
-  }
-
-  inline R_ACCOUNT_DATA& operator=(const R_ACCOUNT_DATA& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline R_ACCOUNT_DATA& operator=(R_ACCOUNT_DATA&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const R_ACCOUNT_DATA& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const R_ACCOUNT_DATA* internal_default_instance() {
-    return reinterpret_cast<const R_ACCOUNT_DATA*>(
-               &_R_ACCOUNT_DATA_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  friend void swap(R_ACCOUNT_DATA& a, R_ACCOUNT_DATA& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(R_ACCOUNT_DATA* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(R_ACCOUNT_DATA* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  R_ACCOUNT_DATA* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<R_ACCOUNT_DATA>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const R_ACCOUNT_DATA& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const R_ACCOUNT_DATA& from) {
-    R_ACCOUNT_DATA::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(R_ACCOUNT_DATA* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Protocol.R_ACCOUNT_DATA";
-  }
-  protected:
-  explicit R_ACCOUNT_DATA(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kObjectInfosFieldNumber = 2,
-    kAccountIdFieldNumber = 1,
-  };
-  // repeated .Protocol.ObjectInfo object_infos = 2;
-  int object_infos_size() const;
-  private:
-  int _internal_object_infos_size() const;
-  public:
-  void clear_object_infos();
-  ::Protocol::ObjectInfo* mutable_object_infos(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >*
-      mutable_object_infos();
-  private:
-  const ::Protocol::ObjectInfo& _internal_object_infos(int index) const;
-  ::Protocol::ObjectInfo* _internal_add_object_infos();
-  public:
-  const ::Protocol::ObjectInfo& object_infos(int index) const;
-  ::Protocol::ObjectInfo* add_object_infos();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >&
-      object_infos() const;
-
-  // int32 account_id = 1;
-  void clear_account_id();
-  int32_t account_id() const;
-  void set_account_id(int32_t value);
-  private:
-  int32_t _internal_account_id() const;
-  void _internal_set_account_id(int32_t value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:Protocol.R_ACCOUNT_DATA)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo > object_infos_;
-    int32_t account_id_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_RedisProtocol_2eproto;
-};
-// -------------------------------------------------------------------
 
 class R_SERVER_DATA final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.R_SERVER_DATA) */ {
@@ -279,7 +115,7 @@ class R_SERVER_DATA final :
                &_R_SERVER_DATA_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    0;
 
   friend void swap(R_SERVER_DATA& a, R_SERVER_DATA& b) {
     a.Swap(&b);
@@ -355,7 +191,7 @@ class R_SERVER_DATA final :
     kNameFieldNumber = 2,
     kIpAddressFieldNumber = 3,
     kPortFieldNumber = 4,
-    kIdFieldNumber = 1,
+    kServerIdFieldNumber = 1,
     kDensityFieldNumber = 5,
   };
   // string name = 2;
@@ -400,13 +236,13 @@ class R_SERVER_DATA final :
   std::string* _internal_mutable_port();
   public:
 
-  // uint32 id = 1;
-  void clear_id();
-  uint32_t id() const;
-  void set_id(uint32_t value);
+  // uint32 server_id = 1;
+  void clear_server_id();
+  uint32_t server_id() const;
+  void set_server_id(uint32_t value);
   private:
-  uint32_t _internal_id() const;
-  void _internal_set_id(uint32_t value);
+  uint32_t _internal_server_id() const;
+  void _internal_set_server_id(uint32_t value);
   public:
 
   // float density = 5;
@@ -429,8 +265,382 @@ class R_SERVER_DATA final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_address_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr port_;
-    uint32_t id_;
+    uint32_t server_id_;
     float density_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_RedisProtocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class R_PLAYER_DATA final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.R_PLAYER_DATA) */ {
+ public:
+  inline R_PLAYER_DATA() : R_PLAYER_DATA(nullptr) {}
+  ~R_PLAYER_DATA() override;
+  explicit PROTOBUF_CONSTEXPR R_PLAYER_DATA(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  R_PLAYER_DATA(const R_PLAYER_DATA& from);
+  R_PLAYER_DATA(R_PLAYER_DATA&& from) noexcept
+    : R_PLAYER_DATA() {
+    *this = ::std::move(from);
+  }
+
+  inline R_PLAYER_DATA& operator=(const R_PLAYER_DATA& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline R_PLAYER_DATA& operator=(R_PLAYER_DATA&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const R_PLAYER_DATA& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const R_PLAYER_DATA* internal_default_instance() {
+    return reinterpret_cast<const R_PLAYER_DATA*>(
+               &_R_PLAYER_DATA_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(R_PLAYER_DATA& a, R_PLAYER_DATA& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(R_PLAYER_DATA* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(R_PLAYER_DATA* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  R_PLAYER_DATA* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<R_PLAYER_DATA>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const R_PLAYER_DATA& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const R_PLAYER_DATA& from) {
+    R_PLAYER_DATA::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(R_PLAYER_DATA* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.R_PLAYER_DATA";
+  }
+  protected:
+  explicit R_PLAYER_DATA(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNameFieldNumber = 3,
+    kCreatedTimeFieldNumber = 6,
+    kPlayerDbIdFieldNumber = 1,
+    kPlayerTableIdFieldNumber = 2,
+    kCostumeSettingFieldNumber = 4,
+    kRankScoreFieldNumber = 5,
+  };
+  // string name = 3;
+  void clear_name();
+  const std::string& name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* name);
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
+  // .google.protobuf.Timestamp created_time = 6;
+  bool has_created_time() const;
+  private:
+  bool _internal_has_created_time() const;
+  public:
+  void clear_created_time();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& created_time() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_created_time();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_created_time();
+  void set_allocated_created_time(::PROTOBUF_NAMESPACE_ID::Timestamp* created_time);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_created_time() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_created_time();
+  public:
+  void unsafe_arena_set_allocated_created_time(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* created_time);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_created_time();
+
+  // int32 player_db_id = 1;
+  void clear_player_db_id();
+  int32_t player_db_id() const;
+  void set_player_db_id(int32_t value);
+  private:
+  int32_t _internal_player_db_id() const;
+  void _internal_set_player_db_id(int32_t value);
+  public:
+
+  // int32 player_table_id = 2;
+  void clear_player_table_id();
+  int32_t player_table_id() const;
+  void set_player_table_id(int32_t value);
+  private:
+  int32_t _internal_player_table_id() const;
+  void _internal_set_player_table_id(int32_t value);
+  public:
+
+  // uint32 costume_setting = 4;
+  void clear_costume_setting();
+  uint32_t costume_setting() const;
+  void set_costume_setting(uint32_t value);
+  private:
+  uint32_t _internal_costume_setting() const;
+  void _internal_set_costume_setting(uint32_t value);
+  public:
+
+  // int32 rank_score = 5;
+  void clear_rank_score();
+  int32_t rank_score() const;
+  void set_rank_score(int32_t value);
+  private:
+  int32_t _internal_rank_score() const;
+  void _internal_set_rank_score(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.R_PLAYER_DATA)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* created_time_;
+    int32_t player_db_id_;
+    int32_t player_table_id_;
+    uint32_t costume_setting_;
+    int32_t rank_score_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_RedisProtocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class R_ACCOUNT_DATA final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.R_ACCOUNT_DATA) */ {
+ public:
+  inline R_ACCOUNT_DATA() : R_ACCOUNT_DATA(nullptr) {}
+  ~R_ACCOUNT_DATA() override;
+  explicit PROTOBUF_CONSTEXPR R_ACCOUNT_DATA(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  R_ACCOUNT_DATA(const R_ACCOUNT_DATA& from);
+  R_ACCOUNT_DATA(R_ACCOUNT_DATA&& from) noexcept
+    : R_ACCOUNT_DATA() {
+    *this = ::std::move(from);
+  }
+
+  inline R_ACCOUNT_DATA& operator=(const R_ACCOUNT_DATA& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline R_ACCOUNT_DATA& operator=(R_ACCOUNT_DATA&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const R_ACCOUNT_DATA& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const R_ACCOUNT_DATA* internal_default_instance() {
+    return reinterpret_cast<const R_ACCOUNT_DATA*>(
+               &_R_ACCOUNT_DATA_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(R_ACCOUNT_DATA& a, R_ACCOUNT_DATA& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(R_ACCOUNT_DATA* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(R_ACCOUNT_DATA* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  R_ACCOUNT_DATA* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<R_ACCOUNT_DATA>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const R_ACCOUNT_DATA& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const R_ACCOUNT_DATA& from) {
+    R_ACCOUNT_DATA::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(R_ACCOUNT_DATA* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.R_ACCOUNT_DATA";
+  }
+  protected:
+  explicit R_ACCOUNT_DATA(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPlayerDatasFieldNumber = 1,
+  };
+  // repeated .Protocol.R_PLAYER_DATA player_datas = 1;
+  int player_datas_size() const;
+  private:
+  int _internal_player_datas_size() const;
+  public:
+  void clear_player_datas();
+  ::Protocol::R_PLAYER_DATA* mutable_player_datas(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::R_PLAYER_DATA >*
+      mutable_player_datas();
+  private:
+  const ::Protocol::R_PLAYER_DATA& _internal_player_datas(int index) const;
+  ::Protocol::R_PLAYER_DATA* _internal_add_player_datas();
+  public:
+  const ::Protocol::R_PLAYER_DATA& player_datas(int index) const;
+  ::Protocol::R_PLAYER_DATA* add_player_datas();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::R_PLAYER_DATA >&
+      player_datas() const;
+
+  // @@protoc_insertion_point(class_scope:Protocol.R_ACCOUNT_DATA)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::R_PLAYER_DATA > player_datas_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -445,87 +655,26 @@ class R_SERVER_DATA final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// R_ACCOUNT_DATA
-
-// int32 account_id = 1;
-inline void R_ACCOUNT_DATA::clear_account_id() {
-  _impl_.account_id_ = 0;
-}
-inline int32_t R_ACCOUNT_DATA::_internal_account_id() const {
-  return _impl_.account_id_;
-}
-inline int32_t R_ACCOUNT_DATA::account_id() const {
-  // @@protoc_insertion_point(field_get:Protocol.R_ACCOUNT_DATA.account_id)
-  return _internal_account_id();
-}
-inline void R_ACCOUNT_DATA::_internal_set_account_id(int32_t value) {
-  
-  _impl_.account_id_ = value;
-}
-inline void R_ACCOUNT_DATA::set_account_id(int32_t value) {
-  _internal_set_account_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.R_ACCOUNT_DATA.account_id)
-}
-
-// repeated .Protocol.ObjectInfo object_infos = 2;
-inline int R_ACCOUNT_DATA::_internal_object_infos_size() const {
-  return _impl_.object_infos_.size();
-}
-inline int R_ACCOUNT_DATA::object_infos_size() const {
-  return _internal_object_infos_size();
-}
-inline ::Protocol::ObjectInfo* R_ACCOUNT_DATA::mutable_object_infos(int index) {
-  // @@protoc_insertion_point(field_mutable:Protocol.R_ACCOUNT_DATA.object_infos)
-  return _impl_.object_infos_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >*
-R_ACCOUNT_DATA::mutable_object_infos() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.R_ACCOUNT_DATA.object_infos)
-  return &_impl_.object_infos_;
-}
-inline const ::Protocol::ObjectInfo& R_ACCOUNT_DATA::_internal_object_infos(int index) const {
-  return _impl_.object_infos_.Get(index);
-}
-inline const ::Protocol::ObjectInfo& R_ACCOUNT_DATA::object_infos(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.R_ACCOUNT_DATA.object_infos)
-  return _internal_object_infos(index);
-}
-inline ::Protocol::ObjectInfo* R_ACCOUNT_DATA::_internal_add_object_infos() {
-  return _impl_.object_infos_.Add();
-}
-inline ::Protocol::ObjectInfo* R_ACCOUNT_DATA::add_object_infos() {
-  ::Protocol::ObjectInfo* _add = _internal_add_object_infos();
-  // @@protoc_insertion_point(field_add:Protocol.R_ACCOUNT_DATA.object_infos)
-  return _add;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectInfo >&
-R_ACCOUNT_DATA::object_infos() const {
-  // @@protoc_insertion_point(field_list:Protocol.R_ACCOUNT_DATA.object_infos)
-  return _impl_.object_infos_;
-}
-
-// -------------------------------------------------------------------
-
 // R_SERVER_DATA
 
-// uint32 id = 1;
-inline void R_SERVER_DATA::clear_id() {
-  _impl_.id_ = 0u;
+// uint32 server_id = 1;
+inline void R_SERVER_DATA::clear_server_id() {
+  _impl_.server_id_ = 0u;
 }
-inline uint32_t R_SERVER_DATA::_internal_id() const {
-  return _impl_.id_;
+inline uint32_t R_SERVER_DATA::_internal_server_id() const {
+  return _impl_.server_id_;
 }
-inline uint32_t R_SERVER_DATA::id() const {
-  // @@protoc_insertion_point(field_get:Protocol.R_SERVER_DATA.id)
-  return _internal_id();
+inline uint32_t R_SERVER_DATA::server_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.R_SERVER_DATA.server_id)
+  return _internal_server_id();
 }
-inline void R_SERVER_DATA::_internal_set_id(uint32_t value) {
+inline void R_SERVER_DATA::_internal_set_server_id(uint32_t value) {
   
-  _impl_.id_ = value;
+  _impl_.server_id_ = value;
 }
-inline void R_SERVER_DATA::set_id(uint32_t value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.R_SERVER_DATA.id)
+inline void R_SERVER_DATA::set_server_id(uint32_t value) {
+  _internal_set_server_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.R_SERVER_DATA.server_id)
 }
 
 // string name = 2;
@@ -698,9 +847,274 @@ inline void R_SERVER_DATA::set_density(float value) {
   // @@protoc_insertion_point(field_set:Protocol.R_SERVER_DATA.density)
 }
 
+// -------------------------------------------------------------------
+
+// R_PLAYER_DATA
+
+// int32 player_db_id = 1;
+inline void R_PLAYER_DATA::clear_player_db_id() {
+  _impl_.player_db_id_ = 0;
+}
+inline int32_t R_PLAYER_DATA::_internal_player_db_id() const {
+  return _impl_.player_db_id_;
+}
+inline int32_t R_PLAYER_DATA::player_db_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.R_PLAYER_DATA.player_db_id)
+  return _internal_player_db_id();
+}
+inline void R_PLAYER_DATA::_internal_set_player_db_id(int32_t value) {
+  
+  _impl_.player_db_id_ = value;
+}
+inline void R_PLAYER_DATA::set_player_db_id(int32_t value) {
+  _internal_set_player_db_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.R_PLAYER_DATA.player_db_id)
+}
+
+// int32 player_table_id = 2;
+inline void R_PLAYER_DATA::clear_player_table_id() {
+  _impl_.player_table_id_ = 0;
+}
+inline int32_t R_PLAYER_DATA::_internal_player_table_id() const {
+  return _impl_.player_table_id_;
+}
+inline int32_t R_PLAYER_DATA::player_table_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.R_PLAYER_DATA.player_table_id)
+  return _internal_player_table_id();
+}
+inline void R_PLAYER_DATA::_internal_set_player_table_id(int32_t value) {
+  
+  _impl_.player_table_id_ = value;
+}
+inline void R_PLAYER_DATA::set_player_table_id(int32_t value) {
+  _internal_set_player_table_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.R_PLAYER_DATA.player_table_id)
+}
+
+// string name = 3;
+inline void R_PLAYER_DATA::clear_name() {
+  _impl_.name_.ClearToEmpty();
+}
+inline const std::string& R_PLAYER_DATA::name() const {
+  // @@protoc_insertion_point(field_get:Protocol.R_PLAYER_DATA.name)
+  return _internal_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void R_PLAYER_DATA::set_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.R_PLAYER_DATA.name)
+}
+inline std::string* R_PLAYER_DATA::mutable_name() {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:Protocol.R_PLAYER_DATA.name)
+  return _s;
+}
+inline const std::string& R_PLAYER_DATA::_internal_name() const {
+  return _impl_.name_.Get();
+}
+inline void R_PLAYER_DATA::_internal_set_name(const std::string& value) {
+  
+  _impl_.name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* R_PLAYER_DATA::_internal_mutable_name() {
+  
+  return _impl_.name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* R_PLAYER_DATA::release_name() {
+  // @@protoc_insertion_point(field_release:Protocol.R_PLAYER_DATA.name)
+  return _impl_.name_.Release();
+}
+inline void R_PLAYER_DATA::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.name_.SetAllocated(name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.name_.IsDefault()) {
+    _impl_.name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.R_PLAYER_DATA.name)
+}
+
+// uint32 costume_setting = 4;
+inline void R_PLAYER_DATA::clear_costume_setting() {
+  _impl_.costume_setting_ = 0u;
+}
+inline uint32_t R_PLAYER_DATA::_internal_costume_setting() const {
+  return _impl_.costume_setting_;
+}
+inline uint32_t R_PLAYER_DATA::costume_setting() const {
+  // @@protoc_insertion_point(field_get:Protocol.R_PLAYER_DATA.costume_setting)
+  return _internal_costume_setting();
+}
+inline void R_PLAYER_DATA::_internal_set_costume_setting(uint32_t value) {
+  
+  _impl_.costume_setting_ = value;
+}
+inline void R_PLAYER_DATA::set_costume_setting(uint32_t value) {
+  _internal_set_costume_setting(value);
+  // @@protoc_insertion_point(field_set:Protocol.R_PLAYER_DATA.costume_setting)
+}
+
+// int32 rank_score = 5;
+inline void R_PLAYER_DATA::clear_rank_score() {
+  _impl_.rank_score_ = 0;
+}
+inline int32_t R_PLAYER_DATA::_internal_rank_score() const {
+  return _impl_.rank_score_;
+}
+inline int32_t R_PLAYER_DATA::rank_score() const {
+  // @@protoc_insertion_point(field_get:Protocol.R_PLAYER_DATA.rank_score)
+  return _internal_rank_score();
+}
+inline void R_PLAYER_DATA::_internal_set_rank_score(int32_t value) {
+  
+  _impl_.rank_score_ = value;
+}
+inline void R_PLAYER_DATA::set_rank_score(int32_t value) {
+  _internal_set_rank_score(value);
+  // @@protoc_insertion_point(field_set:Protocol.R_PLAYER_DATA.rank_score)
+}
+
+// .google.protobuf.Timestamp created_time = 6;
+inline bool R_PLAYER_DATA::_internal_has_created_time() const {
+  return this != internal_default_instance() && _impl_.created_time_ != nullptr;
+}
+inline bool R_PLAYER_DATA::has_created_time() const {
+  return _internal_has_created_time();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& R_PLAYER_DATA::_internal_created_time() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.created_time_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& R_PLAYER_DATA::created_time() const {
+  // @@protoc_insertion_point(field_get:Protocol.R_PLAYER_DATA.created_time)
+  return _internal_created_time();
+}
+inline void R_PLAYER_DATA::unsafe_arena_set_allocated_created_time(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* created_time) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.created_time_);
+  }
+  _impl_.created_time_ = created_time;
+  if (created_time) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.R_PLAYER_DATA.created_time)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* R_PLAYER_DATA::release_created_time() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.created_time_;
+  _impl_.created_time_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* R_PLAYER_DATA::unsafe_arena_release_created_time() {
+  // @@protoc_insertion_point(field_release:Protocol.R_PLAYER_DATA.created_time)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.created_time_;
+  _impl_.created_time_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* R_PLAYER_DATA::_internal_mutable_created_time() {
+  
+  if (_impl_.created_time_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.created_time_ = p;
+  }
+  return _impl_.created_time_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* R_PLAYER_DATA::mutable_created_time() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_created_time();
+  // @@protoc_insertion_point(field_mutable:Protocol.R_PLAYER_DATA.created_time)
+  return _msg;
+}
+inline void R_PLAYER_DATA::set_allocated_created_time(::PROTOBUF_NAMESPACE_ID::Timestamp* created_time) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.created_time_);
+  }
+  if (created_time) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(created_time));
+    if (message_arena != submessage_arena) {
+      created_time = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, created_time, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.created_time_ = created_time;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.R_PLAYER_DATA.created_time)
+}
+
+// -------------------------------------------------------------------
+
+// R_ACCOUNT_DATA
+
+// repeated .Protocol.R_PLAYER_DATA player_datas = 1;
+inline int R_ACCOUNT_DATA::_internal_player_datas_size() const {
+  return _impl_.player_datas_.size();
+}
+inline int R_ACCOUNT_DATA::player_datas_size() const {
+  return _internal_player_datas_size();
+}
+inline void R_ACCOUNT_DATA::clear_player_datas() {
+  _impl_.player_datas_.Clear();
+}
+inline ::Protocol::R_PLAYER_DATA* R_ACCOUNT_DATA::mutable_player_datas(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.R_ACCOUNT_DATA.player_datas)
+  return _impl_.player_datas_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::R_PLAYER_DATA >*
+R_ACCOUNT_DATA::mutable_player_datas() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.R_ACCOUNT_DATA.player_datas)
+  return &_impl_.player_datas_;
+}
+inline const ::Protocol::R_PLAYER_DATA& R_ACCOUNT_DATA::_internal_player_datas(int index) const {
+  return _impl_.player_datas_.Get(index);
+}
+inline const ::Protocol::R_PLAYER_DATA& R_ACCOUNT_DATA::player_datas(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.R_ACCOUNT_DATA.player_datas)
+  return _internal_player_datas(index);
+}
+inline ::Protocol::R_PLAYER_DATA* R_ACCOUNT_DATA::_internal_add_player_datas() {
+  return _impl_.player_datas_.Add();
+}
+inline ::Protocol::R_PLAYER_DATA* R_ACCOUNT_DATA::add_player_datas() {
+  ::Protocol::R_PLAYER_DATA* _add = _internal_add_player_datas();
+  // @@protoc_insertion_point(field_add:Protocol.R_ACCOUNT_DATA.player_datas)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::R_PLAYER_DATA >&
+R_ACCOUNT_DATA::player_datas() const {
+  // @@protoc_insertion_point(field_list:Protocol.R_ACCOUNT_DATA.player_datas)
+  return _impl_.player_datas_;
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

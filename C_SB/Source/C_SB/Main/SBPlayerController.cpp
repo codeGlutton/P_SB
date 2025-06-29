@@ -109,7 +109,7 @@ void ASBPlayerController::OnSetDestinationReleased()
 	}
 	else
 	{
-		ControlledPlayer->GetSBMovement()->NotifyStop();
+		ControlledPlayer->GetSBMovementComp()->NotifyStop();
 	}
 
 	_FollowTime = 0.f;

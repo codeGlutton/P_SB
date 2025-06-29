@@ -1,0 +1,3 @@
+﻿Range,Struct,,,,
+Int,String,String,TSoftClassPtr<ISBObject>,TSoftObjectPtr<USkeletalMesh>,TSoftObjectPtr<UMaterialInstance>
+Id,ServerName,ClientName,ClientBasePath,ClientMesh,ClientMaterial

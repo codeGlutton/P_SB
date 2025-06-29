@@ -1,0 +1,5 @@
+﻿Range,Data,,,,
+Int,String,String,TSoftClassPtr<ISBObject>,TSoftObjectPtr<USkeletalMesh>,TSoftObjectPtr<UMaterialInstance>
+Id,ServerName,ClientName,ClientBasePath,ClientMesh,ClientMaterial
+1,정장-브라운,정장-브라운,/Game/SB/Blueprint/Actor/Character/BP_Player.BP_Player_C,/Script/Engine.SkeletalMesh'/Game/SB/SourceArt/Character/SKM_Manager.SKM_Manager',/Script/Engine.MaterialInstanceConstant'/Game/SB/SourceArt/Art/Material/Instance/MI_ManagerBrown.MI_ManagerBrown'
+2,정장-블랙,정장-블랙,/Game/SB/Blueprint/Actor/Character/BP_Player.BP_Player_C,/Script/Engine.SkeletalMesh'/Game/SB/SourceArt/Character/SKM_Manager.SKM_Manager',/Script/Engine.MaterialInstanceConstant'/Game/SB/SourceArt/Art/Material/Instance/MI_ManagerBlack.MI_ManagerBlack'

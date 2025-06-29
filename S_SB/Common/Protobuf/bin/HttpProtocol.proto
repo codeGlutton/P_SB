@@ -7,9 +7,9 @@ import "Struct.proto";
 
 option csharp_namespace = "Google.Protobuf.HttpProtocol";
 
-////////////
-// 테스트 //
-////////////
+///////////////
+// 익명 요청 //
+///////////////
 
 message REQ_CHECK_EXISTS_ACCOUNT
 {
@@ -51,10 +51,25 @@ message RES_LOGIN_ACCOUNT
 	repeated ServerSelectInfo server_list = 4;
 }
 
+///////////////
+// 토큰 요구 //
+///////////////
+
+message REQ_CONNECT_GAME_SERVER
+{
+	int32 account_id = 1;
+	int32 server_id = 2;
+}
+
+message RES_CONNECT_GAME_SERVER
+{
+	bool success = 1;
+	ServerInfo server_info = 2;
+}
+
 message REQ_RECHECK_SERVER
 {
 	int32 account_id = 1;
-	string token_value = 2;
 }
 
 message RES_RECHECK_SERVER

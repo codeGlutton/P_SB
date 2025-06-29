@@ -1,9 +1,12 @@
-﻿using Google.Protobuf.HttpProtocol;
+﻿using Google.Protobuf.Struct;
+using Google.Protobuf.HttpProtocol;
+using Google.Protobuf.RedisProtocol;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Text;
 using System.Web;
-using WS_SB.Models;
 using WS_SB.Services;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace WS_SB.Controllers
 {
@@ -35,7 +38,7 @@ namespace WS_SB.Controllers
                 return Ok(res);
             }
 
-            res.Success = !(await _accountService.IsExistLocalAccount(pkt.AccountName));
+            res.Success = !_accountService.IsExistLocalAccount(pkt.AccountName);
             return Ok(res);
         }
 
@@ -59,71 +62,84 @@ namespace WS_SB.Controllers
         [HttpPost("ReqLoginAccount")]
         public override async Task<IActionResult> HandleReqLoginAccount([FromBody] REQ_LOGIN_ACCOUNT pkt)
         {
-            var res = new RES_LOGIN_ACCOUNT();
+            RES_LOGIN_ACCOUNT res;
 
             /* 패킷 검증 */
 
             if (_accountService.ValidateLocalSignUpInfo(pkt.AccountName, pkt.Password) == false)
             {
+                res = new RES_LOGIN_ACCOUNT();
                 res.Success = false;
                 return Ok(res);
             }
 
-            /* 계정 DB 비교 */
+            /* 계정 DB 조회 */
 
-            AccountLoginData accountLoginData = await _accountService.LoginAccount(pkt.AccountName, pkt.Password);
-            if (accountLoginData == null)
-            {
-                res.Success = false;
-                return Ok(res);
-            }
-
-            res.AccountId = accountLoginData.AccountId;
-            res.TokenValue = accountLoginData.TokenValue;
-            if (accountLoginData.ServerList != null)
-            {
-                res.ServerList.AddRange(accountLoginData.ServerList);
-            }
-            res.Success = true;
+            res = _accountService.LoginLocalAccount(pkt.AccountName, pkt.Password);
             return Ok(res);
         }
 
         [HttpPost("ReqLoginGoogleAccount")]
         public override async Task<IActionResult> HandleReqLoginGoogleAccount([FromBody] REQ_LOGIN_GOOGLE_ACCOUNT pkt)
         {
-            var res = new RES_LOGIN_ACCOUNT();
-            string authCode = HttpUtility.UrlDecode(pkt.AuthCode);
-
-            /* 구글 계정 확인 */
-
-            AccountLoginData accountLoginData = await _accountService.LoginGoogleAccount(authCode);
-            if (accountLoginData == null)
+            RES_LOGIN_ACCOUNT res;
+            string? authCode = HttpUtility.UrlDecode(pkt.AuthCode);
+            if (authCode == null)
             {
+                res = new RES_LOGIN_ACCOUNT();
                 res.Success = false;
                 return Ok(res);
             }
 
-            res.AccountId = accountLoginData.AccountId;
-            res.TokenValue = accountLoginData.TokenValue;
-            if (accountLoginData.ServerList != null)
-            {
-                res.ServerList.AddRange(accountLoginData.ServerList);
-            }
-            res.Success = true;
+            /* 구글 계정 조회 */
+
+            res = await _accountService.LoginGoogleAccount(authCode);
             return Ok(res);
         }
 
+        [Authorize]
+        [HttpPost("ReqConnectGameServer")]
+        public override async Task<IActionResult> HandleReqConnectGameServer([FromBody] REQ_CONNECT_GAME_SERVER pkt)
+        {
+            var res = new RES_CONNECT_GAME_SERVER();
+            if (pkt.AccountId.ToString() == User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value)
+            {
+                R_SERVER_DATA? serverData = await _accountService.ConnectGameServer(pkt.AccountId, pkt.ServerId);
+                if (serverData != null)
+                {
+                    res.ServerInfo = new ServerInfo
+                    {
+                        ServerId = serverData.ServerId,
+                        Name = serverData.Name,
+                        Density = serverData.Density,
+                        IpAddress = serverData.IpAddress,
+                        Port = serverData.Port
+                    };
+                    res.Success = true;
+                    return Ok(res);
+                }
+            }
+            res.Success = false;
+            return Ok(res);
+        }
+
+        [Authorize]
         [HttpPost("ReqRecheckServer")]
         public override async Task<IActionResult> HandleReqRecheckServer([FromBody] REQ_RECHECK_SERVER pkt)
         {
             var res = new RES_RECHECK_SERVER();
 
-            if (_accountService.ValidateToken(pkt.AccountId, pkt.TokenValue) == true)
+            if (pkt.AccountId.ToString() == User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value)
             {
-                var serverList = await _accountService.GetServerList();
-                if (serverList != null)
+                List<R_SERVER_DATA>? serverList = _accountService.GetServerList();
+                foreach (R_SERVER_DATA server in serverList ?? [])
                 {
-                    res.ServerList.AddRange(serverList); 
+                    res.ServerList.Add(new ServerSelectInfo
+                    {
+                        ServerId = server.ServerId,
+                        Name = server.Name,
+                        Density = server.Density
+                    });
                 }
                 res.Success = true;
                 return Ok(res);

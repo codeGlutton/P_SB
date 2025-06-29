@@ -58,10 +58,10 @@ namespace WS_SB.Protobuf
 
             /* 응답하고자 하는 객체가 IMessage를 상속받은 Protobuf class인지 확인 */
 
-            return context.ObjectType.GetTypeInfo()
+            return context.ObjectType?.GetTypeInfo()
                 .ImplementedInterfaces
                 .Where(i => i.GetTypeInfo().IsGenericType)
-                .Any(i => i.GetGenericTypeDefinition() == typeof(IMessage<>));
+                .Any(i => i.GetGenericTypeDefinition() == typeof(IMessage<>)) ?? false;
         }
 
         public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context)

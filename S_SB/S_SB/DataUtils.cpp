@@ -4,10 +4,13 @@
 #include "AthleteInstance.h"
 #include "TableRow.h"
 
-AthleteInstanceRef DataUtils::CreatedAthleteInstance(const xWString name)
+AthleteInstanceRef DataUtils::CreatedAthleteInstance(const int32 id)
 {
-	AthleteTableRow& athleteTableRow = GDataTable->AthleteTable[name];
-	AthleteInstanceRef athleteInstance = MakeXShared<AthleteInstance>(athleteTableRow);
+	auto& AthleteTable = *GDataTableManager->SpawnableTables[TableRowType::ATHLETE_TABLE];
+	auto iter = AthleteTable.find(id);
+	if (iter == AthleteTable.end())
+		return nullptr;
 
+	AthleteInstanceRef athleteInstance = MakeXShared<AthleteInstance>(*reinterpret_cast<AthleteTableRow*>(iter->second));
 	return athleteInstance;
 }

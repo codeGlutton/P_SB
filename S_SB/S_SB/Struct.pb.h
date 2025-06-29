@@ -89,6 +89,9 @@ extern PosInfoDefaultTypeInternal _PosInfo_default_instance_;
 class RoomSelectInfo;
 struct RoomSelectInfoDefaultTypeInternal;
 extern RoomSelectInfoDefaultTypeInternal _RoomSelectInfo_default_instance_;
+class ServerInfo;
+struct ServerInfoDefaultTypeInternal;
+extern ServerInfoDefaultTypeInternal _ServerInfo_default_instance_;
 class ServerSelectInfo;
 struct ServerSelectInfoDefaultTypeInternal;
 extern ServerSelectInfoDefaultTypeInternal _ServerSelectInfo_default_instance_;
@@ -120,6 +123,7 @@ template<> ::Protocol::PlayerDetailInfo* Arena::CreateMaybeMessage<::Protocol::P
 template<> ::Protocol::PlayerSelectInfo* Arena::CreateMaybeMessage<::Protocol::PlayerSelectInfo>(Arena*);
 template<> ::Protocol::PosInfo* Arena::CreateMaybeMessage<::Protocol::PosInfo>(Arena*);
 template<> ::Protocol::RoomSelectInfo* Arena::CreateMaybeMessage<::Protocol::RoomSelectInfo>(Arena*);
+template<> ::Protocol::ServerInfo* Arena::CreateMaybeMessage<::Protocol::ServerInfo>(Arena*);
 template<> ::Protocol::ServerSelectInfo* Arena::CreateMaybeMessage<::Protocol::ServerSelectInfo>(Arena*);
 template<> ::Protocol::TeamMatchDetailInfo* Arena::CreateMaybeMessage<::Protocol::TeamMatchDetailInfo>(Arena*);
 template<> ::Protocol::TeamMatchInfo* Arena::CreateMaybeMessage<::Protocol::TeamMatchInfo>(Arena*);
@@ -252,10 +256,8 @@ class ServerSelectInfo final :
 
   enum : int {
     kNameFieldNumber = 2,
-    kIpAddressFieldNumber = 3,
-    kPortFieldNumber = 4,
-    kIdFieldNumber = 1,
-    kDensityFieldNumber = 5,
+    kServerIdFieldNumber = 1,
+    kDensityFieldNumber = 3,
   };
   // string name = 2;
   void clear_name();
@@ -271,44 +273,16 @@ class ServerSelectInfo final :
   std::string* _internal_mutable_name();
   public:
 
-  // string ip_address = 3;
-  void clear_ip_address();
-  const std::string& ip_address() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_ip_address(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_ip_address();
-  PROTOBUF_NODISCARD std::string* release_ip_address();
-  void set_allocated_ip_address(std::string* ip_address);
+  // uint32 server_id = 1;
+  void clear_server_id();
+  uint32_t server_id() const;
+  void set_server_id(uint32_t value);
   private:
-  const std::string& _internal_ip_address() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ip_address(const std::string& value);
-  std::string* _internal_mutable_ip_address();
+  uint32_t _internal_server_id() const;
+  void _internal_set_server_id(uint32_t value);
   public:
 
-  // string port = 4;
-  void clear_port();
-  const std::string& port() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_port(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_port();
-  PROTOBUF_NODISCARD std::string* release_port();
-  void set_allocated_port(std::string* port);
-  private:
-  const std::string& _internal_port() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_port(const std::string& value);
-  std::string* _internal_mutable_port();
-  public:
-
-  // uint32 id = 1;
-  void clear_id();
-  uint32_t id() const;
-  void set_id(uint32_t value);
-  private:
-  uint32_t _internal_id() const;
-  void _internal_set_id(uint32_t value);
-  public:
-
-  // float density = 5;
+  // float density = 3;
   void clear_density();
   float density() const;
   void set_density(float value);
@@ -326,9 +300,214 @@ class ServerSelectInfo final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    uint32_t server_id_;
+    float density_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Struct_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ServerInfo final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.ServerInfo) */ {
+ public:
+  inline ServerInfo() : ServerInfo(nullptr) {}
+  ~ServerInfo() override;
+  explicit PROTOBUF_CONSTEXPR ServerInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  ServerInfo(const ServerInfo& from);
+  ServerInfo(ServerInfo&& from) noexcept
+    : ServerInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline ServerInfo& operator=(const ServerInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ServerInfo& operator=(ServerInfo&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ServerInfo& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ServerInfo* internal_default_instance() {
+    return reinterpret_cast<const ServerInfo*>(
+               &_ServerInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(ServerInfo& a, ServerInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ServerInfo* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ServerInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ServerInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<ServerInfo>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const ServerInfo& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const ServerInfo& from) {
+    ServerInfo::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ServerInfo* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.ServerInfo";
+  }
+  protected:
+  explicit ServerInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNameFieldNumber = 2,
+    kIpAddressFieldNumber = 4,
+    kPortFieldNumber = 5,
+    kServerIdFieldNumber = 1,
+    kDensityFieldNumber = 3,
+  };
+  // string name = 2;
+  void clear_name();
+  const std::string& name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* name);
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
+  // string ip_address = 4;
+  void clear_ip_address();
+  const std::string& ip_address() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ip_address(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ip_address();
+  PROTOBUF_NODISCARD std::string* release_ip_address();
+  void set_allocated_ip_address(std::string* ip_address);
+  private:
+  const std::string& _internal_ip_address() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ip_address(const std::string& value);
+  std::string* _internal_mutable_ip_address();
+  public:
+
+  // string port = 5;
+  void clear_port();
+  const std::string& port() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_port(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_port();
+  PROTOBUF_NODISCARD std::string* release_port();
+  void set_allocated_port(std::string* port);
+  private:
+  const std::string& _internal_port() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_port(const std::string& value);
+  std::string* _internal_mutable_port();
+  public:
+
+  // uint32 server_id = 1;
+  void clear_server_id();
+  uint32_t server_id() const;
+  void set_server_id(uint32_t value);
+  private:
+  uint32_t _internal_server_id() const;
+  void _internal_set_server_id(uint32_t value);
+  public:
+
+  // float density = 3;
+  void clear_density();
+  float density() const;
+  void set_density(float value);
+  private:
+  float _internal_density() const;
+  void _internal_set_density(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.ServerInfo)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_address_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr port_;
-    uint32_t id_;
+    uint32_t server_id_;
     float density_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -385,7 +564,7 @@ class PlayerSelectInfo final :
                &_PlayerSelectInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(PlayerSelectInfo& a, PlayerSelectInfo& b) {
     a.Swap(&b);
@@ -458,11 +637,14 @@ class PlayerSelectInfo final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNameFieldNumber = 2,
-    kObjectIdFieldNumber = 1,
-    kCostumeSettingFieldNumber = 3,
+    kNameFieldNumber = 3,
+    kCreatedTimeFieldNumber = 6,
+    kPlayerDbIdFieldNumber = 1,
+    kPlayerTableIdFieldNumber = 2,
+    kCostumeSettingFieldNumber = 4,
+    kRankScoreFieldNumber = 5,
   };
-  // string name = 2;
+  // string name = 3;
   void clear_name();
   const std::string& name() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -476,22 +658,58 @@ class PlayerSelectInfo final :
   std::string* _internal_mutable_name();
   public:
 
-  // uint64 object_id = 1;
-  void clear_object_id();
-  uint64_t object_id() const;
-  void set_object_id(uint64_t value);
+  // .google.protobuf.Timestamp created_time = 6;
+  bool has_created_time() const;
   private:
-  uint64_t _internal_object_id() const;
-  void _internal_set_object_id(uint64_t value);
+  bool _internal_has_created_time() const;
+  public:
+  void clear_created_time();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& created_time() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_created_time();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_created_time();
+  void set_allocated_created_time(::PROTOBUF_NAMESPACE_ID::Timestamp* created_time);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_created_time() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_created_time();
+  public:
+  void unsafe_arena_set_allocated_created_time(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* created_time);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_created_time();
+
+  // int32 player_db_id = 1;
+  void clear_player_db_id();
+  int32_t player_db_id() const;
+  void set_player_db_id(int32_t value);
+  private:
+  int32_t _internal_player_db_id() const;
+  void _internal_set_player_db_id(int32_t value);
   public:
 
-  // uint32 costume_setting = 3;
+  // int32 player_table_id = 2;
+  void clear_player_table_id();
+  int32_t player_table_id() const;
+  void set_player_table_id(int32_t value);
+  private:
+  int32_t _internal_player_table_id() const;
+  void _internal_set_player_table_id(int32_t value);
+  public:
+
+  // uint32 costume_setting = 4;
   void clear_costume_setting();
   uint32_t costume_setting() const;
   void set_costume_setting(uint32_t value);
   private:
   uint32_t _internal_costume_setting() const;
   void _internal_set_costume_setting(uint32_t value);
+  public:
+
+  // int32 rank_score = 5;
+  void clear_rank_score();
+  int32_t rank_score() const;
+  void set_rank_score(int32_t value);
+  private:
+  int32_t _internal_rank_score() const;
+  void _internal_set_rank_score(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.PlayerSelectInfo)
@@ -503,8 +721,11 @@ class PlayerSelectInfo final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
-    uint64_t object_id_;
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* created_time_;
+    int32_t player_db_id_;
+    int32_t player_table_id_;
     uint32_t costume_setting_;
+    int32_t rank_score_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -560,7 +781,7 @@ class RoomSelectInfo final :
                &_RoomSelectInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(RoomSelectInfo& a, RoomSelectInfo& b) {
     a.Swap(&b);
@@ -735,7 +956,7 @@ class AthletePublicInfo final :
                &_AthletePublicInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(AthletePublicInfo& a, AthletePublicInfo& b) {
     a.Swap(&b);
@@ -905,7 +1126,7 @@ class AthletePrivateInfo final :
                &_AthletePrivateInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   friend void swap(AthletePrivateInfo& a, AthletePrivateInfo& b) {
     a.Swap(&b);
@@ -1075,7 +1296,7 @@ class AthleteInitInfo final :
                &_AthleteInitInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   friend void swap(AthleteInitInfo& a, AthleteInitInfo& b) {
     a.Swap(&b);
@@ -1274,7 +1495,7 @@ class AthleteAnnualUpdateInfo final :
                &_AthleteAnnualUpdateInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   friend void swap(AthleteAnnualUpdateInfo& a, AthleteAnnualUpdateInfo& b) {
     a.Swap(&b);
@@ -1462,7 +1683,7 @@ class TeamMatchSelectInfo final :
                &_TeamMatchSelectInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   friend void swap(TeamMatchSelectInfo& a, TeamMatchSelectInfo& b) {
     a.Swap(&b);
@@ -1632,7 +1853,7 @@ class TeamMatchInitInfo final :
                &_TeamMatchInitInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    9;
 
   friend void swap(TeamMatchInitInfo& a, TeamMatchInitInfo& b) {
     a.Swap(&b);
@@ -1835,7 +2056,7 @@ class TeamMatchDetailInfo final :
                &_TeamMatchDetailInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    10;
 
   friend void swap(TeamMatchDetailInfo& a, TeamMatchDetailInfo& b) {
     a.Swap(&b);
@@ -2016,7 +2237,7 @@ class TeamMatchInfo final :
                &_TeamMatchInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    11;
 
   friend void swap(TeamMatchInfo& a, TeamMatchInfo& b) {
     a.Swap(&b);
@@ -2193,7 +2414,7 @@ class PosInfo final :
                &_PosInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    12;
 
   friend void swap(PosInfo& a, PosInfo& b) {
     a.Swap(&b);
@@ -2396,7 +2617,7 @@ class ObjectBaseInfo final :
                &_ObjectBaseInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    13;
 
   friend void swap(ObjectBaseInfo& a, ObjectBaseInfo& b) {
     a.Swap(&b);
@@ -2555,7 +2776,7 @@ class AthleteComputedInfo final :
                &_AthleteComputedInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    14;
 
   friend void swap(AthleteComputedInfo& a, AthleteComputedInfo& b) {
     a.Swap(&b);
@@ -2714,7 +2935,7 @@ class PlayerDetailInfo final :
                &_PlayerDetailInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    15;
 
   friend void swap(PlayerDetailInfo& a, PlayerDetailInfo& b) {
     a.Swap(&b);
@@ -2788,7 +3009,9 @@ class PlayerDetailInfo final :
 
   enum : int {
     kNameFieldNumber = 1,
+    kCreatedTimeFieldNumber = 4,
     kCostumeSettingFieldNumber = 2,
+    kRankScoreFieldNumber = 3,
   };
   // string name = 1;
   void clear_name();
@@ -2804,6 +3027,24 @@ class PlayerDetailInfo final :
   std::string* _internal_mutable_name();
   public:
 
+  // .google.protobuf.Timestamp created_time = 4;
+  bool has_created_time() const;
+  private:
+  bool _internal_has_created_time() const;
+  public:
+  void clear_created_time();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& created_time() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_created_time();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_created_time();
+  void set_allocated_created_time(::PROTOBUF_NAMESPACE_ID::Timestamp* created_time);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_created_time() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_created_time();
+  public:
+  void unsafe_arena_set_allocated_created_time(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* created_time);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_created_time();
+
   // uint32 costume_setting = 2;
   void clear_costume_setting();
   uint32_t costume_setting() const;
@@ -2811,6 +3052,15 @@ class PlayerDetailInfo final :
   private:
   uint32_t _internal_costume_setting() const;
   void _internal_set_costume_setting(uint32_t value);
+  public:
+
+  // int32 rank_score = 3;
+  void clear_rank_score();
+  int32_t rank_score() const;
+  void set_rank_score(int32_t value);
+  private:
+  int32_t _internal_rank_score() const;
+  void _internal_set_rank_score(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.PlayerDetailInfo)
@@ -2822,7 +3072,9 @@ class PlayerDetailInfo final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* created_time_;
     uint32_t costume_setting_;
+    int32_t rank_score_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2878,7 +3130,7 @@ class ObjectInfo final :
                &_ObjectInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    16;
 
   friend void swap(ObjectInfo& a, ObjectInfo& b) {
     a.Swap(&b);
@@ -3106,7 +3358,7 @@ class AthleteUpdateInfo final :
                &_AthleteUpdateInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    17;
 
   friend void swap(AthleteUpdateInfo& a, AthleteUpdateInfo& b) {
     a.Swap(&b);
@@ -3274,7 +3526,7 @@ class DestInfo final :
                &_DestInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    18;
 
   friend void swap(DestInfo& a, DestInfo& b) {
     a.Swap(&b);
@@ -3433,7 +3685,7 @@ class MovementRecord final :
                &_MovementRecord_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    19;
 
   friend void swap(MovementRecord& a, MovementRecord& b) {
     a.Swap(&b);
@@ -3593,24 +3845,24 @@ class MovementRecord final :
 #endif  // __GNUC__
 // ServerSelectInfo
 
-// uint32 id = 1;
-inline void ServerSelectInfo::clear_id() {
-  _impl_.id_ = 0u;
+// uint32 server_id = 1;
+inline void ServerSelectInfo::clear_server_id() {
+  _impl_.server_id_ = 0u;
 }
-inline uint32_t ServerSelectInfo::_internal_id() const {
-  return _impl_.id_;
+inline uint32_t ServerSelectInfo::_internal_server_id() const {
+  return _impl_.server_id_;
 }
-inline uint32_t ServerSelectInfo::id() const {
-  // @@protoc_insertion_point(field_get:Protocol.ServerSelectInfo.id)
-  return _internal_id();
+inline uint32_t ServerSelectInfo::server_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.ServerSelectInfo.server_id)
+  return _internal_server_id();
 }
-inline void ServerSelectInfo::_internal_set_id(uint32_t value) {
+inline void ServerSelectInfo::_internal_set_server_id(uint32_t value) {
   
-  _impl_.id_ = value;
+  _impl_.server_id_ = value;
 }
-inline void ServerSelectInfo::set_id(uint32_t value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.ServerSelectInfo.id)
+inline void ServerSelectInfo::set_server_id(uint32_t value) {
+  _internal_set_server_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.ServerSelectInfo.server_id)
 }
 
 // string name = 2;
@@ -3663,107 +3915,7 @@ inline void ServerSelectInfo::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.ServerSelectInfo.name)
 }
 
-// string ip_address = 3;
-inline void ServerSelectInfo::clear_ip_address() {
-  _impl_.ip_address_.ClearToEmpty();
-}
-inline const std::string& ServerSelectInfo::ip_address() const {
-  // @@protoc_insertion_point(field_get:Protocol.ServerSelectInfo.ip_address)
-  return _internal_ip_address();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void ServerSelectInfo::set_ip_address(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.ip_address_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:Protocol.ServerSelectInfo.ip_address)
-}
-inline std::string* ServerSelectInfo::mutable_ip_address() {
-  std::string* _s = _internal_mutable_ip_address();
-  // @@protoc_insertion_point(field_mutable:Protocol.ServerSelectInfo.ip_address)
-  return _s;
-}
-inline const std::string& ServerSelectInfo::_internal_ip_address() const {
-  return _impl_.ip_address_.Get();
-}
-inline void ServerSelectInfo::_internal_set_ip_address(const std::string& value) {
-  
-  _impl_.ip_address_.Set(value, GetArenaForAllocation());
-}
-inline std::string* ServerSelectInfo::_internal_mutable_ip_address() {
-  
-  return _impl_.ip_address_.Mutable(GetArenaForAllocation());
-}
-inline std::string* ServerSelectInfo::release_ip_address() {
-  // @@protoc_insertion_point(field_release:Protocol.ServerSelectInfo.ip_address)
-  return _impl_.ip_address_.Release();
-}
-inline void ServerSelectInfo::set_allocated_ip_address(std::string* ip_address) {
-  if (ip_address != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.ip_address_.SetAllocated(ip_address, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.ip_address_.IsDefault()) {
-    _impl_.ip_address_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:Protocol.ServerSelectInfo.ip_address)
-}
-
-// string port = 4;
-inline void ServerSelectInfo::clear_port() {
-  _impl_.port_.ClearToEmpty();
-}
-inline const std::string& ServerSelectInfo::port() const {
-  // @@protoc_insertion_point(field_get:Protocol.ServerSelectInfo.port)
-  return _internal_port();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void ServerSelectInfo::set_port(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.port_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:Protocol.ServerSelectInfo.port)
-}
-inline std::string* ServerSelectInfo::mutable_port() {
-  std::string* _s = _internal_mutable_port();
-  // @@protoc_insertion_point(field_mutable:Protocol.ServerSelectInfo.port)
-  return _s;
-}
-inline const std::string& ServerSelectInfo::_internal_port() const {
-  return _impl_.port_.Get();
-}
-inline void ServerSelectInfo::_internal_set_port(const std::string& value) {
-  
-  _impl_.port_.Set(value, GetArenaForAllocation());
-}
-inline std::string* ServerSelectInfo::_internal_mutable_port() {
-  
-  return _impl_.port_.Mutable(GetArenaForAllocation());
-}
-inline std::string* ServerSelectInfo::release_port() {
-  // @@protoc_insertion_point(field_release:Protocol.ServerSelectInfo.port)
-  return _impl_.port_.Release();
-}
-inline void ServerSelectInfo::set_allocated_port(std::string* port) {
-  if (port != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.port_.SetAllocated(port, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.port_.IsDefault()) {
-    _impl_.port_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:Protocol.ServerSelectInfo.port)
-}
-
-// float density = 5;
+// float density = 3;
 inline void ServerSelectInfo::clear_density() {
   _impl_.density_ = 0;
 }
@@ -3785,29 +3937,243 @@ inline void ServerSelectInfo::set_density(float value) {
 
 // -------------------------------------------------------------------
 
-// PlayerSelectInfo
+// ServerInfo
 
-// uint64 object_id = 1;
-inline void PlayerSelectInfo::clear_object_id() {
-  _impl_.object_id_ = uint64_t{0u};
+// uint32 server_id = 1;
+inline void ServerInfo::clear_server_id() {
+  _impl_.server_id_ = 0u;
 }
-inline uint64_t PlayerSelectInfo::_internal_object_id() const {
-  return _impl_.object_id_;
+inline uint32_t ServerInfo::_internal_server_id() const {
+  return _impl_.server_id_;
 }
-inline uint64_t PlayerSelectInfo::object_id() const {
-  // @@protoc_insertion_point(field_get:Protocol.PlayerSelectInfo.object_id)
-  return _internal_object_id();
+inline uint32_t ServerInfo::server_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.ServerInfo.server_id)
+  return _internal_server_id();
 }
-inline void PlayerSelectInfo::_internal_set_object_id(uint64_t value) {
+inline void ServerInfo::_internal_set_server_id(uint32_t value) {
   
-  _impl_.object_id_ = value;
+  _impl_.server_id_ = value;
 }
-inline void PlayerSelectInfo::set_object_id(uint64_t value) {
-  _internal_set_object_id(value);
-  // @@protoc_insertion_point(field_set:Protocol.PlayerSelectInfo.object_id)
+inline void ServerInfo::set_server_id(uint32_t value) {
+  _internal_set_server_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.ServerInfo.server_id)
 }
 
 // string name = 2;
+inline void ServerInfo::clear_name() {
+  _impl_.name_.ClearToEmpty();
+}
+inline const std::string& ServerInfo::name() const {
+  // @@protoc_insertion_point(field_get:Protocol.ServerInfo.name)
+  return _internal_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ServerInfo::set_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.ServerInfo.name)
+}
+inline std::string* ServerInfo::mutable_name() {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:Protocol.ServerInfo.name)
+  return _s;
+}
+inline const std::string& ServerInfo::_internal_name() const {
+  return _impl_.name_.Get();
+}
+inline void ServerInfo::_internal_set_name(const std::string& value) {
+  
+  _impl_.name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ServerInfo::_internal_mutable_name() {
+  
+  return _impl_.name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ServerInfo::release_name() {
+  // @@protoc_insertion_point(field_release:Protocol.ServerInfo.name)
+  return _impl_.name_.Release();
+}
+inline void ServerInfo::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.name_.SetAllocated(name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.name_.IsDefault()) {
+    _impl_.name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.ServerInfo.name)
+}
+
+// float density = 3;
+inline void ServerInfo::clear_density() {
+  _impl_.density_ = 0;
+}
+inline float ServerInfo::_internal_density() const {
+  return _impl_.density_;
+}
+inline float ServerInfo::density() const {
+  // @@protoc_insertion_point(field_get:Protocol.ServerInfo.density)
+  return _internal_density();
+}
+inline void ServerInfo::_internal_set_density(float value) {
+  
+  _impl_.density_ = value;
+}
+inline void ServerInfo::set_density(float value) {
+  _internal_set_density(value);
+  // @@protoc_insertion_point(field_set:Protocol.ServerInfo.density)
+}
+
+// string ip_address = 4;
+inline void ServerInfo::clear_ip_address() {
+  _impl_.ip_address_.ClearToEmpty();
+}
+inline const std::string& ServerInfo::ip_address() const {
+  // @@protoc_insertion_point(field_get:Protocol.ServerInfo.ip_address)
+  return _internal_ip_address();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ServerInfo::set_ip_address(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.ip_address_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.ServerInfo.ip_address)
+}
+inline std::string* ServerInfo::mutable_ip_address() {
+  std::string* _s = _internal_mutable_ip_address();
+  // @@protoc_insertion_point(field_mutable:Protocol.ServerInfo.ip_address)
+  return _s;
+}
+inline const std::string& ServerInfo::_internal_ip_address() const {
+  return _impl_.ip_address_.Get();
+}
+inline void ServerInfo::_internal_set_ip_address(const std::string& value) {
+  
+  _impl_.ip_address_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ServerInfo::_internal_mutable_ip_address() {
+  
+  return _impl_.ip_address_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ServerInfo::release_ip_address() {
+  // @@protoc_insertion_point(field_release:Protocol.ServerInfo.ip_address)
+  return _impl_.ip_address_.Release();
+}
+inline void ServerInfo::set_allocated_ip_address(std::string* ip_address) {
+  if (ip_address != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.ip_address_.SetAllocated(ip_address, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.ip_address_.IsDefault()) {
+    _impl_.ip_address_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.ServerInfo.ip_address)
+}
+
+// string port = 5;
+inline void ServerInfo::clear_port() {
+  _impl_.port_.ClearToEmpty();
+}
+inline const std::string& ServerInfo::port() const {
+  // @@protoc_insertion_point(field_get:Protocol.ServerInfo.port)
+  return _internal_port();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ServerInfo::set_port(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.port_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.ServerInfo.port)
+}
+inline std::string* ServerInfo::mutable_port() {
+  std::string* _s = _internal_mutable_port();
+  // @@protoc_insertion_point(field_mutable:Protocol.ServerInfo.port)
+  return _s;
+}
+inline const std::string& ServerInfo::_internal_port() const {
+  return _impl_.port_.Get();
+}
+inline void ServerInfo::_internal_set_port(const std::string& value) {
+  
+  _impl_.port_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ServerInfo::_internal_mutable_port() {
+  
+  return _impl_.port_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ServerInfo::release_port() {
+  // @@protoc_insertion_point(field_release:Protocol.ServerInfo.port)
+  return _impl_.port_.Release();
+}
+inline void ServerInfo::set_allocated_port(std::string* port) {
+  if (port != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.port_.SetAllocated(port, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.port_.IsDefault()) {
+    _impl_.port_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.ServerInfo.port)
+}
+
+// -------------------------------------------------------------------
+
+// PlayerSelectInfo
+
+// int32 player_db_id = 1;
+inline void PlayerSelectInfo::clear_player_db_id() {
+  _impl_.player_db_id_ = 0;
+}
+inline int32_t PlayerSelectInfo::_internal_player_db_id() const {
+  return _impl_.player_db_id_;
+}
+inline int32_t PlayerSelectInfo::player_db_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.PlayerSelectInfo.player_db_id)
+  return _internal_player_db_id();
+}
+inline void PlayerSelectInfo::_internal_set_player_db_id(int32_t value) {
+  
+  _impl_.player_db_id_ = value;
+}
+inline void PlayerSelectInfo::set_player_db_id(int32_t value) {
+  _internal_set_player_db_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.PlayerSelectInfo.player_db_id)
+}
+
+// int32 player_table_id = 2;
+inline void PlayerSelectInfo::clear_player_table_id() {
+  _impl_.player_table_id_ = 0;
+}
+inline int32_t PlayerSelectInfo::_internal_player_table_id() const {
+  return _impl_.player_table_id_;
+}
+inline int32_t PlayerSelectInfo::player_table_id() const {
+  // @@protoc_insertion_point(field_get:Protocol.PlayerSelectInfo.player_table_id)
+  return _internal_player_table_id();
+}
+inline void PlayerSelectInfo::_internal_set_player_table_id(int32_t value) {
+  
+  _impl_.player_table_id_ = value;
+}
+inline void PlayerSelectInfo::set_player_table_id(int32_t value) {
+  _internal_set_player_table_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.PlayerSelectInfo.player_table_id)
+}
+
+// string name = 3;
 inline void PlayerSelectInfo::clear_name() {
   _impl_.name_.ClearToEmpty();
 }
@@ -3857,7 +4223,7 @@ inline void PlayerSelectInfo::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.PlayerSelectInfo.name)
 }
 
-// uint32 costume_setting = 3;
+// uint32 costume_setting = 4;
 inline void PlayerSelectInfo::clear_costume_setting() {
   _impl_.costume_setting_ = 0u;
 }
@@ -3875,6 +4241,111 @@ inline void PlayerSelectInfo::_internal_set_costume_setting(uint32_t value) {
 inline void PlayerSelectInfo::set_costume_setting(uint32_t value) {
   _internal_set_costume_setting(value);
   // @@protoc_insertion_point(field_set:Protocol.PlayerSelectInfo.costume_setting)
+}
+
+// int32 rank_score = 5;
+inline void PlayerSelectInfo::clear_rank_score() {
+  _impl_.rank_score_ = 0;
+}
+inline int32_t PlayerSelectInfo::_internal_rank_score() const {
+  return _impl_.rank_score_;
+}
+inline int32_t PlayerSelectInfo::rank_score() const {
+  // @@protoc_insertion_point(field_get:Protocol.PlayerSelectInfo.rank_score)
+  return _internal_rank_score();
+}
+inline void PlayerSelectInfo::_internal_set_rank_score(int32_t value) {
+  
+  _impl_.rank_score_ = value;
+}
+inline void PlayerSelectInfo::set_rank_score(int32_t value) {
+  _internal_set_rank_score(value);
+  // @@protoc_insertion_point(field_set:Protocol.PlayerSelectInfo.rank_score)
+}
+
+// .google.protobuf.Timestamp created_time = 6;
+inline bool PlayerSelectInfo::_internal_has_created_time() const {
+  return this != internal_default_instance() && _impl_.created_time_ != nullptr;
+}
+inline bool PlayerSelectInfo::has_created_time() const {
+  return _internal_has_created_time();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& PlayerSelectInfo::_internal_created_time() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.created_time_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& PlayerSelectInfo::created_time() const {
+  // @@protoc_insertion_point(field_get:Protocol.PlayerSelectInfo.created_time)
+  return _internal_created_time();
+}
+inline void PlayerSelectInfo::unsafe_arena_set_allocated_created_time(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* created_time) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.created_time_);
+  }
+  _impl_.created_time_ = created_time;
+  if (created_time) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.PlayerSelectInfo.created_time)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* PlayerSelectInfo::release_created_time() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.created_time_;
+  _impl_.created_time_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* PlayerSelectInfo::unsafe_arena_release_created_time() {
+  // @@protoc_insertion_point(field_release:Protocol.PlayerSelectInfo.created_time)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.created_time_;
+  _impl_.created_time_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* PlayerSelectInfo::_internal_mutable_created_time() {
+  
+  if (_impl_.created_time_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.created_time_ = p;
+  }
+  return _impl_.created_time_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* PlayerSelectInfo::mutable_created_time() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_created_time();
+  // @@protoc_insertion_point(field_mutable:Protocol.PlayerSelectInfo.created_time)
+  return _msg;
+}
+inline void PlayerSelectInfo::set_allocated_created_time(::PROTOBUF_NAMESPACE_ID::Timestamp* created_time) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.created_time_);
+  }
+  if (created_time) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(created_time));
+    if (message_arena != submessage_arena) {
+      created_time = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, created_time, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.created_time_ = created_time;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.PlayerSelectInfo.created_time)
 }
 
 // -------------------------------------------------------------------
@@ -5269,6 +5740,111 @@ inline void PlayerDetailInfo::set_costume_setting(uint32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.PlayerDetailInfo.costume_setting)
 }
 
+// int32 rank_score = 3;
+inline void PlayerDetailInfo::clear_rank_score() {
+  _impl_.rank_score_ = 0;
+}
+inline int32_t PlayerDetailInfo::_internal_rank_score() const {
+  return _impl_.rank_score_;
+}
+inline int32_t PlayerDetailInfo::rank_score() const {
+  // @@protoc_insertion_point(field_get:Protocol.PlayerDetailInfo.rank_score)
+  return _internal_rank_score();
+}
+inline void PlayerDetailInfo::_internal_set_rank_score(int32_t value) {
+  
+  _impl_.rank_score_ = value;
+}
+inline void PlayerDetailInfo::set_rank_score(int32_t value) {
+  _internal_set_rank_score(value);
+  // @@protoc_insertion_point(field_set:Protocol.PlayerDetailInfo.rank_score)
+}
+
+// .google.protobuf.Timestamp created_time = 4;
+inline bool PlayerDetailInfo::_internal_has_created_time() const {
+  return this != internal_default_instance() && _impl_.created_time_ != nullptr;
+}
+inline bool PlayerDetailInfo::has_created_time() const {
+  return _internal_has_created_time();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& PlayerDetailInfo::_internal_created_time() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.created_time_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& PlayerDetailInfo::created_time() const {
+  // @@protoc_insertion_point(field_get:Protocol.PlayerDetailInfo.created_time)
+  return _internal_created_time();
+}
+inline void PlayerDetailInfo::unsafe_arena_set_allocated_created_time(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* created_time) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.created_time_);
+  }
+  _impl_.created_time_ = created_time;
+  if (created_time) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.PlayerDetailInfo.created_time)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* PlayerDetailInfo::release_created_time() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.created_time_;
+  _impl_.created_time_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* PlayerDetailInfo::unsafe_arena_release_created_time() {
+  // @@protoc_insertion_point(field_release:Protocol.PlayerDetailInfo.created_time)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.created_time_;
+  _impl_.created_time_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* PlayerDetailInfo::_internal_mutable_created_time() {
+  
+  if (_impl_.created_time_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.created_time_ = p;
+  }
+  return _impl_.created_time_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* PlayerDetailInfo::mutable_created_time() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_created_time();
+  // @@protoc_insertion_point(field_mutable:Protocol.PlayerDetailInfo.created_time)
+  return _msg;
+}
+inline void PlayerDetailInfo::set_allocated_created_time(::PROTOBUF_NAMESPACE_ID::Timestamp* created_time) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.created_time_);
+  }
+  if (created_time) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(created_time));
+    if (message_arena != submessage_arena) {
+      created_time = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, created_time, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.created_time_ = created_time;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.PlayerDetailInfo.created_time)
+}
+
 // -------------------------------------------------------------------
 
 // ObjectInfo
@@ -6038,6 +6614,8 @@ inline void MovementRecord::set_allocated_dest_info(::Protocol::DestInfo* dest_i
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

@@ -1,0 +1,3 @@
+﻿Range,Struct,,,
+Int,String,String,TSoftObjectPtr<USkeletalMesh>,TSoftObjectPtr<UMaterialInstance>
+Id,ServerName,ClientName,ClientMesh,ClientMaterial

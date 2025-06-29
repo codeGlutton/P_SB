@@ -4,7 +4,7 @@
 #include "Types.h"
 #include "Containers/Queue.h"
 
-namespace Protocol { class ServerSelectInfo; }
+namespace Protocol { class ServerInfo; class C_LOGIN; }
 
 /************************
 	   FPacketHeader
@@ -46,11 +46,14 @@ public:
 
 	void								SendPacket(SendBufferRef SendBuffer);
 
-	bool								Connect(Protocol::ServerSelectInfo& ServerInfo, OUT FString& SocketError);
+	bool								Connect(const Protocol::ServerInfo& ServerInfo, OUT FString& SocketError);
 	void								Run();
 	void								Disconnect();
 
-	const Protocol::ServerSelectInfo&	GetCurrentServerInfo();
+	const Protocol::ServerInfo&			GetCurrentServerInfo();
+	const Protocol::C_LOGIN&			GetLoginPkt();
+
+	Protocol::C_LOGIN*					GetMutableLoginPkt();
 
 public:
 	float								Rtt;
@@ -68,7 +71,8 @@ public:
 	}									State;
 
 private:
-	Protocol::ServerSelectInfo*			_CurServerInfo;
+	Protocol::ServerInfo*				_CurServerInfo;
+	Protocol::C_LOGIN*					_LoginPkt;
 
 	class FSocket*						_Socket;
 	RecvWorkerRef						_RecvWorkerThread;

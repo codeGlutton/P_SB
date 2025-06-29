@@ -1,12 +1,14 @@
-#include "SBPlayer.h"
+﻿#include "SBPlayer.h"
 #include "C_SB.h"
-#include "PosUtils.h"
+#include "ObjectUtils.h"
 
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Component/SBMovementComponent.h"
 
 #include "NavAreas/NavArea_Obstacle.h"
+
+//#include "Component/SBCostumeMergingComponent.h"
 
 ASBPlayer::ASBPlayer()
 {
@@ -37,7 +39,8 @@ ASBPlayer::ASBPlayer()
 	_PosInfo = xnew<Protocol::PosInfo>();
 	_PlayerDetailInfo = xnew<Protocol::PlayerDetailInfo>();
 
-	_SBMovement = CreateDefaultSubobject<USBMovementComponent>(FName("CharSBMoveComp"));
+	_SBMovementComp = CreateDefaultSubobject<USBMovementComponent>(FName("CharSBMovementComp"));
+	//_SBCostumeMergingComp = CreateDefaultSubobject<USBCostumeMergingComponent>(FName("CharSBCostumeMergingComp"));
 }
 
 ASBPlayer::~ASBPlayer()
@@ -67,7 +70,8 @@ void ASBPlayer::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	_SBMovement->PredictedVelocityDelegate.BindUObject(this, &ASBPlayer::GetVelocityByState);
+	_SBMovementComp->OnGetVelocity.BindUObject(this, &ASBPlayer::GetVelocityByState);
+	//_SBCostumeMergingComp->OnGetCostumeMeshes.BindUObject(this, &ASBPlayer)
 }
 
 void ASBPlayer::GetInfo(OUT Protocol::ObjectInfo& OutInfo)
@@ -75,7 +79,7 @@ void ASBPlayer::GetInfo(OUT Protocol::ObjectInfo& OutInfo)
 	OutInfo.mutable_object_base_info()->CopyFrom(*_ObjectBaseInfo);
 	OutInfo.mutable_object_base_info()->CopyFrom(*_PosInfo);
 	OutInfo.mutable_object_base_info()->CopyFrom(*_PlayerDetailInfo);
-	OutInfo.set_move_state(*_SBMovement->GetState());
+	OutInfo.set_move_state(*_SBMovementComp->GetState());
 }
 
 void ASBPlayer::SetInfo(const Protocol::ObjectInfo& InInfo)
@@ -88,14 +92,26 @@ void ASBPlayer::SetInfo(const Protocol::ObjectInfo& InInfo)
 	_ObjectBaseInfo->CopyFrom(InInfo.object_base_info());
 	_PosInfo->CopyFrom(InInfo.pos_info());
 	_PlayerDetailInfo->CopyFrom(InInfo.player_detail_info());
+	_SBMovementComp->SetState(InInfo.move_state());
 }
 
 void ASBPlayer::ApplyPos(const Protocol::PosInfo& InPos)
 {
 	_PosInfo->CopyFrom(InPos);
 
-	SetActorLocation(PosUtils::Pos2Vector(InPos));
-	SetActorRotation(PosUtils::Pos2Rotator(InPos));
+	SetActorLocation(PosUtils::ExtractVectorFromPos(InPos));
+	SetActorRotation(PosUtils::ExtractRotatorFromPos(InPos));
+}
+
+void ASBPlayer::ApplyTableRow(const FSBSpawnableTableRow& TableRow)
+{
+	USkeletalMesh* SkeletalMesh = TableRow.ClientMesh.Get();
+	UMaterialInstance* MaterialInstance = TableRow.ClientMaterial.Get();
+	if (SkeletalMesh == nullptr || MaterialInstance == nullptr)
+		return;
+
+	GetMesh()->SetSkeletalMesh(SkeletalMesh);
+	GetMesh()->SetMaterial(0, MaterialInstance);
 }
 
 const Protocol::ObjectBaseInfo* ASBPlayer::GetObjectBaseInfo()
@@ -127,7 +143,12 @@ float ASBPlayer::GetVelocityByState(const Protocol::MoveState State)
 	return Velocity;
 }
 
-const TObjectPtr<class USBMovementComponent> ASBPlayer::GetSBMovement()
+const TObjectPtr<class USBMovementComponent> ASBPlayer::GetSBMovementComp()
 {
-	return _SBMovement;
+	return _SBMovementComp;
 }
+
+//const TObjectPtr<class USBCostumeMergingComponent> ASBPlayer::GetSBCostumeMergingComp()
+//{
+//	return _SBCostumeMergingComp;
+//}

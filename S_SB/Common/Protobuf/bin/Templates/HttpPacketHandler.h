@@ -13,17 +13,20 @@ class ServerHttpPacketHandler
 {
 public:
 	template<typename PktType>
-	static bool									SendPkt(const FString& InUrl, PktType& InBodyPkt, TFunction<FHttpRequestCompleteDelegate::TFuncType> ResFunc);
+	static bool									SendPkt(const FString& InUrl, PktType& InBodyPkt, TFunction<FHttpRequestCompleteDelegate::TFuncType> ResFunc, const FString& Token = FString());
 {% for pkt in parser.send_pkt %}
 	static bool									SendPkt(Protocol::{{pkt.name}} Pkt) { return SendPkt(TEXT("/{{pkt.PascalName}}"), Pkt, &ServerHttpPacketHandler::Recv{{pkt.PascalName}}); }
+	static bool									SendPkt(Protocol::{{pkt.name}} Pkt, const FString Token) { return SendPkt(TEXT("/{{pkt.PascalName}}"), Pkt, &ServerHttpPacketHandler::Recv{{pkt.PascalName}}, Token); }
 {%- endfor %}
 
 	static class USBWebNetworkManager* const	GetWebNetworkManager();
 
 private:
 	template<typename PktType>
-	static bool									ParseBodyToPkt(FHttpResponsePtr& Response, OUT PktType& OutPkt);
-	static bool									DebugHttpFailPkt(FHttpRequestPtr& Request, FHttpResponsePtr& Response);
+	static bool									ParseBodyToPkt(const FHttpResponsePtr& Response, OUT PktType& OutPkt);
+	static bool									DebugHttpFailPkt(const FHttpRequestPtr& Request, const FHttpResponsePtr& Response);
+	template<typename PktType>
+	static bool									PreprocessHttpRecv(const FHttpRequestPtr& Request, const FHttpResponsePtr& Response, const bool& WasSuccessful, OUT PktType& OutPkt, OUT FString& ErrStr);
 {% for pkt in parser.send_pkt %}
 	static void									Recv{{pkt.PascalName}}(FHttpRequestPtr Request, FHttpResponsePtr Response, bool WasSuccessful);
 {%- endfor %}
@@ -33,13 +36,17 @@ private:
 };
 
 template<typename PktType>
-inline bool ServerHttpPacketHandler::SendPkt(const FString& InUrl, PktType& InBodyPkt, TFunction<FHttpRequestCompleteDelegate::TFuncType> ResFunc)
+inline bool ServerHttpPacketHandler::SendPkt(const FString& InUrl, PktType& InBodyPkt, TFunction<FHttpRequestCompleteDelegate::TFuncType> ResFunc, const FString& Token)
 {
 	TSharedRef<IHttpRequest> Request = FHttpModule::Get().CreateRequest();
 
 	Request->SetURL(s_BaseUrl + InUrl);
 	Request->SetVerb(TEXT("POST"));
 	Request->SetHeader(TEXT("Content-Type"), TEXT("application/x-protobuf"));
+	if (Token.IsEmpty() == false)
+	{
+		Request->SetHeader(TEXT("Authorization"), TEXT("Bearer ") + Token);
+	}
 	Request->OnProcessRequestComplete().BindLambda(ResFunc);
 
 	const uint16 dataSize = static_cast<uint16>(InBodyPkt.ByteSizeLong());
@@ -61,7 +68,7 @@ inline bool ServerHttpPacketHandler::SendPkt(const FString& InUrl, PktType& InBo
 }
 
 template<typename PktType>
-inline bool ServerHttpPacketHandler::ParseBodyToPkt(FHttpResponsePtr& Response, OUT PktType& OutPkt)
+inline bool ServerHttpPacketHandler::ParseBodyToPkt(const FHttpResponsePtr& Response, OUT PktType& OutPkt)
 {
 	if (OutPkt.ParseFromArray(Response->GetContent().GetData(), Response->GetContent().Num()) == false)
 	{
@@ -70,5 +77,25 @@ inline bool ServerHttpPacketHandler::ParseBodyToPkt(FHttpResponsePtr& Response, 
 	}
 
 	UE_LOG(LogHttpHandler, Log, TEXT("Http parsing to packet succeeded"));
+	return true;
+}
+
+template<typename PktType>
+inline bool ServerHttpPacketHandler::PreprocessHttpRecv(const FHttpRequestPtr& Request, const FHttpResponsePtr& Response, const bool& WasSuccessful, OUT PktType& OutPkt, OUT FString& ErrStr)
+{
+	if (WasSuccessful == false)
+	{
+#if UE_BUILD_DEVELOPMENT
+		DebugHttpFailPkt(Request, Response);
+#endif
+		ErrStr = TEXT("네트워크 오류");
+		return false;
+	}
+	if (ParseBodyToPkt(Response, OUT OutPkt) == false)
+	{
+		ErrStr = TEXT("파싱 오류");
+		return false;
+	}
+
 	return true;
 }

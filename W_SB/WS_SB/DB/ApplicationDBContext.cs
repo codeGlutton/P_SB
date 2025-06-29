@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace WS_SB.DB
 {
@@ -8,6 +6,7 @@ namespace WS_SB.DB
     {
         public DbSet<AccountDB>     Accounts { get; set; }
         public DbSet<RegisterDB>    Registers { get; set; }
+        public DbSet<PlayerDB>      Players { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -39,20 +38,20 @@ namespace WS_SB.DB
                         .HasIndex(model => new { model.AccountSnsType, model.AccountSnsSub })
                         .IsUnique();
                     nestedBuilder
-                        .HasMany(model => model.Users)
+                        .HasMany(model => model.Players)
                         .WithOne()
                         .HasForeignKey(child => child.AccountDBId);
                 }
             );
 
-            builder.Entity<UserDB>()
-                .HasOne(model => model.Ranking)
-                .WithOne(child => child.User)
-                .HasForeignKey<RankingDB>(child => child.UserDBId)
-                .IsRequired();
-
-            builder.Entity<RankingDB>()
-                .HasIndex(model => model.Score);
+            builder.Entity<PlayerDB>(
+                nestedBuilder =>
+                {
+                    nestedBuilder
+                        .HasIndex(model => model.Score)
+                        .HasFilter("[Score] > 500");
+                }
+            );
         }
     }
 }

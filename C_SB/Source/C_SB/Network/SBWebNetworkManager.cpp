@@ -25,13 +25,16 @@ USBWebNetworkManager::USBWebNetworkManager() :
 	_bIsLoggedIn(false),
 	_WaitingResTypeFlags(ESBHttpPktTypeFlag::NONE),
 	_AccountIdPattern(TEXT("^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]{1,20}$")),
-	_PasswordPattern(TEXT("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*_\\-+=`|\\\\:;\"',.?\\/])[a-zA-Z0-9~!@#$%^&*_\\-+=`|\\\\:;\"',.?\\/]{8,20}$"))
+	_PasswordPattern(TEXT("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*_\\-+=`|\\\\:;\"',.?\\/])[a-zA-Z0-9~!@#$%^&*_\\-+=`|\\\\:;\"',.?\\/]{8,20}$")),
+	_LoginPkt(),
+	_ServerInfos()
 {
 }
 
 void USBWebNetworkManager::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
+	_LoginPkt = xnew<Protocol::C_LOGIN>();
 
 	/* 구글 로그인 설정 초기화 */
 
@@ -91,6 +94,8 @@ void USBWebNetworkManager::Initialize(FSubsystemCollectionBase& Collection)
 void USBWebNetworkManager::Deinitialize()
 {
 	Super::Deinitialize();
+	xdelete(_LoginPkt);
+	_LoginPkt = nullptr;
 
 	if (_GoogleLoginHandle.IsValid() == true)
 	{
@@ -112,12 +117,8 @@ void USBWebNetworkManager::Deinitialize()
 
 void USBWebNetworkManager::RequestToCheckUsableName(const FText& AccountName)
 {
-	if (EnumHasAllFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT) == true)
-	{
-		UE_LOG(LogWebManager, Warning, TEXT("New requests cannot be send while waiting for a response packet"));
+	if (CanSendReqPkt(ESBHttpPktTypeFlag::ACCOUNT) == false)
 		return;
-	}
-	EnumAddFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT);
 
 	Protocol::REQ_CHECK_EXISTS_ACCOUNT CheckPkt;
 	{
@@ -128,18 +129,27 @@ void USBWebNetworkManager::RequestToCheckUsableName(const FText& AccountName)
 
 	if (SEND_REQ_PACKET(CheckPkt) == false)
 	{
-		ErrorFromCheckUsableId(TEXT("패킷 오류"));
+		ErrorFromCheckUsableName(TEXT("패킷 오류"));
 	}
 }
 
-void USBWebNetworkManager::RequestToSignUp(const FText& AccountName, const FText& Password)
+void USBWebNetworkManager::RequestToSignUp(const FText& AccountName, const FText& Password, const FText& RewirtePassword)
 {
-	if (EnumHasAllFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT) == true)
-	{
-		UE_LOG(LogWebManager, Warning, TEXT("New requests cannot be send while waiting for a response packet"));
+	if (CanSendReqPkt(ESBHttpPktTypeFlag::ACCOUNT) == false)
 		return;
+
+	if (CheckUsableAccountName(AccountName) == false)
+	{
+		ErrorFromSignUp(TEXT("부적절한 아이디"));
 	}
-	EnumAddFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT);
+	if (CheckUsablePassword(Password) == false)
+	{
+		ErrorFromSignUp(TEXT("부적절한 비밀번호"));
+	}
+	if (Password.ToString() != RewirtePassword.ToString())
+	{
+		ErrorFromSignUp(TEXT("비밀번호 불일치"));
+	}
 
 	Protocol::REQ_CREATE_ACCOUNT CreatePkt;
 	{
@@ -166,12 +176,8 @@ void USBWebNetworkManager::RequestToLogin(const FText& AccountName, const FText&
 		UE_LOG(LogWebManager, Warning, TEXT("Already logged in"));
 		return;
 	}
-	if (EnumHasAllFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT) == true)
-	{
-		UE_LOG(LogWebManager, Warning, TEXT("New requests cannot be send while waiting for a response packet"));
+	if (CanSendReqPkt(ESBHttpPktTypeFlag::ACCOUNT) == false)
 		return;
-	}
-	EnumAddFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT);
 
 	Protocol::REQ_LOGIN_ACCOUNT LoginPkt;
 	{
@@ -203,12 +209,8 @@ void USBWebNetworkManager::RequestToGoogleLogin()
 		UE_LOG(LogWebManager, Warning, TEXT("Already logged in"));
 		return;
 	}
-	if (EnumHasAllFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT) == true)
-	{
-		UE_LOG(LogWebManager, Warning, TEXT("New requests cannot be send while waiting for a response packet"));
+	if (CanSendReqPkt(ESBHttpPktTypeFlag::ACCOUNT) == false)
 		return;
-	}
-	EnumAddFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT);
 
 	IOnlineIdentityPtr Identity = _GoogleOnlineSubSysytem->GetIdentityInterface();
 	if (Identity == nullptr || Identity->Login(0, FOnlineAccountCredentials{}) == false)
@@ -216,6 +218,28 @@ void USBWebNetworkManager::RequestToGoogleLogin()
 		UE_LOG(LogWebManager, Warning, TEXT("Some google login settings are incorrect"));
 		ErrorFromLogin(TEXT("로그인 실패"));
 		return;
+	}
+}
+
+void USBWebNetworkManager::RequestToConnectGameServer(const int32& ServerId)
+{
+	if (_bIsLoggedIn != true)
+	{
+		UE_LOG(LogWebManager, Warning, TEXT("Only account logged in can connect to game server"));
+		return;
+	}
+	if (CanSendReqPkt(ESBHttpPktTypeFlag::ACCOUNT) == false)
+		return;
+
+	Protocol::REQ_CONNECT_GAME_SERVER ConnectPkt;
+	ConnectPkt.set_account_id(_LoginPkt->account_id());
+	ConnectPkt.set_server_id(ServerId);
+
+	FString TokenValue;
+	Utils::UTF8To16(_LoginPkt->token_value(), OUT TokenValue);
+	if (SEND_REQ_PACKET_WITH_TOKEN(ConnectPkt, TokenValue) == false)
+	{
+		ErrorFromRecheck(TEXT("패킷 오류"));
 	}
 }
 
@@ -231,9 +255,17 @@ bool USBWebNetworkManager::CheckUsablePassword(const FText& Password)
 	return Matcher.FindNext();
 }
 
-bool USBWebNetworkManager::IsWaitingSpecificRes(const ESBHttpPktTypeFlag HttpOktTypeFlag)
+bool USBWebNetworkManager::IsWaitingSpecificRes(const ESBHttpPktTypeFlag HttpPktTypeFlag)
 {
-	return EnumHasAllFlags(_WaitingResTypeFlags, HttpOktTypeFlag);
+	return EnumHasAllFlags(_WaitingResTypeFlags, HttpPktTypeFlag);
+}
+
+void USBWebNetworkManager::GetServerInfos(TArray<FSBServerSelectInfo>& ServerInfos)
+{
+	for (auto& server : _ServerInfos)
+	{
+		ServerInfos.Add(FSBServerSelectInfo(server));
+	}
 }
 
 void USBWebNetworkManager::BindGoogleWidget(UGoogleWidget* GoogleWidget)
@@ -252,27 +284,24 @@ void USBWebNetworkManager::UnbindGoogleWidget(UGoogleWidget* GoogleWidget)
 	_OnGetGoogleSignUpDismissedWidget.RemoveAll(GoogleWidget);
 }
 
-void USBWebNetworkManager::RequestToRecheckServer(const int32& AccountId, const std::string& TokenValue)
+void USBWebNetworkManager::RequestToRecheckServer()
 {
 	if (_bIsLoggedIn == false)
 	{
 		UE_LOG(LogWebManager, Warning, TEXT("Can't recheck before login"));
 		return;
 	}
-	if (EnumHasAllFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT) == true)
-	{
-		UE_LOG(LogWebManager, Warning, TEXT("New requests cannot be send while waiting for a response packet"));
+	if (CanSendReqPkt(ESBHttpPktTypeFlag::ACCOUNT) == false)
 		return;
-	}
-	EnumAddFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT);
 
 	Protocol::REQ_RECHECK_SERVER RecheckPkt;
 	{
-		RecheckPkt.set_account_id(AccountId);
-		RecheckPkt.set_token_value(TokenValue);
+		RecheckPkt.set_account_id(_LoginPkt->account_id());
 	}
 
-	if (SEND_REQ_PACKET(RecheckPkt) == false)
+	FString TokenValue;
+	Utils::UTF8To16(_LoginPkt->token_value(), OUT TokenValue);
+	if (SEND_REQ_PACKET_WITH_TOKEN(RecheckPkt, TokenValue) == false)
 	{
 		ErrorFromRecheck(TEXT("패킷 오류"));
 	}
@@ -280,72 +309,110 @@ void USBWebNetworkManager::RequestToRecheckServer(const int32& AccountId, const 
 
 void USBWebNetworkManager::ResponseToCheckUsableName(const Protocol::RES_CHECK_EXISTS_ACCOUNT& CheckPkt)
 {
-	OnIdCheckResRecved.Broadcast(true, "");
-
-	EnumRemoveFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT);
+	ResponseToRes(OnIdCheckResRecved, ESBHttpPktTypeFlag::ACCOUNT);
 }
 
 void USBWebNetworkManager::ResponseToSignUp(const Protocol::RES_CREATE_ACCOUNT& CreatePkt)
 {
-	OnSignUpResRecved.Broadcast(true, "");
-
-	EnumRemoveFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT);
+	ResponseToRes(OnSignUpResRecved, ESBHttpPktTypeFlag::ACCOUNT);
 }
 
 void USBWebNetworkManager::ResponseToLogin(const Protocol::RES_LOGIN_ACCOUNT& LoginPkt)
 {
-	OnLoginResRecved.Broadcast(true, "");
+	_LoginPkt->set_account_id(LoginPkt.account_id());
+	_LoginPkt->set_token_value(LoginPkt.token_value());
+	UpdateServerInfos(LoginPkt.server_list());
 	_bIsLoggedIn = true;
+	ResponseToRes(OnLoginResRecved, ESBHttpPktTypeFlag::ACCOUNT);
+}
 
-	EnumRemoveFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT);
+void USBWebNetworkManager::ResponseToConnectGameServer(const Protocol::RES_CONNECT_GAME_SERVER& ConnectPkt)
+{
+	ResponseToRes(OnConnectResRecved, ESBHttpPktTypeFlag::ACCOUNT);
 }
 
 void USBWebNetworkManager::ResponseToRecheck(const Protocol::RES_RECHECK_SERVER& RecheckPkt)
 {
-	OnRecheckResRecved.Broadcast(true, "");
-
-	EnumRemoveFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT);
+	UpdateServerInfos(RecheckPkt.server_list());
+	ResponseToRes(OnRecheckResRecved, ESBHttpPktTypeFlag::ACCOUNT);
 }
 
 void USBWebNetworkManager::ResponseToLogOut()
 {
+	_LoginPkt->Clear();
+	_ServerInfos.Empty();
 	_bIsLoggedIn = false;
+	OnLogOutResRecved.Broadcast();
 }
 
-void USBWebNetworkManager::ErrorFromCheckUsableId(FString ErrStr)
+void USBWebNetworkManager::ErrorFromCheckUsableName(FString ErrStr)
 {
-	UE_LOG(LogWebManager, Log, TEXT("Account pkt is failed by %s"), *ErrStr);
-	
-	OnIdCheckResRecved.Broadcast(false, ErrStr);
-
-	EnumRemoveFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT);
+	ErrorFromRes(ErrStr, OnIdCheckResRecved, ESBHttpPktTypeFlag::ACCOUNT);
 }
 
 void USBWebNetworkManager::ErrorFromSignUp(FString ErrStr)
 {
-	UE_LOG(LogWebManager, Log, TEXT("Account pkt is failed by %s"), *ErrStr);
-
-	OnSignUpResRecved.Broadcast(false, ErrStr);
-
-	EnumRemoveFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT);
+	ErrorFromRes(ErrStr, OnSignUpResRecved, ESBHttpPktTypeFlag::ACCOUNT);
 }
 
 void USBWebNetworkManager::ErrorFromLogin(FString ErrStr)
 {
-	UE_LOG(LogWebManager, Log, TEXT("Account pkt is failed by %s"), *ErrStr);
+	ErrorFromRes(ErrStr, OnLoginResRecved, ESBHttpPktTypeFlag::ACCOUNT);
+}
 
-	OnLoginResRecved.Broadcast(false, ErrStr);
-
-	EnumRemoveFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT);
+void USBWebNetworkManager::ErrorFromConnectGameServer(FString ErrStr)
+{
+	ErrorFromRes(ErrStr, OnConnectResRecved, ESBHttpPktTypeFlag::ACCOUNT);
 }
 
 void USBWebNetworkManager::ErrorFromRecheck(FString ErrStr)
 {
-	UE_LOG(LogWebManager, Log, TEXT("Recheck pkt is failed by %s"), *ErrStr);
+	ErrorFromRes(ErrStr, OnRecheckResRecved, ESBHttpPktTypeFlag::ACCOUNT);
+}
 
-	OnRecheckResRecved.Broadcast(false, ErrStr);
+bool USBWebNetworkManager::CanSendReqPkt(const ESBHttpPktTypeFlag PktType)
+{
+	if (EnumHasAllFlags(_WaitingResTypeFlags, PktType) == true)
+	{
+		UE_LOG(LogWebManager, Warning, TEXT("New requests cannot be send while waiting for a response packet"));
+		return false;
+	}
+	EnumAddFlags(_WaitingResTypeFlags, PktType);
+	OnChangeReqPktFlags.Broadcast();
+	return true;
+}
 
-	EnumRemoveFlags(_WaitingResTypeFlags, ESBHttpPktTypeFlag::ACCOUNT);
+void USBWebNetworkManager::ResponseToRes(const FOnHttpResRecved& InDelegate, const ESBHttpPktTypeFlag PktType)
+{
+	UE_LOG(LogWebManager, Log, TEXT("Web pkt is successed"));
+	InDelegate.Broadcast(true, "");
+	EnumRemoveFlags(_WaitingResTypeFlags, PktType);
+	OnChangeReqPktFlags.Broadcast();
+}
+
+void USBWebNetworkManager::ErrorFromRes(const FString& ErrStr, const FOnHttpResRecved& InDelegate, const ESBHttpPktTypeFlag PktType)
+{
+	UE_LOG(LogWebManager, Log, TEXT("Web pkt is failed by %s"), *ErrStr);
+	InDelegate.Broadcast(false, ErrStr);
+	EnumRemoveFlags(_WaitingResTypeFlags, PktType);
+	OnChangeReqPktFlags.Broadcast();
+}
+
+void USBWebNetworkManager::UpdateServerInfos(const google::protobuf::RepeatedPtrField<Protocol::ServerSelectInfo>& ServerInfos)
+{
+	_ServerInfos.Empty();
+	if (ServerInfos.empty() == true)
+	{
+		return;
+	}
+
+	for (auto& ServerInfo : ServerInfos)
+	{
+		_ServerInfos.Add(ServerInfo);
+	}
+	_ServerInfos.Sort([](const Protocol::ServerSelectInfo& Op1, const Protocol::ServerSelectInfo& Op2) {
+		return Op1.server_id() < Op2.server_id();
+	});
 }
 
 FOnPopupDismissed USBWebNetworkManager::OpenGooglePopupWidget(const TSharedRef<SWidget>& LoginWidget)

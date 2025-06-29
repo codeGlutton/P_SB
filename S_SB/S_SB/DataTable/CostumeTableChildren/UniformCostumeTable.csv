@@ -1,0 +1,4 @@
+﻿Range,Data,,,
+Int,String,String,TSoftObjectPtr<USkeletalMesh>,TSoftObjectPtr<UMaterialInstance>
+Id,ServerName,ClientName,ClientMesh,ClientMaterial
+1,줄무늬-레드,줄무늬-레드,,

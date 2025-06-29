@@ -4,8 +4,7 @@
 
 uint64 Utils::MakeTimeStamp()
 {
-    auto Now = std::chrono::system_clock::now();
-    auto Duration = Now.time_since_epoch();
+	std::chrono::utc_clock::duration Duration = std::chrono::utc_clock::now().time_since_epoch();
     return std::chrono::duration_cast<std::chrono::milliseconds>(Duration).count();
 }
 

@@ -17,6 +17,22 @@
   },
   {
     "ContainingType": "WS_SB.Controllers.AccountController",
+    "Method": "HandleReqConnectGameServer",
+    "RelativePath": "Account/ReqConnectGameServer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pkt",
+        "Type": "Google.Protobuf.HttpProtocol.REQ_CONNECT_GAME_SERVER",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WS_SB.Controllers.AccountController",
     "Method": "HandleReqCreateAccount",
     "RelativePath": "Account/ReqCreateAccount",
     "HttpMethod": "POST",

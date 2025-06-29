@@ -1,9 +1,8 @@
 #include "pch.h"
 #include "ObjectUtils.h"
+#include "ByteConverters.h"
 
 #include "GameSession.h"
-#include "TableRow.h"
-
 #include "Player.h"
 #include "Athlete.h"
 
@@ -15,12 +14,12 @@
 
 std::atomic<uint32> ObjectUtils::s_idGenerator = 0;
 
-PlayerRef ObjectUtils::CreatedPlayer(GameSessionRef session, int32 dbId)
+PlayerRef ObjectUtils::CreatedPlayer(GameSessionRef session, uint32 dbId, uint16 tableId)
 {
 	const uint32 newId = s_idGenerator.fetch_add(1);
 
 	PlayerRef player = MakeXShared<Player>();
-	IdConvertor idConvertor(newId, dbId, 0);
+	IdConvertor idConvertor(newId, dbId, tableId);
 	player->objectBaseInfo->set_object_id(idConvertor.objId);
 	player->ownerSession = session;
 

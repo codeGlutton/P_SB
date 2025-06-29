@@ -16,6 +16,9 @@ namespace Protocol
 {
 	class C_MOVE;
 	class S_SPAWN;
+	
+	class PlayerSelectInfo;
+	class R_PLAYER_DATA;
 }
 
 struct AthleteConstructionParameters;
@@ -132,9 +135,11 @@ public:
 	/* thread-unsafe (jobQ·Î º¸È£)  */
 
 	void								TryToVerification(GameSessionRef gameSession, int32 accountId, xString tokenValue);
-	void								LoadPlayerDatas(GameSessionRef gameSession, int32 accountId, xVector<Protocol::ObjectInfo> ObjectInfos);
-	void								SelectPlayer(PlayerDataProtectorRef playerData, uint64 index);
-	void								DeleteLocalData(PlayerDataProtectorRef playerData);
+	void								LoadPlayerDatas(GameSessionRef gameSession, int32 accountId, xVector<Protocol::R_PLAYER_DATA> playerRedisDatas);
+	void								SelectPlayer(GameSessionRef gameSession, int32 playerDbId);
+	void								CreatePlayer(GameSessionRef gameSession, Protocol::PlayerSelectInfo newPlayer);
+	void								DeletePlayer(GameSessionRef gameSession, int32 playerDbId);
+	void								DeleteLocalData(PlayerDataProtectorRef playerDataProtector);
 
 	void								StartHeartBeat(GameSessionRef gameSession);
 	void								RestartHeartBeat(GameSessionRef gameSession);

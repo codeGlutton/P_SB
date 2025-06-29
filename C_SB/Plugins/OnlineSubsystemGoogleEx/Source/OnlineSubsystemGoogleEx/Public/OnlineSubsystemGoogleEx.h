@@ -59,7 +59,7 @@ public:
 
 protected:
 
-	// 사용할 구글 클라이언트 Id
+	// 사용할 구글 클라이언트 RegisterId
 	FString								ClientId;
 
 	// 구글 identitiy 인터페이스 구현 객체

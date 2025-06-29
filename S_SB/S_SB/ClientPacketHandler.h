@@ -17,27 +17,33 @@ enum : uint16
 	PKT_S_PING = 1001,
 	PKT_C_LOGIN = 1002,
 	PKT_S_LOGIN = 1003,
-	PKT_C_ENTER_GAME = 1004,
-	PKT_C_CHANGE_MAP = 1005,
-	PKT_S_CHANGE_MAP = 1006,
-	PKT_C_LEAVE_GAME = 1007,
-	PKT_S_LEAVE_GAME = 1008,
-	PKT_S_SPAWN = 1009,
-	PKT_S_DESPAWN = 1010,
-	PKT_S_UPDATE_ROOM = 1011,
-	PKT_C_SHOW_TEAM_MATCH = 1012,
-	PKT_S_SHOW_TEAM_MATCH = 1013,
-	PKT_S_INIT_TEAM_MATCH = 1014,
-	PKT_S_UPDATE_TEAM_MATCH = 1015,
-	PKT_C_MOVE = 1016,
-	PKT_S_MOVE = 1017,
-	PKT_C_CHAT = 1018,
-	PKT_S_CHAT = 1019,
+	PKT_C_CREATE_PLAYER = 1004,
+	PKT_S_CREATE_PLAYER = 1005,
+	PKT_C_DELETE_PLAYER = 1006,
+	PKT_S_DELETE_PLAYER = 1007,
+	PKT_C_ENTER_GAME = 1008,
+	PKT_C_CHANGE_MAP = 1009,
+	PKT_S_CHANGE_MAP = 1010,
+	PKT_C_LEAVE_GAME = 1011,
+	PKT_S_LEAVE_GAME = 1012,
+	PKT_S_SPAWN = 1013,
+	PKT_S_DESPAWN = 1014,
+	PKT_S_UPDATE_ROOM = 1015,
+	PKT_C_SHOW_TEAM_MATCH = 1016,
+	PKT_S_SHOW_TEAM_MATCH = 1017,
+	PKT_S_INIT_TEAM_MATCH = 1018,
+	PKT_S_UPDATE_TEAM_MATCH = 1019,
+	PKT_C_MOVE = 1020,
+	PKT_S_MOVE = 1021,
+	PKT_C_CHAT = 1022,
+	PKT_S_CHAT = 1023,
 };
 
 bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len);
 bool Handle_C_PING(PacketSessionRef& session, Protocol::C_PING& pkt);
 bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt);
+bool Handle_C_CREATE_PLAYER(PacketSessionRef& session, Protocol::C_CREATE_PLAYER& pkt);
+bool Handle_C_DELETE_PLAYER(PacketSessionRef& session, Protocol::C_DELETE_PLAYER& pkt);
 bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt);
 bool Handle_C_CHANGE_MAP(PacketSessionRef& session, Protocol::C_CHANGE_MAP& pkt);
 bool Handle_C_LEAVE_GAME(PacketSessionRef& session, Protocol::C_LEAVE_GAME& pkt);
@@ -59,6 +65,8 @@ public:
 			GPacketHandler[i] = Handle_INVALID;
 		GPacketHandler[PKT_C_PING] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_PING>(Handle_C_PING, session, buffer, len); };
 		GPacketHandler[PKT_C_LOGIN] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_LOGIN>(Handle_C_LOGIN, session, buffer, len); };
+		GPacketHandler[PKT_C_CREATE_PLAYER] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_CREATE_PLAYER>(Handle_C_CREATE_PLAYER, session, buffer, len); };
+		GPacketHandler[PKT_C_DELETE_PLAYER] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_DELETE_PLAYER>(Handle_C_DELETE_PLAYER, session, buffer, len); };
 		GPacketHandler[PKT_C_ENTER_GAME] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ENTER_GAME>(Handle_C_ENTER_GAME, session, buffer, len); };
 		GPacketHandler[PKT_C_CHANGE_MAP] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_CHANGE_MAP>(Handle_C_CHANGE_MAP, session, buffer, len); };
 		GPacketHandler[PKT_C_LEAVE_GAME] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_LEAVE_GAME>(Handle_C_LEAVE_GAME, session, buffer, len); };
@@ -75,6 +83,8 @@ public:
 	}
 	static SendBufferRef MakeSendBuffer(Protocol::S_PING& pkt) { return MakeSendBuffer(pkt, PKT_S_PING); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_LOGIN& pkt) { return MakeSendBuffer(pkt, PKT_S_LOGIN); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_CREATE_PLAYER& pkt) { return MakeSendBuffer(pkt, PKT_S_CREATE_PLAYER); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_DELETE_PLAYER& pkt) { return MakeSendBuffer(pkt, PKT_S_DELETE_PLAYER); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_CHANGE_MAP& pkt) { return MakeSendBuffer(pkt, PKT_S_CHANGE_MAP); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_LEAVE_GAME& pkt) { return MakeSendBuffer(pkt, PKT_S_LEAVE_GAME); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_SPAWN& pkt) { return MakeSendBuffer(pkt, PKT_S_SPAWN); }

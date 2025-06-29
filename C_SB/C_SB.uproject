@@ -10,7 +10,9 @@
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"Engine",
-				"UMG"
+				"UMG",
+				"CoreUObject",
+				"ModelViewViewModel"
 			]
 		}
 	],
@@ -32,6 +34,10 @@
 		},
 		{
 			"Name": "OnlineSubsystemGoogleEx",
+			"Enabled": true
+		},
+		{
+			"Name": "ModelViewViewModel",
 			"Enabled": true
 		}
 	]

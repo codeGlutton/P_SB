@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using System.Net.Http;
+﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using WS_SB.Models;
 
@@ -21,16 +19,16 @@ namespace WS_SB.Services
             var googleLgoinConfig = config.GetSection("Authentication")?.GetSection("Google");
             if (googleLgoinConfig != null)
             {
-                _clientId = googleLgoinConfig.GetValue<string>("ClientId");
-                _clientSecret = googleLgoinConfig.GetValue<string>("ClientSecret");
-                _redirectUrl = googleLgoinConfig.GetValue<string>("RedirectUrl");
+                _clientId = googleLgoinConfig.GetValue<string>("ClientId") ?? throw new InvalidOperationException("Authentication__Google string 'ClientId' not found.");
+                _clientSecret = googleLgoinConfig.GetValue<string>("ClientSecret") ?? throw new InvalidOperationException("Authentication__Google string 'ClientSecret' not found.");
+                _redirectUrl = googleLgoinConfig.GetValue<string>("RedirectUrl") ?? throw new InvalidOperationException("Authentication__Google string 'RedirectUrl' not found.");
             }
 
             _httpClient = new HttpClient() { BaseAddress = new Uri($"https://www.googleapis.com/oauth2/v4/token") };
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
         }
 
-        public async Task<GoogleExchangeData> ExchangeToken(string authCode)
+        public async Task<GoogleExchangeData?> ExchangeTokenAsync(string authCode)
         {
             var reqContent = new FormUrlEncodedContent(new[]
             {

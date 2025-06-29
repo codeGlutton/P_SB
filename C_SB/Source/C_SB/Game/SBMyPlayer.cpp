@@ -1,4 +1,4 @@
-#include "SBMyPlayer.h"
+﻿#include "SBMyPlayer.h"
 #include "C_SB.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
@@ -31,12 +31,12 @@ void ASBMyPlayer::AddMovementInput(FVector WorldDirection, float ScaleValue, boo
 {
 	Super::AddMovementInput(WorldDirection, ScaleValue, bForce);
 
-	GetSBMovement()->NotifyMoveInput(WorldDirection);
+	GetSBMovementComp()->NotifyMoveInput(WorldDirection);
 }
 
 void ASBMyPlayer::SimpleMoveToLocation(const FVector& GoalLocation)
 {
 	UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetController(), GoalLocation);
 
-	GetSBMovement()->NotifyPathFollowing(GoalLocation);
+	GetSBMovementComp()->NotifyPathFollowing(GoalLocation);
 }

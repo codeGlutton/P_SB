@@ -198,7 +198,7 @@ public:
 	double							ExpiresIn;
 	// Refresh 토큰 str
 	FString							RefreshToken;
-	// JWT Id 토큰 str
+	// JWT RegisterId 토큰 str
 	FString							IdToken;
 	// IdToken를 파싱한 데이터들
 	FJsonWebTokenGoogleEx			IdTokenJWT;

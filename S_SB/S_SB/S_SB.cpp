@@ -66,9 +66,7 @@ int main()
 	 /* Create Singleton */
 
 	GSessionManager = xnew<GameSessionManager>();
-
-	GDataTable = xnew<DataTable>();
-
+	GDataTableManager = xnew<DataTableManager>();
 	GDBManager = xnew<DBManager>();
 	GRoomManager = xnew<RoomManager>();
 
@@ -76,42 +74,6 @@ int main()
 
 	GDBManager->Init();
 	GRoomManager->Init();
-
-#pragma region RedisTestCode
-	//try
-	//{
-	//	//sw::redis::ConnectionOptions connectionOptions;
-	//	//connectionOptions.host = "127.0.0.1";  // Required.
-	//	//connectionOptions.port = 6379; // Optional. The default port is 6379.
-	//	//connectionOptions.password = "TestRedisCpp";   // Optional. No password by default.
-	//	//connectionOptions.db = 1;  // Optional. Use the 0th database by default.
-	//	//auto redis = sw::redis::Redis(connectionOptions);
-
-	//	std::string redisConnectionStrings;
-
-	//	{
-	//		char buffer[32767];
-	//		DWORD size = GetEnvironmentVariableA("RedisConnectionStrings", buffer, sizeof(buffer));
-
-	//		if (size > 0) {
-	//			redisConnectionStrings = buffer;
-	//		}
-	//		else
-	//		{
-	//			CRASH("Redis Env val is empty")
-	//		}
-	//	}
- //
-	//	auto redis = sw::redis::Redis(redisConnectionStrings);
-
-	//	redis.zadd("sorted_set", "p1", 3);
-	//	std::cout << redis.zrank("sorted_set", "p1").value() << std::endl;
-	//}
-	//catch (const sw::redis::Error& err)
-	//{
-	//	std::cout << err.what() << std::endl;
-	//}
-#pragma endregion
 
 #pragma region GameDBCode
 	// 직접 로컬 서버 연결 && 편집 가능 계정으로 로그인
@@ -203,4 +165,11 @@ int main()
 	DoGameWorkerJob(service);
 
 	GThreadManager->Join();
+
+	/* Delete Singleton */
+
+	xdelete(GRoomManager);
+	xdelete(GDBManager);
+	xdelete(GDataTableManager);
+	xdelete(GSessionManager);
 }

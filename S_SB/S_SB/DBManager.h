@@ -1,7 +1,7 @@
 #pragma once
 
-USING_SHARED_PTR(DBPlayerTaskExecutor);
-USING_SHARED_PTR(DBAchvTaskExecutor);
+USING_SHARED_PTR(DBEnterTaskExecutor);
+USING_SHARED_PTR(DBUpdateTaskExecutor);
 
 USING_SHARED_PTR_IN_TWO_NAMESPACE(sw, redis, Redis)
 
@@ -14,16 +14,16 @@ public:
 
 	void								Init();
 
-	const DBPlayerTaskExecutorRef		GetPlayerTaskExecutor();
-	const DBAchvTaskExecutorRef			GetAchvTaskExecutor();
+	const DBEnterTaskExecutorRef		GetEnterTaskExecutor();
+	const DBUpdateTaskExecutorRef		GetUpdateTaskExecutor();
 	const sw::redis::RedisRef			GetRedis();
 
 private:
 	const std::string					GetRedisConStr();
 
 private:
-	DBPlayerTaskExecutorRef				_playerTaskExecutor;
-	DBAchvTaskExecutorRef				_achvTaskExecutor;
+	DBEnterTaskExecutorRef				_enterTaskExecutor;
+	DBUpdateTaskExecutorRef				_updateTaskExecutor;
 	sw::redis::RedisRef					_redis;
 };
 

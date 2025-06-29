@@ -28,6 +28,9 @@
     <Filter Include="Contents\LeagueData">
       <UniqueIdentifier>{fb72536e-8791-408d-9a0a-f650de623576}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Protocol\Convertor">
+      <UniqueIdentifier>{bdb752be-0641-49aa-b2bc-cb13dbcdc125}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -191,6 +194,9 @@
     <ClInclude Include="ByteConverters.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\Protobuf\bin\CopyList\ByteConverters.h">
+      <Filter>Protocol\Convertor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Common\Protobuf\bin\Protocol.proto">
@@ -219,6 +225,9 @@
     </None>
     <None Include="..\Common\Protobuf\bin\RedisProtocol.proto">
       <Filter>Protocol</Filter>
+    </None>
+    <None Include="DataTable\ManagerCostumeTable.csv">
+      <Filter>DataTable</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -5,8 +5,9 @@ UI Design Asset:
 <Battle Royale/ FPS Game UI Asset Pack> by Lynda Mc Donald (Licensed under CC BY 4.0) https://loudeyes.itch.io/battle-royale-fps-game-ui-asset-pack
 <Assets Wenrexa UI Sci-Fi Minimalism>, <Wenrexa Interface UI KIT> by Wenrexa
 <Yet Another Icons> by Prinbles
+<450 clean and minimal game Icon ultimate pack> by SunGraphica
 
-SM Asset: 
+SKM Asset: 
 <Business Male 2 - Low Poly Style> by Polytricity (Licensed under Fab Standard License)
 
 Mesh Asset: 

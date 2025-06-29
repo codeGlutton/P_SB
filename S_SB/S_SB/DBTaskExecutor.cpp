@@ -17,177 +17,92 @@
 #include "DBConnectionPool.h"
 
 /*************************
-	DBPlayerTaskExecutor
+	DBEnterTaskExecutor
 **************************/
 
-DBPlayerTaskExecutor::DBPlayerTaskExecutor()
+const int32 DBEnterTaskExecutor::EXIT_ACCOUNT_TTL_MIN = 15;
+
+DBEnterTaskExecutor::DBEnterTaskExecutor()
 {
-	_serverInfo = xnew<Protocol::R_SERVER_DATA>();
-
-	_serverInfo->set_id(1ul);
-	{
-		char u8Name[256];
-		Utils::UTF16To8(L"테스트1", u8Name);
-		_serverInfo->set_name(u8Name);
-	}
-	_serverInfo->set_ip_address("127.0.0.1");
-	_serverInfo->set_port("7777");
-
 	_jwtPassword = GetJwtPasswordStr();
+
+	char accountKeyPrefix[256];
+	Utils::UTF16To8(L"account::", OUT accountKeyPrefix);
+	_accountKeyPrefix = xString(accountKeyPrefix);
+
+	char playingAccountKey[256];
+	Utils::UTF16To8(L"playing_accounts", OUT playingAccountKey);
+	_playingAccountKey = xString(playingAccountKey);
 }
 
-DBPlayerTaskExecutor::~DBPlayerTaskExecutor()
+DBEnterTaskExecutor::~DBEnterTaskExecutor()
 {
-	xdelete(_serverInfo);
-	_serverInfo = nullptr;
 }
 
-void DBPlayerTaskExecutor::UpdateServerInfo(float dencity)
+void DBEnterTaskExecutor::GetVerifiedAccount(GameSessionRef gameSession, int32 accountId, xString tokenValue)
 {
-	_serverInfo->set_density(dencity);
+	/* JWT 토큰 검사 */
 
-	auto redis = GDBManager->GetRedis();
-
-	char redisKey[256];
-	Utils::UTF16To8(L"servers", OUT redisKey);
-	try
 	{
-		redis->hset(redisKey, std::to_string(_serverInfo->id()), _serverInfo->SerializeAsString());
-	}
-	catch (const sw::redis::Error& err)
-	{
-		GConsoleLogger->WriteStdOut(Color::YELLOW, L"Updating Server has Redis error : %ls", Utils::UTF8To16(err.what()).c_str());
-	}
-}
+		auto decoded = jwt::decode(tokenValue.c_str());
+		auto verifier = jwt::verify()
+			.with_subject(std::to_string(accountId))
+			.allow_algorithm(jwt::algorithm::hs256{ _jwtPassword.c_str() });
+		try
+		{
+			verifier.verify(decoded);
+		}
+		catch (const std::exception& err)
+		{
+			/* 인증 실패 */
 
-void DBPlayerTaskExecutor::GetVerifiedAccount(GameSessionRef gameSession, int32 accountId, xString tokenValue)
-{
-	bool isSuccess = true;
+			GConsoleLogger->WriteStdOut(Color::YELLOW, L"JWT token is invalid : %ls", Utils::UTF8To16(err.what()).c_str());
+			{
+				Protocol::S_LOGIN loginPkt;
+				loginPkt.set_result(Protocol::LOGIN_RESULT_ERROR_INVALID_TOKEN);
+				SEND_S_PACKET(gameSession, loginPkt);
+			}
+			gameSession->Disconnect(L"Disconnection becase of wrong token");
+			return;
+		}
+	}
 
 	/* 웹 서버에서 올린 Redis 데이터 탐색 */
 
-	xString accountIdStr = xString(std::to_string(accountId));
-
-	char accountKey[256];
-	Utils::UTF16To8(L"account::", OUT accountKey);
-	xString accountKeyStr = xString(accountKey) + accountIdStr;
-
-	char logKey[256];
-	Utils::UTF16To8(L"log::", OUT logKey);
-	xString logKeyStr = xString(logKey) + accountIdStr;
-
-	auto redis = GDBManager->GetRedis();
-	std::string protoStr = "";
+	std::string redisAccountValue = DownloadAccountPlayers(accountId);
+	if (redisAccountValue.empty() == true)
 	{
-		sw::redis::Transaction transaction = redis->transaction(false,false);
-		sw::redis::Redis tmpRedis = transaction.redis();
+		/* 중복 연결 처리 */
 
-		/* Redis 트랜잭션 실행 */
-
-		while (true)
 		{
-			try
-			{
-				tmpRedis.watch(accountKeyStr);
-
-				sw::redis::OptionalString res = tmpRedis.get(accountKeyStr);
-				if (res)
-				{
-					protoStr = res.value();
-					transaction.set(logKeyStr, "", std::chrono::minutes(30));
-				}
-				transaction.exec();
-				
-				break;
-			}
-			catch (const sw::redis::WatchError& err)
-			{
-				// 중도에 타 클라이언트 방해
-				continue;
-			}
-			catch (const sw::redis::Error& err)
-			{
-				GConsoleLogger->WriteStdOut(Color::YELLOW, L"Players from account has Redis error : %ls", Utils::UTF8To16(err.what()).c_str());
-				isSuccess = false;
-				break;
-			}
+			Protocol::S_LOGIN loginPkt;
+			loginPkt.set_result(Protocol::LOGIN_RESULT_ERROR_ACCOUNT_EXIST);
+			SEND_S_PACKET(gameSession, loginPkt);
 		}
+		gameSession->Disconnect(L"Disconnection because the account is already connected");
+		return;
 	}
 
-	/* JWT 토큰 검사 */
+	/* 인증 성공 */
 
-	auto decoded = jwt::decode(tokenValue.c_str());
-	auto verifier = jwt::verify()
-		.with_subject(std::to_string(accountId))
-		.allow_algorithm(jwt::algorithm::hs256{ _jwtPassword.c_str() });
-	try
-	{
-		verifier.verify(decoded);
-	}
-	catch (const std::exception& err)
-	{
-		GConsoleLogger->WriteStdOut(Color::YELLOW, L"JWT token is invalid : %ls", Utils::UTF8To16(err.what()).c_str());
-		isSuccess = false;
-	}
+	Protocol::R_ACCOUNT_DATA accountData;
+	ASSERT_CRASH(accountData.ParseFromString(redisAccountValue));
 
-	if (isSuccess == true)
-	{
-		/* 인증 성공 */
 
-		Protocol::R_ACCOUNT_DATA accountData;
-		ASSERT_CRASH(accountData.ParseFromString(protoStr));
-
-		/* Account의 게임 서버 접속 여부 Redis 기록 */
-
-		char setKey[256];
-		Utils::UTF16To8(L"in_game::accounts", OUT setKey);
-
-		if (redis->sadd(setKey, accountIdStr) == 1ll)
-		{
-			ConnectionRoomRef connectionRoom = GRoomManager->GetConnectionRoom();
-			connectionRoom->DoAsync(&ConnectionRoom::LoadPlayerDatas, gameSession, accountId, xVector<Protocol::ObjectInfo>(accountData.object_infos().begin(), accountData.object_infos().end()));
-			return;
-		}
-		else
-		{
-			/* 중복 연결 처리 */
-
-			{
-				Protocol::S_LOGIN loginPkt;
-				loginPkt.set_result(Protocol::LOGIN_RESULT_ERROR_ACCOUNT_EXIST);
-				SEND_S_PACKET(gameSession, loginPkt);
-			}
-			gameSession->Disconnect(L"Disconnection because the account is already connected");
-			return;
-		}
-	}
-
-	/* 인증 실패 */
-
-	{
-		Protocol::S_LOGIN loginPkt;
-		loginPkt.set_result(Protocol::LOGIN_RESULT_ERROR_INVALID_TOKEN);
-		SEND_S_PACKET(gameSession, loginPkt);
-	}
-	gameSession->Disconnect(L"Disconnection becase of wrong token");
-	//GRoomManager->GetConnectionRoom()->DoTimer(2000ull, ([gameSession] { gameSession->Disconnect(L"Reserved disconnection becase of wrong token"); }));
+	ConnectionRoomRef connectionRoom = GRoomManager->GetConnectionRoom();
+	connectionRoom->DoAsync(&ConnectionRoom::LoadPlayerDatas, gameSession, accountId, xVector<Protocol::R_PLAYER_DATA>(accountData.player_datas().begin(), accountData.player_datas().end()));
+	return;
 }
 
-void DBPlayerTaskExecutor::ClearVerifiedAccount(int32 accountId)
+void DBEnterTaskExecutor::ClearVerifiedAccount(int32 accountId, Protocol::R_ACCOUNT_DATA accountData)
 {
-	xString accountIdStr = xString(std::to_string(accountId));
-
-	auto redis = GDBManager->GetRedis();
-	char setKey[256];
-	Utils::UTF16To8(L"in_game::accounts", OUT setKey);
-
-	redis->srem(setKey, accountIdStr);
+	UploadAccountPlayers(accountId, accountData);
 }
 
-const std::string DBPlayerTaskExecutor::GetJwtPasswordStr()
+const std::string DBEnterTaskExecutor::GetJwtPasswordStr()
 {
 	std::string jwtPassStr;
-	char buffer[32767];
+	char buffer[256];
 	DWORD size = GetEnvironmentVariableA("Authentication__JwtPass", buffer, sizeof(buffer));
 
 	if (size > 0)
@@ -202,6 +117,134 @@ const std::string DBPlayerTaskExecutor::GetJwtPasswordStr()
 	return jwtPassStr;
 }
 
+const std::string DBEnterTaskExecutor::DownloadAccountPlayers(const int32& accountId)
+{
+	auto redis = GDBManager->GetRedis();
+	xString accountIdStr = xString(std::to_string(accountId));
+	xString accountKey = _accountKeyPrefix + accountIdStr;
+
+	std::string redisAccountValue = "";
+	{
+		sw::redis::Transaction transaction = redis->transaction(false, false);
+		sw::redis::Redis tmpRedis = transaction.redis();
+
+		/* Redis 트랜잭션 실행 */
+
+		while (true)
+		{
+			try
+			{
+				tmpRedis.watch({ accountKey, _playingAccountKey });
+				bool isExistedAccount = tmpRedis.sismember(_playingAccountKey, accountIdStr);
+				sw::redis::OptionalString res = tmpRedis.get(accountKey);
+				if (res.has_value() == true && isExistedAccount == false)
+				{
+					transaction.sadd(_playingAccountKey, accountIdStr);
+					redisAccountValue = res.value();
+				}
+				transaction.exec();
+
+				break;
+			}
+			catch (const sw::redis::WatchError& err)
+			{
+				// 중도에 타 클라이언트 방해
+				continue;
+			}
+			catch (const sw::redis::Error& err)
+			{
+				GConsoleLogger->WriteStdOut(Color::YELLOW, L"Getting account has redis error : %ls", Utils::UTF8To16(err.what()).c_str());
+				return std::string();
+			}
+		}
+	}
+
+	return redisAccountValue;
+}
+
+void DBEnterTaskExecutor::UploadAccountPlayers(const int32& accountId, const Protocol::R_ACCOUNT_DATA& accountData)
+{
+	auto redis = GDBManager->GetRedis();
+
+	xString accountIdStr = xString(std::to_string(accountId));
+	xString accountKey = _accountKeyPrefix + accountIdStr;
+
+	std::string redisAccountValue = accountData.SerializeAsString();
+	{
+		sw::redis::Transaction transaction = redis->transaction(false, false);
+		
+		/* Redis 트랜잭션 실행 */
+
+		try
+		{
+			transaction
+				.set(accountKey, redisAccountValue, std::chrono::minutes(EXIT_ACCOUNT_TTL_MIN))
+				.srem(_playingAccountKey, accountIdStr);
+			transaction.exec();
+		}
+		catch (const sw::redis::Error& err)
+		{
+			GConsoleLogger->WriteStdOut(Color::YELLOW, L"Adding account has redis error : %ls", Utils::UTF8To16(err.what()).c_str());
+		}
+	}
+}
+
 /*************************
-	DBAchvTaskExecutor
+	DBUpdateTaskExecutor
 **************************/
+
+DBUpdateTaskExecutor::DBUpdateTaskExecutor()
+{
+	_serverInfo = xnew<Protocol::R_SERVER_DATA>();
+
+	_serverInfo->set_server_id(1ul);
+	{
+		char u8Name[256];
+		Utils::UTF16To8(L"테스트1", u8Name);
+		_serverInfo->set_name(u8Name);
+	}
+	_serverInfo->set_ip_address("127.0.0.1");
+	_serverInfo->set_port("7777");
+
+	char serverKey[256];
+	Utils::UTF16To8(L"servers", OUT serverKey);
+	_serverKey = xString(serverKey);
+
+	char updateAccountKey[256];
+	Utils::UTF16To8(L"update_accounts", OUT updateAccountKey);
+	_updateAccountKey = xString(updateAccountKey);
+}
+
+DBUpdateTaskExecutor::~DBUpdateTaskExecutor()
+{
+	xdelete(_serverInfo);
+	_serverInfo = nullptr;
+}
+
+void DBUpdateTaskExecutor::UpdateServerInfo(float dencity)
+{
+	_serverInfo->set_density(dencity);
+
+	auto redis = GDBManager->GetRedis();
+	try
+	{
+		redis->hset(_serverKey, std::to_string(_serverInfo->server_id()), _serverInfo->SerializeAsString());
+	}
+	catch (const sw::redis::Error& err)
+	{
+		GConsoleLogger->WriteStdOut(Color::YELLOW, L"Updating server has Redis error : %ls", Utils::UTF8To16(err.what()).c_str());
+	}
+}
+
+void DBUpdateTaskExecutor::UpdatePlayer(int32 accountId, Protocol::R_PLAYER_DATA playerData)
+{
+	auto redis = GDBManager->GetRedis();
+	try
+	{
+		redis->hset(_updateAccountKey, std::to_string(accountId), playerData.SerializeAsString());
+	}
+	catch (const sw::redis::Error& err)
+	{
+		GConsoleLogger->WriteStdOut(Color::YELLOW, L"Updating player has Redis error : %ls", Utils::UTF8To16(err.what()).c_str());
+	}
+}

@@ -21,6 +21,9 @@ namespace WS_SB.Controllers
         [HttpPost("ReqLoginGoogleAccount")]
         public abstract Task<IActionResult> HandleReqLoginGoogleAccount([FromBody] REQ_LOGIN_GOOGLE_ACCOUNT pkt);
 
+        [HttpPost("ReqConnectGameServer")]
+        public abstract Task<IActionResult> HandleReqConnectGameServer([FromBody] REQ_CONNECT_GAME_SERVER pkt);
+
         [HttpPost("ReqRecheckServer")]
         public abstract Task<IActionResult> HandleReqRecheckServer([FromBody] REQ_RECHECK_SERVER pkt);
     }

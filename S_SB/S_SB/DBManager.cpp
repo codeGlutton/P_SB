@@ -7,8 +7,8 @@ DBManager* GDBManager = nullptr;
 
 DBManager::DBManager()
 {
-	_playerTaskExecutor = MakeXShared<DBPlayerTaskExecutor>();
-	_achvTaskExecutor = MakeXShared<DBAchvTaskExecutor>();
+	_enterTaskExecutor = MakeXShared<DBEnterTaskExecutor>();
+	_updateTaskExecutor = MakeXShared<DBUpdateTaskExecutor>();
 	_redis = MakeXShared<sw::redis::Redis>(GetRedisConStr());
 }
 
@@ -16,14 +16,14 @@ void DBManager::Init()
 {
 }
 
-const DBPlayerTaskExecutorRef DBManager::GetPlayerTaskExecutor()
+const DBEnterTaskExecutorRef DBManager::GetEnterTaskExecutor()
 {
-	return _playerTaskExecutor;
+	return _enterTaskExecutor;
 }
 
-const DBAchvTaskExecutorRef DBManager::GetAchvTaskExecutor()
+const DBUpdateTaskExecutorRef DBManager::GetUpdateTaskExecutor()
 {
-	return _achvTaskExecutor;
+	return _updateTaskExecutor;
 }
 
 const sw::redis::RedisRef DBManager::GetRedis()
@@ -34,7 +34,7 @@ const sw::redis::RedisRef DBManager::GetRedis()
 const std::string DBManager::GetRedisConStr()
 {
 	std::string redisConStr;
-	char buffer[32767];
+	char buffer[256];
 	DWORD size = GetEnvironmentVariableA("RedisConnectionStrings", buffer, sizeof(buffer));
 
 	if (size > 0) 

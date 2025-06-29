@@ -30,9 +30,6 @@
     <Folder Include="Templates\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Templates\SBDataTable.h">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Templates\SBTableRow.h">
       <SubType>Code</SubType>
     </Content>

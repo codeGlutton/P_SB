@@ -52,17 +52,35 @@ bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt)
 	return true;
 }
 
+bool Handle_C_CREATE_PLAYER(PacketSessionRef& session, Protocol::C_CREATE_PLAYER& pkt)
+{
+	GameSessionRef gameSession = std::static_pointer_cast<GameSession>(session);
+	if (CheckVerifiedClient(gameSession))
+		return false;
+
+	GRoomManager->GetConnectionRoom()->DoAsync(&ConnectionRoom::CreatePlayer, gameSession, pkt.new_player());
+
+	return true;
+}
+
+bool Handle_C_DELETE_PLAYER(PacketSessionRef& session, Protocol::C_DELETE_PLAYER& pkt)
+{
+	GameSessionRef gameSession = std::static_pointer_cast<GameSession>(session);
+	if (CheckVerifiedClient(gameSession))
+		return false;
+
+	GRoomManager->GetConnectionRoom()->DoAsync(&ConnectionRoom::DeletePlayer, gameSession, pkt.player_db_id());
+
+	return true;
+}
+
 bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 {
 	GameSessionRef gameSession = std::static_pointer_cast<GameSession>(session);
 	if (CheckVerifiedClient(gameSession))
 		return false;
 
-	uint64 index = pkt.player_index();
-
-	// TODO : Validation üũ
-
-	GRoomManager->GetConnectionRoom()->DoAsync(&ConnectionRoom::SelectPlayer, gameSession->playerDataProtector, index);
+	GRoomManager->GetConnectionRoom()->DoAsync(&ConnectionRoom::SelectPlayer, gameSession, pkt.player_db_id());
 
 	return true;
 }

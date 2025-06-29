@@ -19,6 +19,35 @@
 		return reinterpret_cast<returnType*>(&allBytes + 1);												\
 	}
 
+struct IdConvertor
+{
+	IdConvertor(const uint64& objId) : objId(objId)
+	{
+	}
+	IdConvertor(uint64&& objId) : objId(objId)
+	{
+	}
+	IdConvertor(uint32 gameId, uint16 tableId)
+	{
+		objId = ((uint64)tableId << 48) + (uint64)gameId;
+	}
+	IdConvertor(uint32 gameId, uint32 dbId, uint16 tableId)
+	{
+		objId = ((uint64)tableId << 48) + ((uint64)dbId << 24) + (uint64)gameId;
+	}
+
+	union
+	{
+		struct
+		{
+			uint64					gameId : 24;
+			uint64					dbId : 24;
+			uint64					tableId : 16;
+		};
+		uint64						objId;
+	};
+};
+
 /* 유저 조작 변수 컨버터 */
 
 struct TacticsConvertor
@@ -73,15 +102,18 @@ struct CostumeSettingConvertor
 	CostumeSettingConvertor(uint32&& inBytes) : bytes(inBytes)
 	{
 	}
+	CostumeSettingConvertor(uint32 uniform, uint32 shoes, uint32 accessories)
+	{
+		bytes = (accessories << 20) + (shoes << 10) + uniform;
+	}
 
 	union
 	{
 		struct
 		{
-			uint8					manager;
-			uint8					uniform;
-			uint8					shoes;
-			uint8					accessories;
+			uint32					uniform : 10;
+			uint32					shoes : 10;
+			uint32					accessories : 12;
 		};
 		uint32						bytes;
 	};
@@ -229,4 +261,23 @@ struct TagsConvertor
 		};
 		uint32						bytes;
 	};
+};
+
+/* 컨버팅 함수 */
+
+struct RankingConvertor
+{
+	enum Tier : uint8
+	{
+		TIER_BRONZE = 0,
+		TIER_SILVER,
+		TIER_GOLD,
+		TIER_PLATINUM,
+		TIER_DIAMOND
+	};
+
+	static Tier GetTier(const int32& score)
+	{
+		return (Tier)(std::clamp((uint8)(score / 100), (uint8)TIER_BRONZE, (uint8)TIER_DIAMOND));
+	}
 };

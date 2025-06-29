@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "RedisProtocol.pb.h"
 #include "Room.h"
 #include "RoomManager.h"
 
@@ -8,6 +9,7 @@
 #include "GameSession.h"
 #include "ClientPacketHandler.h"
 #include "ObjectUtils.h"
+#include "ByteConverters.h"
 
 #include "MovementComponent.h"
 
@@ -18,6 +20,8 @@
 #include "TeamInstance.h"
 #include "TeamMatchInstance.h"
 #include "LeagueInstance.h"
+
+#include "google/protobuf/util/time_util.h"
 
 USING_SHARED_PTR(MovementComponent);
 
@@ -93,7 +97,7 @@ bool Room::Enter(ObjectRef object, bool randPos)
 			Protocol::S_CHANGE_MAP changeMapPkt;
 			changeMapPkt.set_success(true);
 			// TODO: 로비 맵 아이디 넣어주기
-			//changeMapPkt.set_map_id(lobbyId);
+			//DeletePlayerPkt.set_map_id(lobbyId);
 			Protocol::ObjectInfo* objectInfo = changeMapPkt.mutable_object_info();
 			player->MakeObjectInfo(*objectInfo);
 
@@ -164,7 +168,7 @@ void Room::LeaveAndEnter(ObjectRef object, RoomRef nextRoom)
 	FindPathToRoom(nextRoom, leavePath, enterPath);
 
 	// 실제 방 퇴장 처리 시작
-	LeaveAlongPath(object, leavePath.size(), enterPath);
+	LeaveAlongPath(object, static_cast<uint8>(leavePath.size()), enterPath);
 }
 
 void Room::LeaveToRoot(ObjectRef object)
@@ -295,14 +299,14 @@ void Room::FindPathToRoom(RoomRef& targetRoom, OUT xQueue<RoomBaseRef>& leavePat
 *********************/
 
 const float ConnectionRoom::MAX_PING = 500.f;
-const uint64 ConnectionRoom::MAX_PLAYER_NUM = 1000;
+const uint64 ConnectionRoom::MAX_PLAYER_NUM = 1000llu;
 const uint64 ConnectionRoom::HEART_BEAT_WAIT_MS = 5000llu;
 const uint64 ConnectionRoom::DENCITY_TICK_MS = 10000llu;
 
 void ConnectionRoom::TryToVerification(GameSessionRef gameSession, int32 accountId, xString tokenValue)
 {
-	PlayerDataProtectorRef playerData = gameSession->playerDataProtector;
-	if (playerData->_state != PlayerDataProtector::STATE::EMPTY)
+	PlayerDataProtectorRef playerDataProtector = gameSession->playerDataProtector;
+	if (playerDataProtector->_state != PlayerDataProtector::STATE::EMPTY)
 		return;
 
 	/* 서버 상태 검사 */
@@ -319,54 +323,78 @@ void ConnectionRoom::TryToVerification(GameSessionRef gameSession, int32 account
 	}
 	activeSessionCount++;
 
-	playerData->_state = PlayerDataProtector::STATE::READY;
-	GDBManager->GetPlayerTaskExecutor()->DoAsync(&DBPlayerTaskExecutor::GetVerifiedAccount, gameSession, accountId, tokenValue);
+	playerDataProtector->_state = PlayerDataProtector::STATE::READY;
+	GDBManager->GetEnterTaskExecutor()->DoAsync(&DBEnterTaskExecutor::GetVerifiedAccount, gameSession, accountId, tokenValue);
 }
 
-void ConnectionRoom::LoadPlayerDatas(GameSessionRef gameSession, int32 accountId, xVector<Protocol::ObjectInfo> ObjectInfos)
+void ConnectionRoom::LoadPlayerDatas(GameSessionRef gameSession, int32 accountId, xVector<Protocol::R_PLAYER_DATA> playerRedisDatas)
 {
-	PlayerDataProtectorRef playerData = gameSession->playerDataProtector;
-	if (playerData->_state != PlayerDataProtector::STATE::READY)
+	PlayerDataProtectorRef playerDataProtector = gameSession->playerDataProtector;
+	if (playerDataProtector->_state != PlayerDataProtector::STATE::READY)
 		return;
 
-	/* Player 데이터를 로드해 로컬 복사 */
+	/* Player 데이터를 전달 */
 
-	playerData->_accountId = accountId;
+	playerDataProtector->_accountId = accountId;
+	playerDataProtector->_otherPlayers.clear();
+	playerDataProtector->_otherPlayers = playerRedisDatas;
 
 	Protocol::S_LOGIN loginPkt;
 	loginPkt.set_result(Protocol::LOGIN_RESULT_SUCCESS);
-	for (Protocol::ObjectInfo& ObjectInfo : ObjectInfos)
+	for (Protocol::R_PLAYER_DATA& playerRedisData : playerRedisDatas)
 	{
-		PlayerRef playerRef = ObjectUtils::CreatedPlayer(gameSession, ObjectInfo.object_base_info().object_id());
-		playerData->_players.push_back(playerRef);
-		playerRef->playerDetailInfo->CopyFrom(ObjectInfo.player_detail_info());
-
-		playerRef->posInfo->set_x(0.f);
-		playerRef->posInfo->set_y(0.f);
-		playerRef->posInfo->set_z(0.f);
-		playerRef->posInfo->set_pitch(0.f);
-		playerRef->posInfo->set_yaw(0.f);
-		playerRef->posInfo->set_roll(0.f);
-
 		Protocol::PlayerSelectInfo* playerSelectInfo = loginPkt.add_players();
-		playerSelectInfo->set_object_id(playerRef->objectBaseInfo->object_id());
-		playerSelectInfo->set_name(playerRef->playerDetailInfo->name());
-		playerSelectInfo->set_costume_setting(playerRef->playerDetailInfo->costume_setting());
+		playerSelectInfo->set_player_db_id(playerRedisData.player_db_id());
+		playerSelectInfo->set_player_table_id(playerRedisData.player_table_id());
+		playerSelectInfo->set_name(playerRedisData.name());
+		playerSelectInfo->set_costume_setting(playerRedisData.costume_setting());
+		playerSelectInfo->set_rank_score(playerRedisData.rank_score());
+		playerSelectInfo->mutable_created_time()->CopyFrom(playerRedisData.created_time());
 	}
 
-	playerData->_state = PlayerDataProtector::STATE::LOADED;
-	playerData->isVerified.store(true);
+	playerDataProtector->_state = PlayerDataProtector::STATE::LOADED;
+	playerDataProtector->isVerified.store(true);
+	std::wcout << "Clinet Verified!" << std::endl;
 	SEND_S_PACKET(gameSession, loginPkt);
 }
 
-void ConnectionRoom::SelectPlayer(PlayerDataProtectorRef playerData, uint64 index)
+void ConnectionRoom::SelectPlayer(GameSessionRef gameSession, int32 playerDbId)
 {
-	if (playerData->_state != PlayerDataProtector::STATE::LOADED)
+	PlayerDataProtectorRef playerDataProtector = gameSession->playerDataProtector;
+	if (playerDataProtector->_state != PlayerDataProtector::STATE::LOADED)
 		return;
+	
+	/* 선택한 플레이어 정보 탐색 */
 
-	PlayerRef currentPlayer = playerData->_players[index];
-	playerData->currentPlayer.store(currentPlayer);
-	playerData->_players.clear();
+	auto playerIter = std::find_if(playerDataProtector->_otherPlayers.begin(), playerDataProtector->_otherPlayers.end(), [&playerDbId](const Protocol::R_PLAYER_DATA& player) {
+		return player.player_db_id() == playerDbId;
+	});
+	// 존재하지 않는 playerDbId 혹은 이미 삭제된 플레이어인 경우 실패
+	if (playerIter == playerDataProtector->_otherPlayers.end() || playerIter->name().empty() == true)
+	{
+		Protocol::S_CHANGE_MAP changeMapPkt;
+		changeMapPkt.set_success(false);
+
+		SEND_S_PACKET(gameSession, changeMapPkt);
+		return;
+	}
+
+	/* 플레이어 생성 */
+
+	PlayerRef currentPlayer = ObjectUtils::CreatedPlayer(gameSession, static_cast<uint32>(playerIter->player_db_id()), static_cast<uint16>(playerIter->player_table_id()));
+	currentPlayer->playerDetailInfo->set_name(playerIter->name());
+	currentPlayer->playerDetailInfo->set_costume_setting(playerIter->costume_setting());
+	currentPlayer->playerDetailInfo->set_rank_score(playerIter->rank_score());
+	currentPlayer->playerDetailInfo->mutable_created_time()->CopyFrom(playerIter->created_time());
+	currentPlayer->posInfo->set_x(0.f);
+	currentPlayer->posInfo->set_y(0.f);
+	currentPlayer->posInfo->set_z(0.f);
+	currentPlayer->posInfo->set_pitch(0.f);
+	currentPlayer->posInfo->set_yaw(0.f);
+	currentPlayer->posInfo->set_roll(0.f);
+
+	playerDataProtector->_otherPlayers.erase(playerIter);
+	playerDataProtector->currentPlayer.store(currentPlayer);
 	if (Enter(currentPlayer) == false)
 		return;
 
@@ -376,44 +404,147 @@ void ConnectionRoom::SelectPlayer(PlayerDataProtectorRef playerData, uint64 inde
 	ObjectRef currentObject = std::static_pointer_cast<Object>(currentPlayer);
 	lobbyRoom->DoAsync(&LobbyRoom::Enter, currentObject, false);
 
-	playerData->_state = PlayerDataProtector::STATE::FULL;
+	playerDataProtector->_state = PlayerDataProtector::STATE::FULL;
 	StartHeartBeat(currentPlayer->ownerSession);
 }
 
-void ConnectionRoom::DeleteLocalData(PlayerDataProtectorRef playerData)
+void ConnectionRoom::CreatePlayer(GameSessionRef gameSession, Protocol::PlayerSelectInfo newPlayer)
 {
-	if (playerData->_state == PlayerDataProtector::STATE::DELETED || playerData->_state == PlayerDataProtector::STATE::EMPTY)
+	PlayerDataProtectorRef playerDataProtector = gameSession->playerDataProtector;
+	if (playerDataProtector->_state != PlayerDataProtector::STATE::LOADED)
+		return;
+
+	/* 새로운 플레이어 정보 검사 */
+
+	auto playerIter = std::find_if(playerDataProtector->_otherPlayers.begin(), playerDataProtector->_otherPlayers.end(), [playerDbId = newPlayer.player_db_id()](const Protocol::R_PLAYER_DATA& player) {
+		return player.player_db_id() == playerDbId;
+	});
+	// 존재하지 않는 playerDbId 혹은 존재하는 플레이어인 경우 혹은 새로운 플레이어 정보가 잘못된 경우 실패
+	if (playerIter == playerDataProtector->_otherPlayers.end() || playerIter->name().empty() == false || newPlayer.name().empty() == true)
+	{
+		Protocol::S_CREATE_PLAYER CreatePlayerPkt;
+		CreatePlayerPkt.set_success(false);
+
+		SEND_S_PACKET(gameSession, CreatePlayerPkt);
+		return;
+	}
+
+	playerIter->set_player_table_id(newPlayer.player_table_id());
+	playerIter->set_name(newPlayer.name());
+	playerIter->set_costume_setting(newPlayer.costume_setting());
+	playerIter->set_rank_score(0);
+	playerIter->mutable_created_time()->CopyFrom(google::protobuf::util::TimeUtil::GetCurrentTime());
+
+	GDBManager->GetUpdateTaskExecutor()->DoAsync(&DBUpdateTaskExecutor::UpdatePlayer, playerDataProtector->_accountId, *playerIter);
+	{
+		Protocol::S_CREATE_PLAYER CreatePlayerPkt;
+		CreatePlayerPkt.set_success(true);
+		for (Protocol::R_PLAYER_DATA& playerRedisData : playerDataProtector->_otherPlayers)
+		{
+			Protocol::PlayerSelectInfo* playerSelectInfo = CreatePlayerPkt.add_players();
+			playerSelectInfo->set_player_db_id(playerRedisData.player_db_id());
+			playerSelectInfo->set_player_table_id(playerRedisData.player_table_id());
+			playerSelectInfo->set_name(playerRedisData.name());
+			playerSelectInfo->set_costume_setting(playerRedisData.costume_setting());
+			playerSelectInfo->set_rank_score(playerRedisData.rank_score());
+			playerSelectInfo->mutable_created_time()->CopyFrom(playerRedisData.created_time());
+		}
+		SEND_S_PACKET(gameSession, CreatePlayerPkt);
+	}
+	return;
+}
+
+void ConnectionRoom::DeletePlayer(GameSessionRef gameSession, int32 playerDbId)
+{
+	PlayerDataProtectorRef playerDataProtector = gameSession->playerDataProtector;
+	if (playerDataProtector->_state != PlayerDataProtector::STATE::LOADED)
+		return;
+
+	/* 삭제될 플레이어 정보 검사 */
+
+	auto playerIter = std::find_if(playerDataProtector->_otherPlayers.begin(), playerDataProtector->_otherPlayers.end(), [&playerDbId](const Protocol::R_PLAYER_DATA& player) {
+		return player.player_db_id() == playerDbId;
+		});
+	// 존재하지 않는 playerDbId 혹은 이미 삭제된 플레이어인 경우 실패
+	if (playerIter == playerDataProtector->_otherPlayers.end() || playerIter->name().empty() == true)
+	{
+		Protocol::S_DELETE_PLAYER DeletePlayerPkt;
+		DeletePlayerPkt.set_success(false);
+
+		SEND_S_PACKET(gameSession, DeletePlayerPkt);
+		return;
+	}
+
+	playerIter->clear_name();
+	playerIter->set_costume_setting(0);
+	playerIter->set_rank_score(0);
+	playerIter->mutable_created_time()->CopyFrom(google::protobuf::util::TimeUtil::GetCurrentTime());
+
+	GDBManager->GetUpdateTaskExecutor()->DoAsync(&DBUpdateTaskExecutor::UpdatePlayer, playerDataProtector->_accountId, *playerIter);
+	{
+		Protocol::S_DELETE_PLAYER DeletePlayerPkt;
+		DeletePlayerPkt.set_success(true);
+		for (Protocol::R_PLAYER_DATA& playerRedisData : playerDataProtector->_otherPlayers)
+		{
+			Protocol::PlayerSelectInfo* playerSelectInfo = DeletePlayerPkt.add_players();
+			playerSelectInfo->set_player_db_id(playerRedisData.player_db_id());
+			playerSelectInfo->set_player_table_id(playerRedisData.player_table_id());
+			playerSelectInfo->set_name(playerRedisData.name());
+			playerSelectInfo->set_costume_setting(playerRedisData.costume_setting());
+			playerSelectInfo->set_rank_score(playerRedisData.rank_score());
+			playerSelectInfo->mutable_created_time()->CopyFrom(playerRedisData.created_time());
+		}
+		SEND_S_PACKET(gameSession, DeletePlayerPkt);
+	}
+	return;
+}
+
+void ConnectionRoom::DeleteLocalData(PlayerDataProtectorRef playerDataProtector)
+{
+	if (playerDataProtector->_state == PlayerDataProtector::STATE::DELETED || playerDataProtector->_state == PlayerDataProtector::STATE::EMPTY)
 		return;
 	
 	/* 순환 참조를 끊기 위해 룸의 Player Contanier의 멤버를 제거 */
 
-	PlayerRef currentPlayer = playerData->currentPlayer.exchange(nullptr);
-	if (currentPlayer)
+	if (playerDataProtector->_state != PlayerDataProtector::STATE::READY)
 	{
-		GConsoleLogger->WriteStdOut(Color::WHITE, L"The %s player will delete", currentPlayer->playerDetailInfo->name());
-
-		if (Leave(currentPlayer) == false)
-			return;
-
-		RoomRef room = currentPlayer->ownerRoom.exchange(std::weak_ptr<Room>()).lock();
-		if (room)
+		Protocol::R_ACCOUNT_DATA accountData;
+		PlayerRef currentPlayer = playerDataProtector->currentPlayer.exchange(nullptr);
+		if (currentPlayer)
 		{
-			ObjectRef currentObject = std::static_pointer_cast<Object>(currentPlayer);
-			room->DoAsync(&Room::LeaveToRoot, currentObject);
+			GConsoleLogger->WriteStdOut(Color::WHITE, L"The %s player will delete", currentPlayer->playerDetailInfo->name());
+			Protocol::R_PLAYER_DATA* playerRedisData = accountData.add_player_datas();
+			{
+				IdConvertor idConvertor(currentPlayer->objectBaseInfo->object_id());
+				playerRedisData->set_player_db_id(static_cast<int32>(idConvertor.dbId));
+				playerRedisData->set_player_table_id(static_cast<int32>(idConvertor.tableId));
+				playerRedisData->set_name(currentPlayer->playerDetailInfo->name());
+				playerRedisData->set_costume_setting(currentPlayer->playerDetailInfo->costume_setting());
+				playerRedisData->set_name(currentPlayer->playerDetailInfo->name());
+				playerRedisData->set_rank_score(currentPlayer->playerDetailInfo->rank_score());
+				playerRedisData->mutable_created_time()->CopyFrom(currentPlayer->playerDetailInfo->created_time());
+			}
+			if (Leave(currentPlayer) == true)
+			{
+				RoomRef room = currentPlayer->ownerRoom.exchange(std::weak_ptr<Room>()).lock();
+				if (room)
+				{
+					ObjectRef currentObject = std::static_pointer_cast<Object>(currentPlayer);
+					room->DoAsync(&Room::LeaveToRoot, currentObject);
+				}
+			}
 		}
+
+		accountData.mutable_player_datas()->Add(playerDataProtector->_otherPlayers.begin(), playerDataProtector->_otherPlayers.end());
+		GDBManager->GetEnterTaskExecutor()->DoAsync(&DBEnterTaskExecutor::ClearVerifiedAccount, playerDataProtector->_accountId, accountData);
+
+		/* 멤버 비우기 */
+
+		playerDataProtector->_otherPlayers.clear();
+		playerDataProtector->isVerified.store(false);
 	}
 	activeSessionCount--;
-
-	if (playerData->_accountId != 0)
-	{
-		GDBManager->GetPlayerTaskExecutor()->DoAsync(&DBPlayerTaskExecutor::ClearVerifiedAccount, playerData->_accountId);
-	}
-
-	/* 순환 참조를 끊기 위해 멤버 비우기 */ 
-
-	playerData->_players.clear();
-	playerData->isVerified.store(false);
-	playerData->_state = PlayerDataProtector::STATE::DELETED;
+	playerDataProtector->_state = PlayerDataProtector::STATE::DELETED;
 }
 
 void ConnectionRoom::StartHeartBeat(GameSessionRef gameSession)
@@ -458,7 +589,7 @@ void ConnectionRoom::RestartHeartBeat(GameSessionRef gameSession)
 
 void ConnectionRoom::UpdateServerDencityTick()
 {
-	GDBManager->GetPlayerTaskExecutor()->DoAsync(&DBPlayerTaskExecutor::UpdateServerInfo, GetDecity());
+	GDBManager->GetUpdateTaskExecutor()->DoAsync(&DBUpdateTaskExecutor::UpdateServerInfo, GetDecity());
 
 	this->DoTimer(DENCITY_TICK_MS, &ConnectionRoom::UpdateServerDencityTick);
 }

@@ -11,21 +11,39 @@ option csharp_namespace = "Google.Protobuf.RedisProtocol";
 // 로그인 //
 ////////////
 
-// 로그인 데이터
-// Structure: String TTL
-message R_ACCOUNT_DATA
-{
-	int32 account_id = 1;
-	repeated ObjectInfo object_infos = 2;
-}
-
 // 실시간 운영중인 게임 서버 데이터
-// Structure: Hashset
+// Name: servers
+// Structure: Hashset (server_id 키, R_SERVER_DATA 값)
 message R_SERVER_DATA
 {
-	uint32 id = 1;
+	uint32 server_id = 1;
 	string name = 2;
 	string ip_address = 3;
 	string port = 4;
 	float density = 5;
+}
+
+// 게임 접속 계정 데이터
+// Name: playing_accounts
+// Structure: Set (account_id 값)
+
+// DB 업데이트가 요구되는 계정 데이터
+// Name: update_accounts
+// Structure: Hashset (account_id 키, PlayerDetailInfo 값)
+message R_PLAYER_DATA
+{
+	int32 player_db_id = 1;
+	int32 player_table_id = 2;
+	string name = 3;
+	uint32 costume_setting = 4;
+	int32 rank_score = 5;
+	google.protobuf.Timestamp created_time = 6;
+}
+
+// 웹 서버와 게임 서버 간 계정 조회용 데이터 (게임 서버 연결 시 TTL -> 게임 서버 퇴장 시 TTL)
+// Name: account::[account_id]
+// Structure: String TTL (R_ACCOUNT_DATA 값)
+message R_ACCOUNT_DATA
+{
+	repeated R_PLAYER_DATA player_datas = 1;
 }
