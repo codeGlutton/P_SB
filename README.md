@@ -1,11 +1,15 @@
 # :computer: P_SB
+<div align="center">
+<img src="https://github.com/user-attachments/assets/65e2843b-26ce-48e7-a7bb-ca4d58cf7639" width="600" height="450"/>
+</div>
+
 This project is an experimental project that implements the login flow using a IOCP game server and an ASP.NET login server. It was created to grasp the flow of dedicated server and understand the role of each server.  
 
 본 프로젝트는 자체 IOCP 게임 서버와 ASP.NET 로그인 서버를 사용하여 로그인 흐름을 구현한 실험용 프로젝트입니다. Dedicated Server의 흐름을 파악하고 각 서버의 역할을 이해하고자 제작되었습니다.
 
 ## :pushpin: Server Architecture (서버 구조)
 <div align="center">
-<img src="https://github.com/user-attachments/assets/7a1faa5c-5ae8-4f4c-9f75-73e621760ef9" width="600" height="1200"/>
+<img src="https://github.com/user-attachments/assets/7a1faa5c-5ae8-4f4c-9f75-73e621760ef9" width="600" height="450"/>
 </div>
 
 The web server was designed to prevent the game server from being blocked by direct database access during the login process. The cache server was designed to accumulate database update operations and apply them in batches at scheduled intervals, thereby reducing the frequency of database access.  
