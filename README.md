@@ -1,6 +1,6 @@
 # P_SB
-언리얼 엔진 기반 스포츠 시뮬레이션 게임
-The sports simulation game project based Unreal Engine.
+This project is an experimental project that implements the login flow using a IOCP game server and an ASP.NET login server.
+본 프로젝트는 자체 IOCP 게임 서버와 ASP.NET 로그인 서버를 사용하여 로그인 흐름을 구현한 실험용 프로젝트입니다.
 
 ## Git Commit Comment
 ```
