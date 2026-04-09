@@ -1,8 +1,25 @@
-# P_SB
-This project is an experimental project that implements the login flow using a IOCP game server and an ASP.NET login server.
-본 프로젝트는 자체 IOCP 게임 서버와 ASP.NET 로그인 서버를 사용하여 로그인 흐름을 구현한 실험용 프로젝트입니다.
+# :computer: P_SB
+This project is an experimental project that implements the login flow using a IOCP game server and an ASP.NET login server. It was created to grasp the flow of dedicated server and understand the role of each server.  
 
-## Git Commit Comment
+본 프로젝트는 자체 IOCP 게임 서버와 ASP.NET 로그인 서버를 사용하여 로그인 흐름을 구현한 실험용 프로젝트입니다. Dedicated Server의 흐름을 파악하고 각 서버의 역할을 이해하고자 제작되었습니다.
+
+## :pushpin: Server Architecture (서버 구조)
+<div align="center">
+<img src="https://github.com/user-attachments/assets/7a1faa5c-5ae8-4f4c-9f75-73e621760ef9" width="600" height="1200"/>
+</div>
+
+The web server was designed to prevent the game server from being blocked by direct database access during the login process. The cache server was designed to accumulate database update operations and apply them in batches at scheduled intervals, thereby reducing the frequency of database access.  
+
+Web Server는 로그인 과정에서 게임 서버가 직접 DB 대기하는 구조를 회피를 목적으로 구성되었으며, Cache Server는 DB 갱신 데이터를 누적하여 주기마다 일괄적으로 갱신함으로서 DB 접근 빈도를 감소하기 위해 설계되었습니다.
+
+## :wrench: Tools & Technologies (사용한 기술)
+- **Game Server** : C++ IOCP
+- **Web Server(Login Server)** : ASP.NET Core
+- **Cache Server** : Redis
+- **Client** : Unreal Engine 5.5
+- **Serialize Format** : Protobuf
+
+## :octocat: Git Commit Comment Rule (커밋 규칙)
 ```
 type: Title
 
@@ -32,7 +49,7 @@ Types
 + Title is used as a statement
 + Describe what you did and why 
 
-## Project Folder Rules
+## :open_file_folder: Project Folder Rules (프로젝트 폴더 규칙)
 ```
 Contents : Don't touch
 Contents/SB : Project Folder (To prevent folders from merging due to migration)
@@ -51,7 +68,7 @@ Contents/SB/Blueprint/AI : Behabior Tree, BlackBoard, EQS, AI Controller BP Fold
 Contents/SB/Blueprint/Anim : Animation BP, AnimMontage Folder
 ```
 
-## Project Name Rules
+## :pencil: Naming Rules (이름 규칙)
 Asset Name Rule
 ```
 Prefix_BaseAssetName_Variant_SuffixPermalink
